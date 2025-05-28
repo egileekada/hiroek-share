@@ -1,0 +1,170 @@
+import { useState } from "react"
+import ChartGraph from "../components/chartGraph"
+import CountdownTimer from "../components/countDownTimer"
+import LoadingAnimation from "../components/loadingAnimation"
+import useGetEventData from "../hooks/useGetEventData"
+import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon } from "../svg"
+import { dateFormat, timeFormat } from "../utils/dateFormat"
+import { formatNumberWithK } from "../utils/formatNumberWithK"
+import { formatNumber } from "../utils/numberFormat"
+import { textLimit } from "../utils/textlimit"
+import CustomButton from "../components/shared/customButton"
+import ModalLayout from "../components/shared/modalLayout"
+import DonateForm from "../components/donateForm"
+
+function SharePage() {
+
+    const { isLoading, data: event } = useGetEventData()?.getEventData()
+
+    const [open, setOpen] = useState(false)
+    const [show, setShow] = useState(false)
+
+    return (
+        <LoadingAnimation loading={isLoading} >
+            <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
+                <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:pb-8 pb-6 lg:p-8 " >
+                    <div className=" w-full lg:h-[300px] h-[300px] relative " >
+                        <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
+                        <div className=" absolute z-10 inset-0 bg-[#0000004D] " />
+                        <div className=" w-full absolute !bottom-2 z-20 px-3  " >
+                            <div className=" w-full rounded-2xl flex flex-col gap-2 " >
+
+                                <div className=" w-full flex gap-4" >
+                                    <div role="button" onClick={() => setOpen(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-white bg-opacity-30 rounded-[10px] h-[50px] " >
+                                        {/* <di */}
+                                        <div className=" w-8 h-8 rounded-full " >
+                                            <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
+                                        </div>
+                                        <div className=" flex flex-col items-center justify-center " >
+                                            <div className=" font-bold text-[10px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[18px] w-[75px] " >
+                                                Event Host:
+                                            </div>
+                                            <p className=" font-bold text-[12px] text-center " >{textLimit(event?.admin?.fullname ? event?.admin?.fullname : event?.admin?.name, 14)}</p>
+                                        </div>
+                                    </div>
+                                    <div className=" w-full " >
+                                        {/* {!event?.members?.some(product => product?._id === userId) && (
+                      <CustomButton bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton>
+                    )} */}
+                                    </div>
+                                </div>
+                                <div className=" w-full p-4 flex flex-col gap-1 rounded-[10px] bg-white " >
+                                    <p className=" font-bold text-xs text-primary " >Walk for Water: A Step Towards Clean Water</p>
+                                    <div className=" w-full flex gap-3 items-center justify-between " >
+                                        <div className=" flex gap-2 items-center " >
+                                            <div className=" w-fit text-primary text-opacity-50 mt-[2px] " >
+                                                <LocationIcon block={true} />
+                                            </div>
+                                            <p className=" font-semibold text-xs " >{textLimit(event?.address, 40)}</p>
+                                        </div>
+                                    </div>
+                                    <div className=" flex items-center gap-2 " >
+                                        <div className=" w-fit text-primary text-opacity-50 " >
+                                            <CalendarIcon2 />
+                                        </div>
+                                        <p className=" font-semibold text-xs mr-2 " >{dateFormat(event?.endTime)}</p>
+                                        <div className=" w-fit text-primary text-opacity-50 " >
+                                            <ClockIcon />
+                                        </div>
+                                        <p className=" font-semibold text-xs " >{timeFormat(event?.endTime)}</p>
+                                    </div>
+                                    {event?.signUpLimit && (
+                                        <div className=" flex items-center gap-2 " >
+                                            <div className=" w-fit text-primary text-opacity-50 " >
+                                                <TicketIcon />
+                                            </div>
+                                            {event?.signUpLimit > 0 && (
+                                                <p className=" font-bold text-xs " >{event?.signUpLimit} Spot{event?.signUpLimit > 1 ? "s" : ""} Available</p>
+                                            )}
+                                            {event?.signUpLimit < 1 && (
+                                                <p className=" font-bold text-xs " >Sold Out</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 " >
+                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                            <p className=" font-bold text-xs " >Event Description</p>
+                        </div>
+                        <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p>
+                    </div>
+                    <div className=" px-4 w-full mt-4 " >
+                        <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 bg-[#37137FBF] text-white " >
+                            <div className=" w-fit bg-[#37137F] text-white rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                <p className=" font-bold text-xs " >Recipient Organisation:</p>
+                            </div>
+                            <p className=" text-xs font-bold mt-2 " >{event?.fundRaiser?.organizations[0]?.name}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
+                    {event?.fundRaiser?.fundRaisingGoal && (
+                        <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
+                            <p className="  text-primary " >Fundraising Goal</p>
+                            <p className=" text-[#858D9D] text-xs font-medium " >Funds needed to make a difference.</p>
+                            <ChartGraph />
+                            <p className=" text-[#667085] font-medium text-center text-sm " >This event received donations of <span style={{ color: "#37137F" }} >{formatNumber(event?.fundRaiser?.fundRaised)}</span> today.</p>
+                            <div className=" w-full px-2 flex justify-between pt-2 " >
+                                <div className=" flex flex-col items-center" >
+                                    <p className=" font-medium text-[#667085] text-sm " >Target</p>
+                                    <p className=" font-semibold text-xl text-[#1D1F2C] " >£{formatNumberWithK(event?.fundRaiser?.fundRaisingGoal / 100)}</p>
+                                </div>
+                                <div className=" flex flex-col items-center" >
+                                    <p className=" font-medium text-[#667085] text-sm " >Donated</p>
+                                    <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 pb-36 " >
+                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                            <p className=" font-extrabold text-xs " >Event Countdown</p>
+                        </div>
+                        {/* <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p> */}
+                        <CountdownTimer targetTime={event?.endTime} />
+                    </div>
+                    <div className=" w-full hidden flex-col mt-auto items-center py-4 lg:flex px-4 " >
+                        {event?.fundRaiser?.fundRaisingGoal ? (
+                            <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
+                        ) : (
+                            <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
+                        )}
+                    </div>
+                </div>
+                <div style={{ boxShadow: "0px -4px 8px 0px #00000026" }} className=" w-full flex lg:hidden flex-col items-center fixed bottom-0 py-5 bg-white z-50 px-4 " >
+
+                    {event?.fundRaiser?.fundRaisingGoal ? (
+                        <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
+                    ) : (
+                        <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
+                    )}
+                </div>
+            </div>
+            <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={open} setOpen={setOpen} >
+                <DonateForm setOpen={setOpen} />
+            </ModalLayout>
+
+            <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
+                <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
+                    <p className=" font-bold text-primary text-lg " >Get The Full Experience In The App!</p>
+                    <div className=" w-full flex flex-col gap-4 " >
+                        <div className=" flex w-full justify-between items-center " >
+                            <img src="/images/google.png" alt="google" className=" w-[145px] " />
+                            <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Download</CustomButton>
+                        </div>
+                        <div className=" flex w-full justify-between items-center " >
+                            <img src="/images/apple.png" alt="google" className=" w-[145px] " />
+                            <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Download</CustomButton>
+                        </div>
+                    </div>
+                </div>
+            </ModalLayout>
+
+        </LoadingAnimation>
+    )
+}
+
+export default SharePage
