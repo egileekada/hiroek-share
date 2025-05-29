@@ -9,7 +9,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/">
         <Route index element={<SharePage />} />
-        <Route path="share/:id" element={<SharePage />} /> 
+        <Route path="event/:id" element={<SharePage />} /> 
       </Route>
     )
   );
