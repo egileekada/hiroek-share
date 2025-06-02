@@ -139,6 +139,7 @@ import {
 } from "@stripe/react-stripe-js";
 import type { IPayment } from "../model/payment";
 import CustomButton from "./shared/customButton";
+import { useParams } from "react-router-dom";
 
 // interface FormData {
 //   amount: number;
@@ -158,6 +159,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = (props) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const { id } = useParams();
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setLoader] = useState<boolean>(false);
 
@@ -170,7 +173,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = (props) => {
 
     const { error: submitError } = await elements.submit();
     if (submitError) {
-    //   setErrorMessage(submitError?.message);
+      //   setErrorMessage(submitError?.message);
       return;
     }
 
@@ -179,27 +182,33 @@ const CheckoutForm: React.FC<CheckoutFormProps> = (props) => {
     try {
       const payload: {
         amount: number;
-        organization?: string;
-        event?: string;
+        "firstName": string,
+        lastName: string,
+        phone: string,
+        email: string,
+        event: string,
       } = {
         amount: props.formData.amount * 100,
-      };
-
-    //   if (props.formData.organization) {
-    //     payload.organization = props.formData.organization;
-    //   }
-
-    //   if (props.formData.event) {
-    //     payload.event = props.formData.event;
-    //   }
+        "firstName": props?.formData?.firstName,
+        "lastName": props?.formData?.lastName,
+        "phone": props?.formData?.phone,
+        "email": props?.formData?.email,
+        "event": id+"",
+      }; 
 
       const response = await fetch(
-        `${import.meta.env.VITE_APP_BASE_URL}/donations/payment-intent`,
+        `${import.meta.env.VITE_APP_BASE_URL}/donations/anonymous-payment-intent`,
         {
-          method: "POST", 
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify(payload),
         }
       );
+
+      console.log(response);
+
 
       const { paymentIntent } = await response.json();
 
@@ -244,6 +253,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = (props) => {
 
           {errorMessage && <div>{errorMessage}</div>}
         </Fragment>
+
       </div>
     </form>
   );
@@ -258,10 +268,10 @@ interface PaymentProps {
 
 const Payment: React.FC<PaymentProps> = (props) => {
   const amount = props.payload.amount;
-//   const fee = 50; // 0.5 gbp
+  //   const fee = 50; // 0.5 gbp
   const percentageToAdd = (amount * 10) / 100;
 
-  const [ tab, setTab ] = useState(false)
+  const [tab, setTab] = useState(false)
   const amountInPounds = amount * 100;
   const newAmount = amountInPounds;
 
@@ -273,9 +283,12 @@ const Payment: React.FC<PaymentProps> = (props) => {
     appearance: {} as Record<string, unknown>,
   };
 
+  console.log(props?.payload);
+
+
   return (
-    <> 
-      {!tab && ( 
+    <>
+      {!tab && (
         <Elements stripe={stripePromise} options={options}>
           <CheckoutForm
             formData={props.payload}
@@ -288,11 +301,11 @@ const Payment: React.FC<PaymentProps> = (props) => {
       {tab && (
         <div className=" w-full min-h-[60vh] flex flex-col justify-between " >
           <div className=" w-full flex flex-col items-center px-4  gap-2 py-[20%] " >
-            <p className=" text-xl font-bold leading-[110%] text-center text-primary  " >Thank You <br/> for your generosity!</p>
+            <p className=" text-xl font-bold leading-[110%] text-center text-primary  " >Thank You <br /> for your generosity!</p>
             <p className=" text-sm font-semibold text-[#37137F80] text-center maw-w-[200px] " >Your donation has been successfully received. your support will make a real difference in the lives of those in need.</p>
           </div>
-          <div className=" w-full  px-4 pb-6 " > 
-            <CustomButton onClick={()=> props?.setOpen(false)} rounded="16px" width="100%" height="50px"  >View Event</CustomButton>
+          <div className=" w-full  px-4 pb-6 " >
+            <CustomButton onClick={() => props?.setOpen(false)} rounded="16px" width="100%" height="50px"  >View Event</CustomButton>
           </div>
         </div>
       )}
