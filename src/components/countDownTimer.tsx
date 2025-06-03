@@ -29,25 +29,25 @@ const CountdownTimer = ({ targetTime }: { targetTime: string }) => {
     return (
         <div className=" w-fit flex gap-3 mt-4 " >
             <div className=" flex gap-2 flex-col items-center " >
-                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-primary30 text-[30px] text-primary font-bold rounded-[7px] " >
+                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
                     <p className=" pt-2 " >{timeLeft.days}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Days</p>
             </div>
             <div className=" flex gap-2 flex-col items-center " >
-                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-primary30 text-[30px] text-primary font-bold rounded-[7px] " >
+                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
                     <p className=" pt-2 " >{timeLeft.hours}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Hours</p>
             </div>
             <div className=" flex gap-2 flex-col items-center " >
-                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-primary30 text-[30px] text-primary font-bold rounded-[7px] " >
+                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
                     <p className=" pt-2 " >{timeLeft.minutes}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Minutes</p>
             </div>
             <div className=" flex gap-2 flex-col items-center " >
-                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-primary30 text-[30px] text-primary font-bold rounded-[7px] " >
+                <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
                     <p className=" pt-2 " >{timeLeft.seconds}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Seconds</p>

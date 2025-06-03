@@ -30,7 +30,7 @@ function SharePage() {
                             <div className=" w-full rounded-2xl flex flex-col gap-2 " >
 
                                 <div className=" w-full flex gap-4" >
-                                    <div role="button" onClick={() => setOpen(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-white bg-opacity-30 rounded-[10px] h-[50px] " >
+                                    <div role="button" onClick={() => setOpen(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
                                         {/* <di */}
                                         <div className=" w-8 h-8 rounded-full " >
                                             <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
@@ -39,13 +39,11 @@ function SharePage() {
                                             <div className=" font-bold text-[10px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[18px] w-[75px] " >
                                                 Event Host:
                                             </div>
-                                            <p className=" font-bold text-[12px] text-center " >{textLimit(event?.admin?.fullname ? event?.admin?.fullname : event?.admin?.name, 14)}</p>
+                                            <p className=" font-bold text-[12px] text-center text-white " >{textLimit(event?.admin?.fullname ? event?.admin?.fullname : event?.admin?.name, 14)}</p>
                                         </div>
                                     </div>
                                     <div className=" w-full " >
-                                        {/* {!event?.members?.some(product => product?._id === userId) && (
-                      <CustomButton bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton>
-                    )} */}
+                                        <CustomButton onClick={() => setShow(true)} bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton>
                                     </div>
                                 </div>
                                 <div className=" w-full p-4 flex flex-col gap-1 rounded-[10px] bg-white " >
@@ -87,23 +85,27 @@ function SharePage() {
                     </div>
                     <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 " >
                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                            <p className=" font-bold text-xs " >Event Description</p>
+                            <p className=" font-bold text-xs " >About Event</p>
                         </div>
                         <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p>
                     </div>
-                    <div className=" px-4 w-full mt-4 " >
-                        <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 bg-[#37137FBF] text-white " >
-                            <div className=" w-fit bg-[#37137F] text-white rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                <p className=" font-bold text-xs " >Recipient Organisation:</p>
+                    {event?.adminType !== "Organization" && (
+                        <div className=" px-4 w-full mt-4 " >
+                            <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
+                                <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                    <p className=" font-bold text-xs " >Recipient Organisation:</p>
+                                </div>
+                                <div className=" w-fit px-3 p-2 rounded-full text-white bg-[#37137F]" >
+                                    <p className=" text-xs font-bold " >{event?.fundRaiser?.organizations[0]?.name}</p>
+                                </div>
                             </div>
-                            <p className=" text-xs font-bold mt-2 " >{event?.fundRaiser?.organizations[0]?.name}</p>
                         </div>
-                    </div>
+                    )}
                 </div>
                 <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
                     {event?.fundRaiser?.fundRaisingGoal && (
                         <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
-                            <p className="  text-primary " >Fundraising Goal</p>
+                            <p className="  text-primary font-bold " >Fundraising Goal</p>
                             <p className=" text-[#858D9D] text-xs font-medium " >Funds needed to make a difference.</p>
                             <ChartGraph />
                             <p className=" text-[#667085] font-medium text-center text-sm " >This event received donations of <span style={{ color: "#37137F" }} >{formatNumber(event?.fundRaiser?.fundRaised)}</span> today.</p>
