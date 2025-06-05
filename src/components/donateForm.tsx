@@ -94,7 +94,7 @@ export default function DonateForm({ setOpen } : { setOpen?: any }) {
                         <p className=" font-semibold text-sm " >Donation Amount</p>
                         <p className=" font-semibold text-sm text-right " >{formatNumber(payload?.amount)}</p>
                         <p className=" font-semibold text-sm " >Service Charge</p>
-                        <p className=" font-semibold text-sm text-right " >£2.00</p>
+                        <p className=" font-semibold text-sm text-right " >£0.00</p>
                     </div>
                     <div className=" w-full py-5 flex items-center border-t justify-between border-[#E8E8E8] " >
                         <p className=" font-bold " >Total: {formatNumber(payload?.amount)}</p>

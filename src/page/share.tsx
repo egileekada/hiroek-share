@@ -151,7 +151,7 @@ function SharePage() {
 
             <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                 <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
-                    <p className=" font-bold text-primary text-lg " >Get The Full Experience In The App!</p>
+                    <p className=" font-bold text-primary " >Get The Full Experience In The App!</p>
                     <div className=" w-full flex flex-col gap-4 " >
                         <div className=" flex w-full justify-between items-center " >
                             <img src="/images/google.png" alt="google" className=" w-[145px] " />
