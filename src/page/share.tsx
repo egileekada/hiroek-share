@@ -3,7 +3,7 @@ import ChartGraph from "../components/chartGraph"
 import CountdownTimer from "../components/countDownTimer"
 import LoadingAnimation from "../components/loadingAnimation"
 import useGetEventData from "../hooks/useGetEventData"
-import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon } from "../svg"
+import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon, ChatIcon } from "../svg"
 import { dateFormat, timeFormat } from "../utils/dateFormat"
 import { formatNumberWithK } from "../utils/formatNumberWithK"
 import { formatNumber } from "../utils/numberFormat"
@@ -18,7 +18,11 @@ function SharePage() {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
+    const [showHost, setShowHost] = useState(false)
 
+
+    console.log(event);
+    
     return (
         <LoadingAnimation loading={isLoading} >
             <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
@@ -30,7 +34,7 @@ function SharePage() {
                             <div className=" w-full rounded-2xl flex flex-col gap-2 " >
 
                                 <div className=" w-full flex gap-4" >
-                                    <div role="button" onClick={() => setOpen(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
+                                    <div role="button" onClick={() => setShowHost(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
                                         {/* <di */}
                                         <div className=" w-8 h-8 rounded-full " >
                                             <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
@@ -66,19 +70,12 @@ function SharePage() {
                                         </div>
                                         <p className=" font-semibold text-xs " >{timeFormat(event?.endTime)}</p>
                                     </div>
-                                    {event?.signUpLimit && (
-                                        <div className=" flex items-center gap-2 " >
-                                            <div className=" w-fit text-primary text-opacity-50 " >
-                                                <TicketIcon />
-                                            </div>
-                                            {event?.signUpLimit > 0 && (
-                                                <p className=" font-bold text-xs " >{event?.signUpLimit} Spot{event?.signUpLimit > 1 ? "s" : ""} Available</p>
-                                            )}
-                                            {event?.signUpLimit < 1 && (
-                                                <p className=" font-bold text-xs " >Sold Out</p>
-                                            )}
+                                    <div className=" flex items-center gap-2 " >
+                                        <div className=" w-fit text-primary text-opacity-50 " >
+                                            <TicketIcon />
                                         </div>
-                                    )}
+                                        <p className=" font-bold text-xs " >{event?.signUpLimit} Spot(s) Available</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +142,7 @@ function SharePage() {
                     )}
                 </div>
             </div>
-            <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={open} setOpen={setOpen} >
+            <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
                 <DonateForm setOpen={setOpen} />
             </ModalLayout>
 
@@ -156,15 +153,41 @@ function SharePage() {
                         <div className=" flex w-full justify-between items-center " >
                             <img src="/images/google.png" alt="google" className=" w-[145px] " />
                             <a href="https://play.google.com/store/apps/details?id=com.hiroek.app.hiroek" target="_blank" >
-                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Download</CustomButton>
+                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Proceed</CustomButton>
                             </a>
                         </div>
                         <div className=" flex w-full justify-between items-center " >
                             <img src="/images/apple.png" alt="google" className=" w-[145px] " />
                             <a href="https://apps.apple.com/ng/app/hiroek/id6474194083" target="_blank" >
-                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Download</CustomButton>
+                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Proceed</CustomButton>
                             </a>
                         </div>
+                    </div>
+                </div>
+            </ModalLayout>
+
+            <ModalLayout onIcon={true} width=" max-w-[300px] " rounded="24px" open={showHost} setOpen={setShowHost} >
+                <div className=" pb-3 px-4 flex flex-col gap-4 " >
+                    <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
+                        {/* <di */}
+                        <div className=" w-[44px] h-[44px] rounded-full " >
+                            <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
+                        </div>
+                        <div className=" flex flex-col justify-center gap-1 " >
+                            <div className=" font-bold text-[12px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[20px] w-[80px] " >
+                                Event Host:
+                            </div>
+                            <p className=" font-bold text-[14px] text-center text-[#37137F] " >{event?.admin?.fullname ?? event?.admin?.name}</p>
+                        </div>
+                    </div>
+
+                    {/* <CustomButton height="44px" fontSize="11px" loading={loadingConversation} onClick={() => clickHandler()} hasFrontIcon={true} icon={
+                        <ChatIcon color="#fff" size="18" />
+                    } >
+                        Message Event Host
+                    </CustomButton> */}
+                    <div onClick={()=> setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
+                        Close
                     </div>
                 </div>
             </ModalLayout>
