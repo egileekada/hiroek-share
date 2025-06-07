@@ -3,7 +3,7 @@ import ChartGraph from "../components/chartGraph"
 import CountdownTimer from "../components/countDownTimer"
 import LoadingAnimation from "../components/loadingAnimation"
 import useGetEventData from "../hooks/useGetEventData"
-import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon, ChatIcon } from "../svg"
+import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon } from "../svg"
 import { dateFormat, timeFormat } from "../utils/dateFormat"
 import { formatNumberWithK } from "../utils/formatNumberWithK"
 import { formatNumber } from "../utils/numberFormat"
@@ -18,10 +18,7 @@ function SharePage() {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
-    const [showHost, setShowHost] = useState(false)
-
-
-    console.log(event);
+    const [showHost, setShowHost] = useState(false) 
     
     return (
         <LoadingAnimation loading={isLoading} >
@@ -113,7 +110,7 @@ function SharePage() {
                                 </div>
                                 <div className=" flex flex-col items-center" >
                                     <p className=" font-medium text-[#667085] text-sm " >Donated</p>
-                                    <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised)}</p>
+                                    <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised/100)}</p>
                                 </div>
                             </div>
                         </div>

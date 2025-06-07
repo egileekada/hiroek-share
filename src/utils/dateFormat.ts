@@ -24,5 +24,5 @@ export function dateFormatDay(date: any) {
 }
 
 export const timeFormat = (item: any) => { 
-  return moment.utc(item).format('hh:mm a'); 
+  return moment(item).format('hh:mm a'); 
 }

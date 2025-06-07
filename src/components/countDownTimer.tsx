@@ -1,30 +1,67 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const CountdownTimer = ({ targetTime }: { targetTime: string }) => {
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-    function calculateTimeLeft() {
-        const difference = new Date(targetTime).getTime() - new Date().getTime();
+    // function calculateTimeLeft() {
+    //     // const difference = new Date(targetTime).getTime() - new Date().getTime();
 
-        if (difference > 0) {
-            return {
-                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / (1000 * 60)) % 60),
-                seconds: Math.floor((difference / 1000) % 60),
-            };
-        } else {
-            return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-        }
-    }
+    //   const now = Date.now();
+    //   const diff = target - now;
+
+    //     if (difference > 0) {
+    //         return {
+    //             days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    //             hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    //             minutes: Math.floor((difference / (1000 * 60)) % 60),
+    //             seconds: Math.floor((difference / 1000) % 60),
+    //         };
+    //     } else {
+    //         return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     const timer = setInterval(() => {
+    //         setTimeLeft(calculateTimeLeft());
+    //     }, 1000);
+
+    //     return () => clearInterval(timer); // Clean up on unmount
+    // }, [targetTime]);
+
+    const [timeLeft, setTime] = useState({} as any);
+    const intervalRef: any = useRef(null);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
+        const target = new Date(targetTime).getTime();
 
-        return () => clearInterval(timer); // Clean up on unmount
+        const updateCountdown = () => {
+            const now = Date.now();
+            const diff = target - now;
+
+            console.log(diff);
+            
+
+            if (diff <= 0) {
+                clearInterval(intervalRef.current);
+                setTime(null);
+                return;
+            }
+
+            const seconds = Math.floor((diff / 1000) % 60);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            setTime({ days, hours, minutes, seconds });
+        };
+
+        updateCountdown(); // Initial run
+        intervalRef.current = setInterval(updateCountdown, 1000);
+
+        return () => clearInterval(intervalRef.current);
     }, [targetTime]);
+
 
     return (
         <div className=" w-fit flex gap-3 mt-4 " >
