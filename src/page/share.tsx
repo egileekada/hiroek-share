@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ChartGraph from "../components/chartGraph"
 import CountdownTimer from "../components/countDownTimer"
 import LoadingAnimation from "../components/loadingAnimation"
@@ -21,11 +21,19 @@ function SharePage() {
     const [show, setShow] = useState(false)
     const [showHost, setShowHost] = useState(false)
 
+    const [ imageUrl, setImageUrl ] = useState("")
+    const [ eventName, setEventName ] = useState("")
+
+    useEffect(()=> {
+        setImageUrl(event?.photo)
+        setEventName(event?.name)
+    }, [event?.photo, event?.name])
+
     return (
         <>
             <Helmet>
-                <meta property="og:image" content={event?.photo} />
-                <meta property="og:title" content={`Hiroek - ${event?.name}`} />
+                <meta property="og:image" content={imageUrl} />
+                <meta property="og:title" content={`Hiroek - ${eventName}`} />
                 <meta property="og:description" content={event?.description} />
             </Helmet>
             <LoadingAnimation loading={isLoading} >
