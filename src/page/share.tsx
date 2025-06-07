@@ -11,6 +11,7 @@ import { textLimit } from "../utils/textlimit"
 import CustomButton from "../components/shared/customButton"
 import ModalLayout from "../components/shared/modalLayout"
 import DonateForm from "../components/donateForm"
+import { Helmet } from 'react-helmet';
 
 function SharePage() {
 
@@ -18,10 +19,15 @@ function SharePage() {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
-    const [showHost, setShowHost] = useState(false) 
-    
+    const [showHost, setShowHost] = useState(false)
+
     return (
-        <LoadingAnimation loading={isLoading} >
+        <LoadingAnimation loading={isLoading} > 
+            <Helmet>
+                {event?.photo && (
+                    <meta property="og:image" content={event?.photo} />
+                )}
+            </Helmet>
             <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
                 <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:pb-8 pb-6 lg:p-8 " >
                     <div className=" w-full lg:h-[300px] h-[300px] relative " >
@@ -110,7 +116,7 @@ function SharePage() {
                                 </div>
                                 <div className=" flex flex-col items-center" >
                                     <p className=" font-medium text-[#667085] text-sm " >Donated</p>
-                                    <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised/100)}</p>
+                                    <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised / 100)}</p>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +189,7 @@ function SharePage() {
                     } >
                         Message Event Host
                     </CustomButton> */}
-                    <div onClick={()=> setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
+                    <div onClick={() => setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
                         Close
                     </div>
                 </div>
