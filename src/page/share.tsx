@@ -31,11 +31,13 @@ function SharePage() {
 
     return (
         <>
-            <Helmet>
-                <meta property="og:image" content={imageUrl} />
-                <meta property="og:title" content={`Hiroek - ${eventName}`} />
-                <meta property="og:description" content={event?.description} />
-            </Helmet>
+            {imageUrl && ( 
+                <Helmet>
+                    <meta property="og:image" content={imageUrl} />
+                    <meta property="og:title" content={`Hiroek - ${eventName}`} />
+                    <meta property="og:description" content={event?.description} />
+                </Helmet>
+            )}
             <LoadingAnimation loading={isLoading} >
                 <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
                     <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:pb-8 pb-6 lg:p-8 " >
