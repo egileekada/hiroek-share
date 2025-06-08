@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "ts-node server/server.ts",
+    "serve": "npm run build && ts-node server/server.ts"
   },
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
