@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 🔥 Preview route for bots (WhatsApp, Facebook, etc.)
-app.get('/event/:id', async (req, res) => {
+app.get('/preview/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
