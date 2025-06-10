@@ -67,11 +67,11 @@ function SharePage() {
                                     <div className=" w-full p-4 flex flex-col gap-1 rounded-[10px] bg-white " >
                                         <p className=" font-bold text-xs text-primary " >{textLimit(event?.name, 70)}</p>
                                         <div className=" w-full flex gap-3 items-center justify-between " >
-                                            <div className=" flex gap-2 items-center " >
-                                                <div className=" w-fit text-primary text-opacity-50 mt-[2px] " >
+                                            <div className=" flex gap-2 " >
+                                                <div className=" w-fit text-primary text-opacity-50 " >
                                                     <LocationIcon block={true} />
                                                 </div>
-                                                <p className=" font-semibold text-xs " >{textLimit(event?.address, 40)}</p>
+                                                <p className=" font-semibold text-xs mt- " >{event?.address}</p>
                                             </div>
                                         </div>
                                         <div className=" flex items-center gap-2 " >
