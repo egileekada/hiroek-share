@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ChartGraph from "../components/chartGraph"
-import CountdownTimer from "../components/countDownTimer"
+// import CountdownTimer from "../components/countDownTimer"
 import LoadingAnimation from "../components/loadingAnimation"
 import useGetEventData from "../hooks/useGetEventData"
 import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon } from "../svg"
@@ -11,7 +11,8 @@ import { textLimit } from "../utils/textlimit"
 import CustomButton from "../components/shared/customButton"
 import ModalLayout from "../components/shared/modalLayout"
 import DonateForm from "../components/donateForm"
-import { Helmet } from 'react-helmet';
+import CountdownTimer from "../components/countDownTimer"
+// import { Helmet } from 'react-helmet';
 
 function SharePage() {
 
@@ -21,23 +22,11 @@ function SharePage() {
     const [show, setShow] = useState(false)
     const [showHost, setShowHost] = useState(false)
 
-    const [ imageUrl, setImageUrl ] = useState("")
-    const [ eventName, setEventName ] = useState("")
-
-    useEffect(()=> {
-        setImageUrl(event?.photo)
-        setEventName(event?.name)
-    }, [event?.photo, event?.name])
+    // const [ imageUrl, setImageUrl ] = useState("")
+    // const [ eventName, setEventName ] = useState("") 
 
     return (
-        <>
-            {imageUrl && ( 
-                <Helmet>
-                    <meta property="og:image" content={imageUrl} />
-                    <meta property="og:title" content={`Hiroek - ${eventName}`} />
-                    <meta property="og:description" content={event?.description} />
-                </Helmet>
-            )}
+        <> 
             <LoadingAnimation loading={isLoading} >
                 <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
                     <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:pb-8 pb-6 lg:p-8 " >
@@ -49,7 +38,7 @@ function SharePage() {
 
                                     <div className=" w-full flex gap-4" >
                                         <div role="button" onClick={() => setShowHost(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
-                                            {/* <di */}
+                                            
                                             <div className=" w-8 h-8 rounded-full " >
                                                 <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                             </div>
@@ -135,8 +124,7 @@ function SharePage() {
                         <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 pb-36 " >
                             <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                 <p className=" font-extrabold text-xs " >Event Countdown</p>
-                            </div>
-                            {/* <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p> */}
+                            </div>  
                             <CountdownTimer targetTime={event?.endTime} />
                         </div>
                         <div className=" w-full hidden flex-col mt-auto items-center py-4 lg:flex px-4 " >
@@ -156,10 +144,10 @@ function SharePage() {
                         )}
                     </div>
                 </div>
+
                 <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
                     <DonateForm setOpen={setOpen} />
-                </ModalLayout>
-
+                </ModalLayout> 
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
                         <p className=" font-bold text-primary " >Get The Full Experience In The App!</p>
@@ -178,12 +166,11 @@ function SharePage() {
                             </div>
                         </div>
                     </div>
-                </ModalLayout>
-
+                </ModalLayout> 
                 <ModalLayout onIcon={true} width=" max-w-[300px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >
                         <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
-                            {/* <di */}
+                            
                             <div className=" w-[44px] h-[44px] rounded-full " >
                                 <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                             </div>
@@ -193,13 +180,7 @@ function SharePage() {
                                 </div>
                                 <p className=" font-bold text-[14px] text-center text-[#37137F] " >{event?.admin?.fullname ?? event?.admin?.name}</p>
                             </div>
-                        </div>
-
-                        {/* <CustomButton height="44px" fontSize="11px" loading={loadingConversation} onClick={() => clickHandler()} hasFrontIcon={true} icon={
-                        <ChatIcon color="#fff" size="18" />
-                    } >
-                        Message Event Host
-                    </CustomButton> */}
+                        </div> 
                         <div onClick={() => setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
                             Close
                         </div>

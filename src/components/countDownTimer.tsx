@@ -48,10 +48,10 @@ const CountdownTimer = ({ targetTime }: { targetTime: string }) => {
                 return;
             }
 
-            const seconds = Math.floor((diff / 1000) % 60);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const seconds = Math?.floor((diff / 1000) % 60);
+            const minutes = Math?.floor((diff / 1000 / 60) % 60);
+            const hours = Math?.floor((diff / (1000 * 60 * 60)) % 24);
+            const days = Math?.floor(diff / (1000 * 60 * 60 * 24));
 
             setTime({ days, hours, minutes, seconds });
         };
@@ -67,25 +67,25 @@ const CountdownTimer = ({ targetTime }: { targetTime: string }) => {
         <div className=" w-fit flex gap-3 mt-4 " >
             <div className=" flex gap-2 flex-col items-center " >
                 <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
-                    <p className=" pt-2 " >{timeLeft.days}</p>
+                    <p className=" pt-2 " >{timeLeft?.days}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Days</p>
             </div>
             <div className=" flex gap-2 flex-col items-center " >
                 <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
-                    <p className=" pt-2 " >{timeLeft.hours}</p>
+                    <p className=" pt-2 " >{timeLeft?.hours}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Hours</p>
             </div>
             <div className=" flex gap-2 flex-col items-center " >
                 <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
-                    <p className=" pt-2 " >{timeLeft.minutes}</p>
+                    <p className=" pt-2 " >{timeLeft?.minutes}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Minutes</p>
             </div>
             <div className=" flex gap-2 flex-col items-center " >
                 <div className=" w-[64px] h-[90px] flex justify-center items-center bg-[#37137F4D] text-[30px] text-primary font-bold rounded-[7px] " >
-                    <p className=" pt-2 " >{timeLeft.seconds}</p>
+                    <p className=" pt-2 " >{timeLeft?.seconds}</p>
                 </div>
                 <p className=" text-xs text-primary font-black " >Seconds</p>
             </div>

@@ -3,15 +3,5 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ],
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "outDir": "./dist-server",
-    "rootDir": "./server",
-    "strict": true,
-    "skipLibCheck": true
-  }
+  ]
 }

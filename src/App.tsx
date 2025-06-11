@@ -8,7 +8,10 @@ function App() {
 
     createRoutesFromElements(
       <Route path="/">
-        <Route index element={<SharePage />} />
+        <Route index element={
+          <div className=" w-full h-screen flex justify-center items-center " >
+          </div>
+        } />
         <Route path="event/:id" element={<SharePage />} /> 
       </Route>
     )
