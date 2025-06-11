@@ -103,7 +103,7 @@ function SharePage() {
                         )}
                     </div>
                     <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
-                        {event?.fundRaiser?.fundRaisingGoal && (
+                        {event?.fundRaiser?.fundRaisingGoal > 0 && (
                             <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
                                 <p className="  text-primary font-bold " >Fundraising Goal</p>
                                 <p className=" text-[#858D9D] text-xs font-medium " >Funds needed to make a difference.</p>
