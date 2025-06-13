@@ -44,7 +44,7 @@ export default function ChannelsPage() {
                         </div>
                     </div>
 
-                    <CustomButton onClick={() => setShow(true)} rounded="10px" width="100%" height="50px"  >Join Event</CustomButton>
+                    <CustomButton onClick={() => setShow(true)} rounded="10px" width="100%" height="50px"  >Join Channel</CustomButton>
                 </div>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
