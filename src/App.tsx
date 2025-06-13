@@ -1,6 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom"
 import { RouterProvider } from "react-router-dom"
 import SharePage from "./page/share"
+import ChannelsPage from "./page/community";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
           </div>
         } />
         <Route path="event/:id" element={<SharePage />} /> 
+        <Route path="channel/:id" element={<ChannelsPage />} /> 
       </Route>
     )
   );
