@@ -21,7 +21,7 @@ export default function ChannelsPage() {
                         <img alt="image" src={item?.photo} className=" w-full h-full object-cover rounded-[24px] " />
                         <div className=" p-5 text-white absolute bottom-2 inset-x-2 gap-2 bg-[#37137FCC] flex flex-col rounded-[24px] items-center " style={{ boxShadow: "0px 3px 3px 0px #00000038" }} >
                             <Text className=" font-black text-2xl " >{item?.name}</Text>
-                            <Text className=" text-xs font-semibold text-center " >{item?.description}</Text>
+                            {/* <Text className=" text-xs font-semibold text-center " >{item?.description}</Text> */}
 
                             {item?.members?.length > 0 && (
                                 <div role="button" className='flex items-center mt-2 bg-[#FFFFFF26] px-3 rounded-full w-fit h-[40px] mx-auto text-black ' >
