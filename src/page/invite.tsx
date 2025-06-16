@@ -18,13 +18,13 @@ export default function InvitePage() {
                         <div className=" flex w-full justify-between items-center " >
                             <img src="/images/google.png" alt="google" className=" w-[145px] " />
                             <a href="https://play.google.com/store/apps/details?id=com.hiroek.app.hiroek" target="_blank" >
-                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Proceed</CustomButton>
+                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Download</CustomButton>
                             </a>
                         </div>
                         <div className=" flex w-full justify-between items-center " >
                             <img src="/images/apple.png" alt="google" className=" w-[145px] " />
                             <a href="https://apps.apple.com/ng/app/hiroek/id6474194083" target="_blank" >
-                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Proceed</CustomButton>
+                                <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Download</CustomButton>
                             </a>
                         </div>
                     </div>
