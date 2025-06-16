@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from "react-rout
 import { RouterProvider } from "react-router-dom"
 import SharePage from "./page/share"
 import ChannelsPage from "./page/community";
+import InvitePage from "./page/invite";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         } />
         <Route path="event/:id" element={<SharePage />} /> 
         <Route path="channel/:id" element={<ChannelsPage />} /> 
+        <Route path="invite" element={<InvitePage />} /> 
       </Route>
     )
   );
