@@ -99,7 +99,7 @@ export default function DonateForm({ setOpen } : { setOpen?: any }) {
                         <p className=" font-semibold text-sm text-right " >{formatNumber(servicefee)}</p>
                     </div>
                     <div className=" w-full py-5 flex items-center border-t justify-between border-[#E8E8E8] " >
-                        <p className=" font-bold " >Total: {formatNumber(payload?.amount + servicefee)}</p>
+                        <p className=" font-bold " >Total: {formatNumber(Number(payload?.amount) + Number(servicefee))}</p>
                         <CustomButton onClick={()=> setTab(2)} rounded="44px" width="130px" height="50px"  >Donate Now</CustomButton>
                     </div>
                 </div>
