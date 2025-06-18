@@ -24,6 +24,8 @@ export default function DonateForm({ setOpen } : { setOpen?: any }) {
         }
     }
 
+    const servicefee = 0.6 + (Number(payload?.amount) * 0.015) + 0.2
+
     return (
         <>
             {tab === 0 && ( 
@@ -94,10 +96,10 @@ export default function DonateForm({ setOpen } : { setOpen?: any }) {
                         <p className=" font-semibold text-sm " >Donation Amount</p>
                         <p className=" font-semibold text-sm text-right " >{formatNumber(payload?.amount)}</p>
                         <p className=" font-semibold text-sm " >Service Charge</p>
-                        <p className=" font-semibold text-sm text-right " >£0.00</p>
+                        <p className=" font-semibold text-sm text-right " >{formatNumber(servicefee)}</p>
                     </div>
                     <div className=" w-full py-5 flex items-center border-t justify-between border-[#E8E8E8] " >
-                        <p className=" font-bold " >Total: {formatNumber(payload?.amount)}</p>
+                        <p className=" font-bold " >Total: {formatNumber(payload?.amount + servicefee)}</p>
                         <CustomButton onClick={()=> setTab(2)} rounded="44px" width="130px" height="50px"  >Donate Now</CustomButton>
                     </div>
                 </div>
