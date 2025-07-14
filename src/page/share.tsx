@@ -118,16 +118,18 @@ function SharePage() {
                                 </div>
                             </div>
                         )}
-                        <div className=" px-4 w-full " >
-                            <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
-                                <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                    <p className=" font-bold text-xs " >Pledge</p>
-                                </div>
-                                <div className=" w-fit px-3 text-[#37137F]" >
-                                    <p className=" text-xs font-bold " >The amount you commit to raising for charity through this event.</p>
+                        {event?.eventPledge?.totalPledgedAmount > 0 && (
+                            <div className=" px-4 w-full " >
+                                <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
+                                    <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                        <p className=" font-bold text-xs " >Pledge</p>
+                                    </div>
+                                    <div className=" w-fit px-3 text-[#37137F]" >
+                                        <p className=" text-xs font-bold " >The amount you commit to raising for charity through this event.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                     <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
                         {event?.fundRaiser?.fundRaisingGoal > 0 && (
@@ -150,8 +152,8 @@ function SharePage() {
                         )}
 
                         {event?.eventPledge?.totalPledgedAmount > 0 && (
-                            <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " > 
-                                <ChartGraphPledge /> 
+                            <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
+                                <ChartGraphPledge />
                                 <div className=" w-full px-2 flex justify-between pt-2 " >
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-medium text-[#667085] text-sm " >Target</p>
