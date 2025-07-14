@@ -21,10 +21,7 @@ function SharePage() {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
-    const [showHost, setShowHost] = useState(false)
-
-
-    console.log(event);
+    const [showHost, setShowHost] = useState(false) 
 
     // const [ imageUrl, setImageUrl ] = useState("")
     // const [ eventName, setEventName ] = useState("") 
@@ -81,7 +78,7 @@ function SharePage() {
                                             <div className=" w-fit text-primary text-opacity-50 " >
                                                 <TicketIcon />
                                             </div>
-                                            <p className=" font-bold text-xs " >{event?.signUpLimit} Spot(s) Available</p>
+                                            <p className=" font-bold text-xs " >{event?.spotsLeft} Spot(s) Available</p>
                                         </div>
                                     </div>
                                 </div>

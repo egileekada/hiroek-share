@@ -9,6 +9,7 @@ export interface IEvent {
     adminType: string
     category: any
     createdAt: string
+    spotsLeft: string
     description: string
     eventPledge: {
         "organizations": [
