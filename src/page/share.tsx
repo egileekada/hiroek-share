@@ -12,6 +12,7 @@ import CustomButton from "../components/shared/customButton"
 import ModalLayout from "../components/shared/modalLayout"
 import DonateForm from "../components/donateForm"
 import CountdownTimer from "../components/countDownTimer"
+import ChartGraphPledge from "../components/chartGraphPledge"
 // import { Helmet } from 'react-helmet';
 
 function SharePage() {
@@ -24,15 +25,15 @@ function SharePage() {
 
 
     console.log(event);
-    
+
     // const [ imageUrl, setImageUrl ] = useState("")
     // const [ eventName, setEventName ] = useState("") 
 
     return (
-        <> 
+        <>
             <LoadingAnimation loading={isLoading} >
                 <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
-                    <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:p-8 " >
+                    <div className=" w-full h-fit flex flex-col gap-4 lg:rounded-[44px] lg:p-8 " >
                         <div className=" w-full lg:h-[300px] h-[300px] relative " >
                             <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
                             <div className=" absolute z-10 inset-0 bg-[#0000004D] " />
@@ -41,7 +42,7 @@ function SharePage() {
 
                                     <div className=" w-full flex gap-4" >
                                         <div role="button" onClick={() => setShowHost(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
-                                            
+
                                             <div className=" w-8 h-8 rounded-full " >
                                                 <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                             </div>
@@ -93,7 +94,7 @@ function SharePage() {
                             <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p>
                         </div>
                         {(event?.adminType !== "Organization" && event?.fundRaiser?.organizations.length > 0) && (
-                            <div className=" px-4 w-full mt-4 " >
+                            <div className=" px-4 w-full " >
                                 <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
                                     <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                         <p className=" font-bold text-xs " >Recipient Organisation:</p>
@@ -104,6 +105,29 @@ function SharePage() {
                                 </div>
                             </div>
                         )}
+
+                        {(event?.eventPledge?.organizations[0]?.name) && (
+                            <div className=" px-4 w-full " >
+                                <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
+                                    <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                        <p className=" font-bold text-xs " >Charity Partner(s)</p>
+                                    </div>
+                                    <div className=" w-fit px-3 p-2 rounded-full text-white bg-[#37137F]" >
+                                        <p className=" text-xs font-bold " >{event?.eventPledge?.organizations[0]?.name}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        <div className=" px-4 w-full " >
+                            <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
+                                <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                    <p className=" font-bold text-xs " >Pledge</p>
+                                </div>
+                                <div className=" w-fit px-3 text-[#37137F]" >
+                                    <p className=" text-xs font-bold " >The amount you commit to raising for charity through this event.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
                         {event?.fundRaiser?.fundRaisingGoal > 0 && (
@@ -124,10 +148,26 @@ function SharePage() {
                                 </div>
                             </div>
                         )}
+
+                        {event?.eventPledge?.totalPledgedAmount > 0 && (
+                            <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " > 
+                                <ChartGraphPledge /> 
+                                <div className=" w-full px-2 flex justify-between pt-2 " >
+                                    <div className=" flex flex-col items-center" >
+                                        <p className=" font-medium text-[#667085] text-sm " >Target</p>
+                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >£{formatNumberWithK(event?.eventPledge?.totalPledgedAmount / 100)}</p>
+                                    </div>
+                                    <div className=" flex flex-col items-center" >
+                                        <p className=" font-medium text-[#667085] text-sm " >Donated</p>
+                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.eventPledge?.organizations[0].fundRaised / 100)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 pb-36 " >
                             <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                 <p className=" font-extrabold text-xs " >Event Countdown</p>
-                            </div>  
+                            </div>
                             <CountdownTimer targetTime={event?.endTime} />
                         </div>
                         <div className=" w-full hidden flex-col mt-auto items-center py-4 lg:flex px-4 " >
@@ -149,7 +189,7 @@ function SharePage() {
 
                 <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
                     <DonateForm setOpen={setOpen} />
-                </ModalLayout> 
+                </ModalLayout>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
                         <p className=" font-bold text-primary " >Get The Full Experience In The App!</p>
@@ -168,7 +208,7 @@ function SharePage() {
                             </div>
                         </div>
                     </div>
-                </ModalLayout> 
+                </ModalLayout>
                 <ModalLayout onIcon={true} width=" max-w-[300px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >
                         <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
@@ -181,7 +221,7 @@ function SharePage() {
                                 </div>
                                 <p className=" font-bold text-[14px] text-center text-[#37137F] " >{event?.admin?.fullname ?? event?.admin?.name}</p>
                             </div>
-                        </div> 
+                        </div>
                         <div onClick={() => setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
                             Close
                         </div>

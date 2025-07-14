@@ -10,6 +10,23 @@ export interface IEvent {
     category: any
     createdAt: string
     description: string
+    eventPledge: {
+        "organizations": [
+            {
+                "fundRaised": number,
+                "totalDonations": number,
+                "_id": string,
+                "name": string,
+                "charityRegNumber": string,
+                "email": string,
+                "description": string,
+                "logo": string,
+                "address": string
+            }
+        ],
+        "totalPledgedAmount": 2.000100010001e+23,
+        "minimumPledge": number
+    }
     endTime: string
     eventEndDate: string
     fundraisingGoal: number
