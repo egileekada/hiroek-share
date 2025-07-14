@@ -22,6 +22,9 @@ function SharePage() {
     const [show, setShow] = useState(false)
     const [showHost, setShowHost] = useState(false)
 
+
+    console.log(event);
+    
     // const [ imageUrl, setImageUrl ] = useState("")
     // const [ eventName, setEventName ] = useState("") 
 
@@ -29,7 +32,7 @@ function SharePage() {
         <> 
             <LoadingAnimation loading={isLoading} >
                 <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
-                    <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:pb-8 pb-6 lg:p-8 " >
+                    <div className=" w-full h-fit flex flex-col lg:rounded-[44px] lg:p-8 " >
                         <div className=" w-full lg:h-[300px] h-[300px] relative " >
                             <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
                             <div className=" absolute z-10 inset-0 bg-[#0000004D] " />
@@ -89,7 +92,7 @@ function SharePage() {
                             </div>
                             <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p>
                         </div>
-                        {event?.adminType !== "Organization" && (
+                        {(event?.adminType !== "Organization" && event?.fundRaiser?.organizations.length > 0) && (
                             <div className=" px-4 w-full mt-4 " >
                                 <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
                                     <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
@@ -136,7 +139,6 @@ function SharePage() {
                         </div>
                     </div>
                     <div style={{ boxShadow: "0px -4px 8px 0px #00000026" }} className=" w-full flex lg:hidden flex-col items-center fixed bottom-0 py-5 bg-white z-50 px-4 " >
-
                         {event?.fundRaiser?.fundRaisingGoal ? (
                             <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
                         ) : (
@@ -170,7 +172,6 @@ function SharePage() {
                 <ModalLayout onIcon={true} width=" max-w-[300px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >
                         <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
-                            
                             <div className=" w-[44px] h-[44px] rounded-full " >
                                 <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                             </div>
