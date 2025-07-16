@@ -154,7 +154,7 @@ function SharePage() {
                                 <div className=" w-full px-2 flex justify-between pt-2 " >
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-medium text-[#667085] text-sm " >Target</p>
-                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >£{formatNumberWithK(event?.eventPledge?.totalPledgedAmount / 100)}</p>
+                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >£{formatNumberWithK(event?.eventPledge?.minimumPledge / 100)}</p>
                                     </div>
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-medium text-[#667085] text-sm " >Donated</p>
