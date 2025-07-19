@@ -121,7 +121,7 @@ function SharePage() {
                                     <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                         <p className=" font-bold text-xs " >Pledge</p>
                                     </div>
-                                    <div className=" w-fit px-3 text-[#37137F]" >
+                                    <div className=" w-fit text-[#37137F]" >
                                         <p className=" text-xs font-bold " >The amount you commit to raising for charity through this event.</p>
                                     </div>
                                 </div>
