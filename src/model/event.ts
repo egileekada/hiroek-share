@@ -1,52 +1,58 @@
-import type { IMember } from "./user";
+import type { IMember } from "./user"
+
 
 export interface IEvent {
-    fundRaiser: IFundRaiser;
-    eventTicket: IEventTicket;
-    minimumPledge: number;
-    address: string;
-    admin: any
-    adminType: string
-    category: any
-    createdAt: string
-    spotsLeft: string
-    description: string
-    eventPledge: {
-        "organizations": [
-            {
-                "fundRaised": number,
-                "totalDonations": number,
-                "_id": string,
-                "name": string,
-                "charityRegNumber": string,
-                "email": string,
-                "description": string,
-                "logo": string,
-                "address": string
-            }
-        ],
-        "totalPledgedAmount": 2.000100010001e+23,
-        "minimumPledge": number
-    }
-    endTime: string
-    eventEndDate: string
-    fundraisingGoal: number
-    goalReached: boolean
-    interests: Array<string>
-    invitees: Array<any>
-    members: Array<{
-        fullname: string
+    "fundRaiser": IFundRaiser,
+    "eventPledge": {
+        "organizations": any[],
+        "totalPledgedAmount": number
+    },
+    "loc": {
+        "type": string,
+        "coordinates": number[]
+    },
+    "adminType": string,
+    "isTicketed": boolean,
+    "isRecurring": boolean,
+    "isPrimaryEvent": boolean,
+    "primaryEventId": string,
+    "members": any[],
+    "privacy": string,
+    "invitees": any[],
+    "_id": string,
+    "name": string,
+    "description": string,
+    "category": {
+        "_id": string,
+        "name": string,
+        "image": string
+    },
+    "eventEndDate": string,
+    "endTime": string,
+    "address": string,
+    "recurrence": {
+        "interval": number,
+        "daysOfWeek": number[],
+        "endType": string,
+        "totalOccurrences": number,
+        "_id": string,
+        "frequency":string
+    },
+    "ticketing": IEventTicket[],
+    "photo": string,
+    "admin": {
+        "_id": string,
+        "name": string,
+        "email": string,
+        "description": string,
+        "logo": string,
         photo: string
-        _id: string
-    } | any>
-    name: string
-    organization: string
-    photo: string
-    privacy: string
-    signUpLimit: number
-    updatedAt: string
-    __v: number
-    _id: string
+        fullname: string
+        "address": string
+    },
+    "__v": number,
+    "createdAt": string,
+    "updatedAt": string
 }
 
 export interface IScanEvent {
@@ -66,25 +72,25 @@ export interface IScanEvent {
         "name": string,
         "logo": string
     },
-    "createdAt": string ,
+    "createdAt": string,
     "updatedAt": string,
     "__v": string
 }
 
 export interface IEventDashboard {
-    "fundRaised": number;
-    "todayDonations": number;
-    "members": number;
-    "tickets": number;
-    "ticketValues": number;
+    "fundRaised": number | any;
+    "todayDonations": number | any;
+    "members": number | any;
+    "tickets": number | any;
+    "ticketValues": number | any;
     "pledges": number
 }
 
 interface IFundRaiser {
-    organizations: Array<IOrganization>,
-    fundRaised: number,
-    goalReached: boolean,
-    fundRaisingGoal: number
+    "organizations": IOrganization[],
+    "fundRaised": number,
+    "goalReached": boolean,
+    "fundRaisingGoal": number
 }
 
 interface IOrganization {
@@ -95,13 +101,19 @@ interface IOrganization {
     "charityRegNumber": string,
     "email": string,
     "description": string,
-    "logo": string
+    "logo": string,
+    address: string
 }
 
-interface IEventTicket {
-    "availableTickets": number,
-    "totalTicket": number,
-    "ticketPrice": number
+export interface IEventTicket {
+    "isPayedTicket": boolean,
+    "absorbFees": boolean,
+    "signUpLimit": number,
+    "_id": string,
+    "salesEndDate": string,
+    "salesStartDate": string,
+    "ticketPrice": number,
+    "ticketType": string
 }
 
 export interface ITicketHistory {
@@ -114,7 +126,7 @@ export interface ITicketHistory {
     "createdAt": string,
     "updatedAt": string,
     "__v": number
-} 
+}
 
 export interface IConversationMember {
     "participantType": string,
@@ -130,4 +142,40 @@ export interface IConversationMember {
         "fullname": string
     },
     "name": string
+}
+
+export interface ICreateEvent {
+    name: string
+    description: string
+    fundRaiser: {
+        fundRaisingGoal: number | any
+        organizations: string[]
+    }
+    ticketing: {
+        ticketType: string
+        ticketPrice: number | any
+        signUpLimit: number | any
+        salesStartDate: string // ISO date string
+        salesEndDate: string   // ISO date string
+        absorbFees: boolean
+    }[]
+    recurrence: {
+        interval: number | any
+        frequency: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY" | string
+        daysOfWeek: number[]
+        endType: "AFTER_OCCURRENCES" | "ON_DATE" | string
+        occurrenceCount: number | any
+        endDate: string
+    }
+    category: string
+    subcategory: string
+    privacy: string
+    eventEndDate: string
+    endTime: string
+    address: string
+    latitude: number | any
+    longitude: number | any
+    signUpLimit: number | any
+    communityId: string
+    photo: string
 }

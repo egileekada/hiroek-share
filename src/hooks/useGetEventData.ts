@@ -41,8 +41,6 @@ const useGetEventData = () => {
         }
     }
 
- 
-
     return {
         getEventData, 
     };
