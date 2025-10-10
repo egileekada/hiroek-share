@@ -11,7 +11,7 @@ import Cookies from "js-cookie"
 const useAuth = () => {
 
     const [open, setOpen] = useState(false) 
-    const [tab, setTab] = useState(4)
+    const [tab, setTab] = useState(0)
 
     const [email, setEmail] = useState("")
     
@@ -89,7 +89,7 @@ const useAuth = () => {
         },
     });
     
-    
+
     const verifyMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/verify-otp`, data),
         onError: (error: any) => {
