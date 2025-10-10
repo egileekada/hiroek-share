@@ -88,7 +88,8 @@ const useAuth = () => {
 
         },
     });
-
+    
+    
     const verifyMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/verify-otp`, data),
         onError: (error: any) => {
