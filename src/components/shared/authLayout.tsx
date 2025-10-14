@@ -35,42 +35,15 @@ export default function AuthLayout({ children, header, body, hidesidebar, hidefo
                         </div>
                     </div>
                 </div>
-                <div className=" max-w-[450px] w-full flex flex-col items-center text-primary  lg:text-white gap-4 " >
+                <div className=" max-w-[450px] w-full flex flex-col items-center text-primary bg-white p-4 rounded-2xl lg:text-white gap-4 " >
                     <div className=" w-full flex flex-col items-center " >
                         <Text className=" uppercase lg:block hidden text-[32px] font-black " >Hiroek</Text>
                         <Text className=" lg:block hidden text-xs tracking-[1%] font-medium " >FOR CHARITIES & SOCIAL IMPACT ORGANISATIONS </Text>
                         <Text className=" text-[28px] font-black mt-4 " >{header}</Text>
                         <Text className=" text-sm tracking-[1%] font-medium " >{body}</Text>
                     </div>
-                    {children}
-                    {!hidefooter && (
-                        <div className=" max-w-[389px] w-full lg:flex hidden flex-col font-medium text-sm text-primary lg:mt-0 mt-auto lg:text-[#FFFFFFBF] text-center gap-4 " >
-                            <div className=" w-full flex h-[44px] justify-between items-center " >
-                                <Text role="button" >Get In Touch</Text>
-                                <Text role="button" >Privacy Policy</Text>
-                                <Text role="button" >Terms of Use</Text>
-                            </div>
-                            <Text role="button" >Copyright MyHero Ltd © 2023. All right reserved.</Text>
-                        </div>
-                    )}
-                </div>
-                {!hidefooter ? (
-                    <div className=" absolute bottom-4 max-w-[389px] w-full flex lg:hidden flex-col font-medium text-sm px-6 text-primary lg:mt-0 mt-auto lg:text-[#FFFFFFBF] text-center gap-2 " >
-                        <div className=" w-full flex h-[24px] justify-between items-center " >
-                            <Text role="button" >Get In Touch</Text>
-                            <Text role="button" >Privacy Policy</Text>
-                            <Text role="button" >Terms of Use</Text>
-                        </div>
-                        <Text role="button" >Copyright MyHero Ltd © 2023. All right reserved.</Text>
-                    </div>
-                ) : (
-                    <div className=' lg:hidden absolute bottom-8 inset-x-6 ' >
-                        <CustomButton onClick={() => navigate("/login")} type="button" >
-                            Login
-                        </CustomButton>
-                    </div>
-                )}
-
+                    {children} 
+                </div> 
             </div>
             <div className={` w-full h-full hidden ${hidesidebar ? " hidden " : " lg:block "} `} >
                 <div className=" w-full h-full rounded-bl-[150px] flex flex-col relative gap-5 px-8 pt-[10%] text-white " >
