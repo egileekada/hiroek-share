@@ -13,7 +13,7 @@ import { FormikProvider } from "formik";
 
 export default function EventTicketForm({ ticket, event }: { setOpen?: any, ticket: IEventTicket, event: IEvent }) {
 
-    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email } = useAuth()
+    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword } = useAuth()
 
     const [ticketNo, setTicketNo] = useState(1)
 
@@ -46,7 +46,6 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
             })
         }
     }
-
 
     const clickTicket = (type: "remove" | "add") => {
         if (ticketNo > 0 && type === "remove") {
@@ -112,9 +111,23 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                         <p className=" text-primary20 text-xs font-medium " >Please fill in your details below.</p>
                         <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
-                            <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
+                            <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" /> 
+                            <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(6)} >forgot password</p>
                             <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
                             <p className=" text-primary20 text-xs font-medium " >Don't have an account? <span className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</span></p>
+                        </div>
+                    </form>
+                </FormikProvider>
+            )}
+            {tab === 6 && (
+                <FormikProvider value={formikForgotPassword}>
+                    <form onSubmit={formikForgotPassword.handleSubmit} className=" w-full flex flex-col items-center pb-3 " >
+                        <p className=" text-primary text-2xl font-bold " >Forgot Password</p>
+                        <p className=" text-primary20 text-xs font-medium " >Please fill in your details below.</p>
+                        <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
+                            <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" /> 
+                            <CustomButton type="submit" loading={forgotMutation.isLoading} rounded="44px" width="100%" height="50px"  >Submit</CustomButton>
+                            <p className=" text-primary20 text-xs font-medium " >Already have an account? <span className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</span></p>
                         </div>
                     </form>
                 </FormikProvider>

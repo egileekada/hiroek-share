@@ -6,6 +6,7 @@ import { useMutation } from 'react-query';
 import { useState } from 'react';  
 import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
+import { useQuery } from '../utils/useQuery';
 
 
 const useAuth = () => {
@@ -14,10 +15,29 @@ const useAuth = () => {
     const [tab, setTab] = useState(0)
 
     const [email, setEmail] = useState("")
-    
+
+    const query = useQuery();
+    const resetCode = query.get('resetCode');
+    const emailData = query.get('email');
+
 
     const signupMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/email-signup`, data),
+        onError: (error: any) => {
+            toast.error(error?.response?.data?.error?.details?.message)
+        },
+        onSuccess: () => { 
+            
+            toast.success("Signed Up Successfully")
+
+            Cookies.set("email", formikSignup.values.email)
+            setEmail(formikSignup.values.email)
+            setTab(1)
+        },
+    });
+
+    const resetPasswordMutation = useMutation({
+        mutationFn: (data: any) => unsecureHttpService.post(`/auth/password-reset`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
@@ -42,6 +62,21 @@ const useAuth = () => {
             
             toast.success("Logged In Successfully")
             setTab(2)
+        },
+    });
+
+
+    const forgotMutation = useMutation({
+        mutationFn: (data: any) => unsecureHttpService.post(`/auth/password-reset-request`, data),
+        onError: (error: any) => {
+            toast.error(error?.response?.data?.error?.details?.message)
+        },
+        onSuccess: (data) => { 
+
+            console.log(data);
+            
+            // toast.success("Logged In Successfully")
+            setTab(3)
         },
     });
 
@@ -125,6 +160,39 @@ const useAuth = () => {
         },
     });
 
+
+    const formikForgotPassword = useFormik<{ 
+        "email": string, 
+    }>({
+        initialValues: { 
+            email: "", 
+        },
+        validationSchema: Yup.object({ 
+            email: Yup.string().email("Invalid email").required("Required"), 
+        }),
+        onSubmit: (data) => {
+            forgotMutation.mutate(data)
+        },
+    });
+
+    const formikResetPassword = useFormik<{
+        "email": string,
+        "resetCode": string,
+        "password": string
+    }>({
+        initialValues: { 
+            email: emailData+"", 
+            "resetCode": resetCode+"",
+            "password": ""
+        },
+        validationSchema: Yup.object({ 
+            email: Yup.string().email("Invalid email").required("Required"), 
+        }),
+        onSubmit: (data) => {
+            forgotMutation.mutate(data)
+        },
+    });
+
     const formik = useFormik<{
         "email": string,
         "password": string
@@ -174,7 +242,11 @@ const useAuth = () => {
         tab,
         setTab, 
         email, 
-        setEmail
+        setEmail,
+        forgotMutation,
+        formikForgotPassword,
+        resetPasswordMutation,
+        formikResetPassword
     }
 
 }
