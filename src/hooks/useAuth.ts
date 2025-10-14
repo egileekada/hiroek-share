@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import { useMutation } from 'react-query';
-import { useState } from 'react';  
+import { useState } from 'react';
 import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
 import { useQuery } from '../utils/useQuery';
@@ -11,7 +11,7 @@ import { useQuery } from '../utils/useQuery';
 
 const useAuth = () => {
 
-    const [open, setOpen] = useState(false) 
+    const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(0)
 
     const [email, setEmail] = useState("")
@@ -26,8 +26,8 @@ const useAuth = () => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: () => { 
-            
+        onSuccess: () => {
+
             toast.success("Signed Up Successfully")
 
             Cookies.set("email", formikSignup.values.email)
@@ -37,17 +37,18 @@ const useAuth = () => {
     });
 
     const resetPasswordMutation = useMutation({
-        mutationFn: (data: any) => unsecureHttpService.post(`/auth/password-reset`, data),
+        mutationFn: (data: any) =>
+            unsecureHttpService.post(`/auth/password-reset`, data),
         onError: (error: any) => {
-            toast.error(error?.response?.data?.error?.details?.message)
+            toast.error(error?.response?.data?.error?.details?.message || "Failed to reset password");
         },
-        onSuccess: () => { 
-            
-            toast.success("Signed Up Successfully")
+        onSuccess: () => {
+            toast.success("Password reset successful.");
 
-            Cookies.set("email", formikSignup.values.email)
-            setEmail(formikSignup.values.email)
-            setTab(1)
+            // Wait 3 seconds before closing
+            setTimeout(() => {
+                window.close();
+            }, 3000);
         },
     });
 
@@ -56,10 +57,10 @@ const useAuth = () => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
 
             Cookies.set("access_token", data?.data?.token)
-            
+
             toast.success("Logged In Successfully")
             setTab(2)
         },
@@ -71,8 +72,8 @@ const useAuth = () => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: () => { 
- 
+        onSuccess: () => {
+
             toast.success("Password reset link sent to your email");
             setTab(3)
         },
@@ -84,20 +85,20 @@ const useAuth = () => {
             "ticketTypes": {
                 "ticketTypeId": string,
                 "numberOfTickets": number
-              }[]
-          }
+            }[]
+        }
         ) => httpService.post(`/donations/event-ticket-payment-intent`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
             const paymentUrl = data?.data?.url;
 
             if (paymentUrl) {
-              // ✅ Open the payment page in a new tab
-              window.open(paymentUrl, "_blank");
+                // ✅ Open the payment page in a new tab
+                window.open(paymentUrl, "_blank");
             } else {
-              toast.error("Payment URL not found.");
+                toast.error("Payment URL not found.");
             }
         },
     });
@@ -109,27 +110,27 @@ const useAuth = () => {
             "ticketTypes": {
                 "ticketTypeId": string,
                 "numberOfTickets": number
-              }[]
-          }
+            }[]
+        }
         ) => httpService.post(`/donations/event-ticket-free-purchase`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: () => {  
-            
+        onSuccess: () => {
+
             setTab(4)
 
         },
     });
-    
+
 
     const verifyMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/verify-otp`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: () => { 
-            
+        onSuccess: () => {
+
             toast.success("OTP Verified Successfully")
             setTab(3)
         },
@@ -159,14 +160,14 @@ const useAuth = () => {
     });
 
 
-    const formikForgotPassword = useFormik<{ 
-        "email": string, 
+    const formikForgotPassword = useFormik<{
+        "email": string,
     }>({
-        initialValues: { 
-            email: "", 
+        initialValues: {
+            email: "",
         },
-        validationSchema: Yup.object({ 
-            email: Yup.string().email("Invalid email").required("Required"), 
+        validationSchema: Yup.object({
+            email: Yup.string().email("Invalid email").required("Required"),
         }),
         onSubmit: (data) => {
             forgotMutation.mutate(data)
@@ -178,13 +179,13 @@ const useAuth = () => {
         "resetCode": string,
         "password": string
     }>({
-        initialValues: { 
-            email: emailData+"", 
-            "resetCode": resetCode+"",
+        initialValues: {
+            email: emailData + "",
+            "resetCode": resetCode + "",
             "password": ""
         },
-        validationSchema: Yup.object({ 
-            email: Yup.string().email("Invalid email").required("Required"), 
+        validationSchema: Yup.object({
+            email: Yup.string().email("Invalid email").required("Required"),
         }),
         onSubmit: (data) => {
             forgotMutation.mutate(data)
@@ -216,7 +217,7 @@ const useAuth = () => {
         initialValues: {
             "otp": "",
             "phoneOrEmail": email
-          },
+        },
         validationSchema: Yup.object({
             otp: Yup.string().required("Required"),
             phoneOrEmail: Yup.string().required("Required"),
@@ -228,18 +229,18 @@ const useAuth = () => {
 
     return {
         formik,
-        signupMutation, 
+        signupMutation,
         formikVerify,
         verifyMutation,
         loginMutation,
-        formikSignup, 
+        formikSignup,
         payForTicket,
         payForTicketFree,
         open,
         setOpen,
         tab,
-        setTab, 
-        email, 
+        setTab,
+        email,
         setEmail,
         forgotMutation,
         formikForgotPassword,
