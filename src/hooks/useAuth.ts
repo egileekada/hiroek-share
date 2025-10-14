@@ -71,11 +71,9 @@ const useAuth = () => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: (data) => { 
-
-            console.log(data);
-            
-            // toast.success("Logged In Successfully")
+        onSuccess: () => { 
+ 
+            toast.success("Password reset link sent to your email");
             setTab(3)
         },
     });
