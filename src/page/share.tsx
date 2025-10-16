@@ -33,6 +33,8 @@ function SharePage() {
         setShow(true)
     }
 
+    const totalTickets = event?.ticketing.reduce((sum, ticket) => sum + ticket.signUpLimit, 0);
+
     return (
         <>
             <LoadingAnimation loading={isLoading} >
@@ -41,101 +43,87 @@ function SharePage() {
                         <div className=" w-full lg:h-[300px] h-[300px] relative " >
                             <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
                             <div className=" absolute z-10 inset-0 bg-[#0000004D] " />
-                            <div className=" w-full absolute !bottom-2 z-20 px-3  " >
-                                <div className=" w-full rounded-2xl flex flex-col gap-2 " >
 
-                                    <div className=" w-full flex gap-4" >
-                                        <div role="button" onClick={() => setShowHost(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
+                        </div>
+                        <div className=" w-full -mt-[150px] z-20 px-3  " >
+                            <div className=" w-full rounded-2xl flex flex-col gap-2 " >
 
-                                            <div className=" w-8 h-8 rounded-full " >
-                                                <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
-                                            </div>
-                                            <div className=" flex flex-col items-center justify-center " >
-                                                <div className=" font-bold text-[10px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[18px] w-[75px] " >
-                                                    Event Host:
-                                                </div>
-                                                <p className=" font-bold text-[12px] text-center text-white " >{textLimit(event?.admin?.fullname ? event?.admin?.fullname : event?.admin?.name, 14)}</p>
-                                            </div>
+                                <div className=" w-full flex gap-4" >
+                                    <div role="button" onClick={() => setShowHost(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
+
+                                        <div className=" w-8 h-8 rounded-full " >
+                                            <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                         </div>
-                                        <div className=" w-full " >
-                                            <CustomButton onClick={() => setShow(true)} bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton>
+                                        <div className=" flex flex-col items-center justify-center " >
+                                            <div className=" font-bold text-[10px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[18px] w-[75px] " >
+                                                Event Host:
+                                            </div>
+                                            <p className=" font-bold text-[12px] text-center text-white " >{textLimit(event?.admin?.fullname ? event?.admin?.fullname : event?.admin?.name, 14)}</p>
                                         </div>
                                     </div>
-                                    <div className=" w-full p-4 flex flex-col gap-1 rounded-[10px] bg-white " >
-                                        <p className=" font-bold text-xs text-primary " >{textLimit(event?.name, 70)}</p>
-                                        <div className=" w-full flex gap-3 items-center justify-between " >
-                                            <div className=" flex gap-2 " >
-                                                <div className=" w-fit text-primary text-opacity-50 " >
-                                                    <LocationIcon block={true} />
+                                    <div className=" w-full " >
+                                        {/* <CustomButton onClick={() => setShow(true)} bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton> */}
+                                    </div>
+                                </div>
+                                <div className=" w-full p-4 flex flex-col gap-1 rounded-[10px] bg-white " >
+                                    <p className=" font-bold text-xs text-primary " >{textLimit(event?.name, 70)}</p>
+                                    <div className=" w-full flex gap-3 items-center justify-between " >
+                                        <div className=" flex gap-2 " >
+                                            <div className=" w-fit text-primary text-opacity-50 " >
+                                                <LocationIcon block={true} />
+                                            </div>
+                                            <p className=" font-semibold text-xs mt- " >{event?.address}</p>
+                                        </div>
+                                    </div>
+                                    <div className=" flex items-center gap-2 " >
+                                        <div className=" w-fit text-primary text-opacity-50 " >
+                                            <CalendarIcon2 />
+                                        </div>
+                                        <p className=" font-semibold text-xs mr-2 " >{dateFormat(event?.endTime)}</p>
+                                        <div className=" w-fit text-primary text-opacity-50 " >
+                                            <ClockIcon />
+                                        </div>
+                                        <p className=" font-semibold text-xs " >{timeFormat(event?.endTime)}</p>
+                                    </div>
+                                    <div className=" w-full flex justify-between items-center " >
+                                        {event?.members?.length > 0 && (
+                                            <div className='flex items-center mt-2 bg-[#37137F4D] px-3 rounded-full w-fit h-[40px] text-black ' >
+                                                <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 '>
+                                                    <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
+                                                    <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
                                                 </div>
-                                                <p className=" font-semibold text-xs mt- " >{event?.address}</p>
+                                                {event?.members?.length > 1 && (
+                                                    // <div className=' w-7 h-7 rounded-full -ml-2 ' >
+                                                    //     <img src={event?.members[1]?.logo} alt={event?.members[1]?._id} className=" w-full h-full object-cover rounded-full " />
+                                                    // </div>
+
+                                                    <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
+                                                        <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
+                                                        <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
+                                                    </div>
+                                                )}
+                                                {event?.members?.length > 2 && (
+                                                    // <div className=' w-7 h-7 rounded-full -ml-2 ' >
+                                                    //     <img src={event?.members[2]?.logo} alt={event?.members[2]?._id} className=" w-full h-full object-cover rounded-full " />
+                                                    // </div>
+                                                    <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
+                                                        <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
+                                                        <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
+                                                    </div>
+                                                )}
+                                                <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithK(event?.members?.length)} Attending</Text>
                                             </div>
+                                        )}
+                                        <div className=" flex gap-2 items-center " >
+                                            <TicketIcon />
+                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Spot(s) Available` : "Tickets Available"} </Text>
                                         </div>
-                                        <div className=" flex items-center gap-2 " >
-                                            <div className=" w-fit text-primary text-opacity-50 " >
-                                                <CalendarIcon2 />
-                                            </div>
-                                            <p className=" font-semibold text-xs mr-2 " >{dateFormat(event?.endTime)}</p>
-                                            <div className=" w-fit text-primary text-opacity-50 " >
-                                                <ClockIcon />
-                                            </div>
-                                            <p className=" font-semibold text-xs " >{timeFormat(event?.endTime)}</p>
-                                        </div>
-                                        {/* <div className=" flex items-center gap-2 " >
-                                            <div className=" w-fit text-primary text-opacity-50 " >
-                                                <TicketIcon />
-                                            </div>
-                                            <p className=" font-bold text-xs " >{event?.spotsLeft} Spot(s) Available</p>
-                                        </div> */}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {/* <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 " >
-                            <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                <p className=" font-bold text-xs " >About Event</p>
-                            </div>
-                            <p className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</p>
-                        </div> */}
-                        {/* {(event?.adminType !== "Organization" && event?.fundRaiser?.organizations.length > 0) && (
-                            <div className=" px-4 w-full " >
-                                <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
-                                    <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                        <p className=" font-bold text-xs " >Recipient Organisation:</p>
-                                    </div>
-                                    <div className=" w-fit px-3 p-2 rounded-full text-white bg-[#37137F]" >
-                                        <p className=" text-xs font-bold " >{event?.fundRaiser?.organizations[0]?.name}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
 
-                        {/* {(event?.eventPledge?.organizations[0]?.name) && (
-                            <div className=" px-4 w-full " >
-                                <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
-                                    <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                        <p className=" font-bold text-xs " >Charity Partner(s)</p>
-                                    </div>
-                                    <div className=" w-fit px-3 p-2 rounded-full text-white bg-[#37137F]" >
-                                        <p className=" text-xs font-bold " >{event?.eventPledge?.organizations[0]?.name}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
-                        {/* {event?.eventPledge?.totalPledgedAmount > 0 && (
-                            <div className=" px-4 w-full " >
-                                <div className=" w-full flex flex-col items-center gap-2 lg:px-0 px-4 lg:py-4 rounded-[10px] py-4 " >
-                                    <div className=" w-fit bg-[#37137F26] text-[#37137F] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                        <p className=" font-bold text-xs " >Pledge</p>
-                                    </div>
-                                    <div className=" w-full text-center text-[#37137F]" >
-                                        <p className=" text-xs font-bold " >The amount you commit to raising for charity through this event.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
-
-                        <div className=" w-full px-4 relative z-20 -mt-[80px]  " >
+                        {/* <div className=" w-full px-4 relative z-20 -mt-[80px]  " >
                             <div className=" py-5 px-4 gap-[6px] text-primary w-full bg-white flex flex-col rounded-[14px] " style={{ boxShadow: "0px 3px 10px 0px #0000000D" }} >
                                 <Text className=" !font-bold " >{event?.name}</Text>
                                 <div className=" flex gap-2 mt-2 " >
@@ -189,11 +177,11 @@ function SharePage() {
                                     )}
                                     <div className=" flex gap-2 items-center " >
                                         <TicketIcon />
-                                        {/* <Text className=" font-bold text-xs " >{event?.signUpLimit} Spot(s) Available</Text> */}
+                                        <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Spot(s) Available` : "Tickets Available"  } </Text>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className=" flex flex-col gap-4 w-full  px-4 py-4 " >
                             <div className=" w-full flex flex-col items-center lg:pt-4 pt-4 " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
@@ -274,13 +262,15 @@ function SharePage() {
                             }
                         </div>
                     </div>
-                    <div style={{ boxShadow: "0px -4px 8px 0px #00000026" }} className=" w-full flex lg:hidden flex-col items-center fixed bottom-0 py-5 bg-white z-50 px-4 " >
-                        {event?.fundRaiser?.fundRaisingGoal ? (
-                            <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
-                        ) : (
-                            <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
-                        )}
-                    </div>
+                    {event?.fundRaiser?.fundRaisingGoal && (
+                        <div style={{ boxShadow: "0px -4px 8px 0px #00000026" }} className=" w-full flex lg:hidden flex-col items-center fixed bottom-0 py-5 bg-white z-50 px-4 " >
+                            {event?.fundRaiser?.fundRaisingGoal ? (
+                                <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
+                            ) : (
+                                <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
@@ -289,18 +279,18 @@ function SharePage() {
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <EventTicketForm setOpen={setShow} ticket={ticketDetail} event={event} />
                 </ModalLayout>
-                <ModalLayout onIcon={true} width=" max-w-[300px] " rounded="24px" open={showHost} setOpen={setShowHost} >
+                <ModalLayout onIcon={true} width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >
                         <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
-                            {/* <div className=" w-[44px] h-[44px] rounded-full " >
+                            <div className=" w-[44px] h-[44px] rounded-full " >
                                 <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                             </div>
-                            <div className=" flex flex-col justify-center gap-1 " >
+                            <div className=" flex flex-col gap-1 " >
                                 <div className=" font-bold text-[12px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[20px] w-[80px] " >
                                     Event Host:
                                 </div>
                                 <p className=" font-bold text-[14px] text-center text-[#37137F] " >{event?.admin?.fullname ?? event?.admin?.name}</p>
-                            </div> */}
+                            </div>
                         </div>
                         <div onClick={() => setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
                             Close
