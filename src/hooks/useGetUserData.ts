@@ -18,10 +18,7 @@ interface EventData {
 
 const useGetUserData = () => {
   
-    const { id } = useParams();
-
-    console.log(id);
-    
+    const { id } = useParams(); 
 
     // Get Event list
     const getUserData = () => {

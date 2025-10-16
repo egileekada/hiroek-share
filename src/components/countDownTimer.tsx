@@ -37,11 +37,8 @@ const CountdownTimer = ({ targetTime }: { targetTime: string }) => {
 
         const updateCountdown = () => {
             const now = Date.now();
-            const diff = target - now;
-
-            console.log(diff);
-            
-
+            const diff = target - now; 
+             
             if (diff <= 0) {
                 clearInterval(intervalRef.current);
                 setTime(null);

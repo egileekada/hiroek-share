@@ -9,10 +9,7 @@ import { useParams } from "react-router-dom";
 const useGetEventData = () => {
  
     const { updateEvent } = useEventDetail((state) => state)  
-    const { id } = useParams();
-
-    console.log(id);
-    
+    const { id } = useParams(); 
 
     // Get Event list
     const getEventData = () => {
@@ -26,9 +23,7 @@ const useGetEventData = () => {
                 },
                 onSuccess: (data: any) => {
                     setData(data?.data?.event)
-                    updateEvent(data?.data?.event)
-                    console.log(data?.data?.event);
-                    
+                    updateEvent(data?.data?.event)  
                 },
                 // enabled: history?.pathname?.includes("dashboard/event") || history?.pathname === "/dashboard"
             },
