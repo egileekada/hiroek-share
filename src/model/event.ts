@@ -3,8 +3,21 @@ import type { IMember } from "./user"
 export interface IEvent {
     "fundRaiser": IFundRaiser,
     "eventPledge": {
-        "organizations": any[],
-        "totalPledgedAmount": number
+        "organizations": 
+            {
+                "fundRaised": number,
+                "totalDonations": number,
+                "_id": string,
+                "name": string,
+                "charityRegNumber": string,
+                "email": string,
+                "description": string,
+                "logo": string,
+                "address": string
+            } []
+        ,
+        "totalPledgedAmount": number,
+        "minimumPledge": number 
     },
     "loc": {
         "type": string,

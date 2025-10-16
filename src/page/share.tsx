@@ -15,6 +15,8 @@ import CountdownTimer from "../components/countDownTimer"
 import { Text } from "@radix-ui/themes"
 import EventTicketForm from "../components/eventTicketForm"
 import type { IEventTicket } from "../model/event"
+import { IoMdEye } from "react-icons/io"
+import { capitalizeFLetter } from "../utils/capitalLetter"
 // import { Helmet } from 'react-helmet';
 
 function SharePage() {
@@ -23,6 +25,7 @@ function SharePage() {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
+    const [showPartner, setShowPartner] = useState(false)
     const [showHost, setShowHost] = useState(false)
 
     // const [ imageUrl, setImageUrl ] = useState("")
@@ -33,7 +36,7 @@ function SharePage() {
         setShow(true)
     }
 
-    const totalTickets = event?.ticketing.reduce((sum, ticket) => sum + ticket.signUpLimit, 0);
+    const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.signUpLimit, 0);
 
     return (
         <>
@@ -65,14 +68,14 @@ function SharePage() {
                                         {/* <CustomButton onClick={() => setShow(true)} bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton> */}
                                     </div>
                                 </div>
-                                <div className=" w-full p-4 flex flex-col gap-1 rounded-[10px] bg-white " >
+                                <div className=" w-full p-4 flex flex-col gap-2 shadow rounded-[10px] bg-white " >
                                     <p className=" font-bold text-xs text-primary " >{textLimit(event?.name, 70)}</p>
                                     <div className=" w-full flex gap-3 items-center justify-between " >
                                         <div className=" flex gap-2 " >
                                             <div className=" w-fit text-primary text-opacity-50 " >
                                                 <LocationIcon block={true} />
                                             </div>
-                                            <p className=" font-semibold text-xs mt- " >{event?.address}</p>
+                                            <p className=" font-semibold text-xs " >{event?.address}</p>
                                         </div>
                                     </div>
                                     <div className=" flex items-center gap-2 " >
@@ -93,9 +96,6 @@ function SharePage() {
                                                     <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
                                                 </div>
                                                 {event?.members?.length > 1 && (
-                                                    // <div className=' w-7 h-7 rounded-full -ml-2 ' >
-                                                    //     <img src={event?.members[1]?.logo} alt={event?.members[1]?._id} className=" w-full h-full object-cover rounded-full " />
-                                                    // </div>
 
                                                     <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
                                                         <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
@@ -103,9 +103,6 @@ function SharePage() {
                                                     </div>
                                                 )}
                                                 {event?.members?.length > 2 && (
-                                                    // <div className=' w-7 h-7 rounded-full -ml-2 ' >
-                                                    //     <img src={event?.members[2]?.logo} alt={event?.members[2]?._id} className=" w-full h-full object-cover rounded-full " />
-                                                    // </div>
                                                     <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
                                                         <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
                                                         <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
@@ -185,9 +182,9 @@ function SharePage() {
                         <div className=" flex flex-col gap-4 w-full  px-4 py-4 " >
                             <div className=" w-full flex flex-col items-center lg:pt-4 pt-4 " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                    <Text className=" font-extrabold text-xs " >About Event</Text>
+                                    <Text className=" !font-extrabold text-xs " >About Event</Text>
                                 </div>
-                                <Text className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</Text>
+                                <Text className=" text-primary text-center text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</Text>
 
                             </div>
                             <div className=" flex flex-col gap-3 items-center " >
@@ -209,6 +206,25 @@ function SharePage() {
                                     )
                                 })}
                             </div>
+                            {event?.eventPledge?.minimumPledge > 0 && (
+                                <div className=" flex w-full gap-3 " >
+                                    <div className=" flex flex-col gap-2 items-center " >
+                                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                            <Text className=" font-extrabold text-xs " >Charity Partner</Text>
+                                        </div>
+
+                                        <CustomButton onClick={() => setShowPartner(true)} hasIcon icon={<IoMdEye size={"20px"} />} rounded="44px" width="100%" height="50px"  >
+                                            View Charity Partner
+                                        </CustomButton>
+                                    </div>
+                                    <div className=" flex flex-col gap-2 items-center " >
+                                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                            <Text className=" font-extrabold text-xs " >Minimum Pledge</Text>
+                                        </div>
+                                        <CustomButton isDisabled={true} rounded="44px" color="white" height="50px"  >{formatNumber(event?.eventPledge?.minimumPledge)}</CustomButton>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
@@ -230,22 +246,6 @@ function SharePage() {
                                 </div>
                             </div>
                         )}
-
-                        {/* {event?.eventPledge?.totalPledgedAmount > 0 && (
-                            <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
-                                <ChartGraphPledge />
-                                <div className=" w-full px-2 flex justify-between pt-2 " >
-                                    <div className=" flex flex-col items-center" >
-                                        <p className=" font-medium text-[#667085] text-sm " >Target</p>
-                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >£{formatNumberWithK(event?.eventPledge?.minimumPledge / 100)}</p>
-                                    </div>
-                                    <div className=" flex flex-col items-center" >
-                                        <p className=" font-medium text-[#667085] text-sm " >Donated</p>
-                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.eventPledge?.organizations[0].fundRaised / 100)}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
                         <div className=" w-full flex flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 pb-36 " >
                             <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                 <p className=" font-extrabold text-xs " >Event Countdown</p>
@@ -275,6 +275,30 @@ function SharePage() {
 
                 <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
                     <DonateForm setOpen={setOpen} />
+                </ModalLayout>
+
+                <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-[100%] " rounded="24px" open={showPartner} setOpen={setShowPartner} >
+                    {/* <DonateForm setOpen={setOpen} /> */}
+                    <div className=" w-full flex flex-col h-[90vh] overflow-y-auto " >
+                        <div className=" flex w-full justify-center " >
+                            <p className=" text-primary text-center font-extrabold " >Charity Partner</p>
+                        </div>
+                        <div className=" mt-6 flex flex-col gap-3 " >
+                            {event?.eventPledge?.organizations?.map((item) => {
+                                return ( 
+                                    <div className=" w-full flex items-center gap-2 shadow rounded-xl p-3 " >
+                                        <div className=" w-[64px] h-[64px] rounded-2xl " >
+                                            <img src={item?.logo} alt="logo" className=" w-full h-full object-cover rounded-2xl " />
+                                        </div>
+                                        <div className=" flex flex-col " >
+                                            <p className=" text-sm !font-extrabold " >{capitalizeFLetter(item?.name)}</p>
+                                            <p className=" text-xs " >{item?.address}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
                 </ModalLayout>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <EventTicketForm setOpen={setShow} ticket={ticketDetail} event={event} />
