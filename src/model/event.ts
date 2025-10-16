@@ -1,6 +1,5 @@
 import type { IMember } from "./user"
 
-
 export interface IEvent {
     "fundRaiser": IFundRaiser,
     "eventPledge": {

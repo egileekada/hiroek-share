@@ -4,6 +4,7 @@ import SharePage from "./page/share"
 import ChannelsPage from "./page/community";
 import InvitePage from "./page/invite";
 import ResetPassword from "./page/reset-password";
+import UserId from "./page/user";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           </div>
         } />
         <Route path="event/:id" element={<SharePage />} /> 
+        <Route path="user/:id" element={<UserId />} /> 
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="channel/:id" element={<ChannelsPage />} /> 
         <Route path="invite" element={<InvitePage />} /> 

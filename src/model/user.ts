@@ -1,4 +1,22 @@
 
+export interface IParnter {
+    "pinSet": boolean,
+    "eventsPerYear": number,
+    "isVerified": boolean,
+    "accountClaimed": boolean,
+    "_id": string,
+    "name": string,
+    "email": string,
+    "address": string,
+    "telephone": string,
+    "logo": string,
+    "userId": string,
+    "createdAt": string,
+    "updatedAt": string,
+    "__v": number,
+    "bio": string
+} 
+
 export interface IUser {
     accountClaimed: boolean;
     bankAccountName: string;

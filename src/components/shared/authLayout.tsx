@@ -1,7 +1,5 @@
 import { Text } from "@radix-ui/themes"
-import { Logo } from "../../svg" 
-import { useNavigate } from "react-router-dom"
-import CustomButton from "./customButton"
+import { Logo } from "../../svg"   
 
 interface IProps {
     children: React.ReactNode,
@@ -11,9 +9,8 @@ interface IProps {
     hidefooter?: boolean
 }
 
-export default function AuthLayout({ children, header, body, hidesidebar, hidefooter }: IProps) {
-
-    const navigate = useNavigate()
+export default function AuthLayout({ children, header, body, hidesidebar }: IProps) {
+ 
 
     return (
         <div className=" w-full !h-screen flex !overflow-hidden lg:bg-gradient-to-r from-[#37137F] from-[34.29%]  to-[#2E4991] to-100%  "  >
