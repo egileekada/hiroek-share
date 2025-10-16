@@ -16,8 +16,7 @@ import { Text } from "@radix-ui/themes"
 import EventTicketForm from "../components/eventTicketForm"
 import type { IEventTicket } from "../model/event"
 import { IoMdEye } from "react-icons/io"
-import { capitalizeFLetter } from "../utils/capitalLetter"
-// import { Helmet } from 'react-helmet';
+import { capitalizeFLetter } from "../utils/capitalLetter" 
 
 function SharePage() {
 
@@ -27,8 +26,7 @@ function SharePage() {
     const [show, setShow] = useState(false)
     const [showPartner, setShowPartner] = useState(false)
     const [showHost, setShowHost] = useState(false)
-
-    // const [ imageUrl, setImageUrl ] = useState("")
+ 
     const [ticketDetail, setTicketDetail] = useState({} as IEventTicket)
 
     const clickHandler = (item: IEventTicket) => {
@@ -119,66 +117,6 @@ function SharePage() {
                                 </div>
                             </div>
                         </div>
-
-                        {/* <div className=" w-full px-4 relative z-20 -mt-[80px]  " >
-                            <div className=" py-5 px-4 gap-[6px] text-primary w-full bg-white flex flex-col rounded-[14px] " style={{ boxShadow: "0px 3px 10px 0px #0000000D" }} >
-                                <Text className=" !font-bold " >{event?.name}</Text>
-                                <div className=" flex gap-2 mt-2 " >
-                                    <div className=" w-fit text-primary text-opacity-50 mt-[2px] " >
-                                        <LocationIcon block={true} />
-                                    </div>
-                                    <Text className="!font-semibold text-xs " >{event?.address}</Text>
-                                </div>
-                                <div className=" flex items-center gap-2 w-full justify-between " >
-                                    <div className=" flex items-center gap-2 " >
-                                        <div className=" w-fit text-primary text-opacity-50 " >
-                                            <CalendarIcon2 />
-                                        </div>
-                                        <Text className="!font-semibold text-xs mr-2 " >{dateFormat(event?.endTime)}</Text>
-                                    </div>
-                                    <div className=" flex items-center gap-2 " >
-                                        <div className=" w-fit text-primary text-opacity-50 " >
-                                            <ClockIcon />
-                                        </div>
-                                        <Text className=" !font-semibold text-xs " >{timeFormat(event?.endTime)}</Text>
-                                    </div>
-                                </div>
-                                <div className=" w-full flex justify-between items-center " >
-                                    {event?.members?.length > 0 && (
-                                        <div className='flex items-center mt-2 bg-[#37137F4D] px-3 rounded-full w-fit h-[40px] text-black ' >
-                                            <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 '>
-                                                <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
-                                                <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
-                                            </div>
-                                            {event?.members?.length > 1 && (
-                                                // <div className=' w-7 h-7 rounded-full -ml-2 ' >
-                                                //     <img src={event?.members[1]?.logo} alt={event?.members[1]?._id} className=" w-full h-full object-cover rounded-full " />
-                                                // </div>
-
-                                                <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
-                                                    <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
-                                                    <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
-                                                </div>
-                                            )}
-                                            {event?.members?.length > 2 && (
-                                                // <div className=' w-7 h-7 rounded-full -ml-2 ' >
-                                                //     <img src={event?.members[2]?.logo} alt={event?.members[2]?._id} className=" w-full h-full object-cover rounded-full " />
-                                                // </div>
-                                                <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
-                                                    <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
-                                                    <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
-                                                </div>
-                                            )}
-                                            <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithK(event?.members?.length)} Attending</Text>
-                                        </div>
-                                    )}
-                                    <div className=" flex gap-2 items-center " >
-                                        <TicketIcon />
-                                        <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Spot(s) Available` : "Tickets Available"  } </Text>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
                         <div className=" flex flex-col gap-4 w-full  px-4 py-4 " >
                             <div className=" w-full flex flex-col items-center lg:pt-4 pt-4 " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
@@ -198,10 +136,7 @@ function SharePage() {
                                                 <p className=" text-xs font-semibold " >{item?.ticketType}</p>
                                                 <p className=" font-semibold " >{formatNumber(item?.ticketPrice)}</p>
                                                 <p className=" text-xs font-semibold ">Sales End On {dateFormat(item?.salesEndDate)}</p>
-                                            </div>
-                                            {/* <button onClick={()=>  router(`/dashboard/event/edit/${event?._id}?type=editticket&ticketId=${item?._id}&index=${index}`)} > 
-                                                <MdEditSquare size={"20px"} />
-                                            </button> */}
+                                            </div> 
                                         </div>
                                     )
                                 })}
@@ -255,11 +190,7 @@ function SharePage() {
                         <div className=" w-full hidden flex-col mt-auto items-center py-4 lg:flex px-4 " >
                             {event?.fundRaiser?.fundRaisingGoal && (
                                 <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
-                            )
-                                // : (
-                                //     <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
-                                // )
-                            }
+                            )}
                         </div>
                     </div>
                     {event?.fundRaiser?.fundRaisingGoal && (
