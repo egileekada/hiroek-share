@@ -11,8 +11,8 @@ import { textLimit } from "../utils/textlimit"
 import CustomButton from "../components/shared/customButton"
 import ModalLayout from "../components/shared/modalLayout"
 import DonateForm from "../components/donateForm"
-import CountdownTimer from "../components/countDownTimer" 
-import { Text } from "@radix-ui/themes"
+import CountdownTimer from "../components/countDownTimer"
+import { Avatar, Text } from "@radix-ui/themes"
 import EventTicketForm from "../components/eventTicketForm"
 import type { IEventTicket } from "../model/event"
 // import { Helmet } from 'react-helmet';
@@ -26,7 +26,7 @@ function SharePage() {
     const [showHost, setShowHost] = useState(false)
 
     // const [ imageUrl, setImageUrl ] = useState("")
-    const [ ticketDetail, setTicketDetail ] = useState({} as IEventTicket)  
+    const [ticketDetail, setTicketDetail] = useState({} as IEventTicket)
 
     const clickHandler = (item: IEventTicket) => {
         setTicketDetail(item)
@@ -161,17 +161,27 @@ function SharePage() {
                                 <div className=" w-full flex justify-between items-center " >
                                     {event?.members?.length > 0 && (
                                         <div className='flex items-center mt-2 bg-[#37137F4D] px-3 rounded-full w-fit h-[40px] text-black ' >
-                                            <div className=' w-7 h-7 rounded-full'>
-                                                <img src={event?.members[0]?.photo} alt={event?.members[0]?._id} className=" w-full h-full object-cover rounded-full " />
+                                            <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 '>
+                                                <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
+                                                <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
                                             </div>
                                             {event?.members?.length > 1 && (
-                                                <div className=' w-7 h-7 rounded-full -ml-2 ' >
-                                                    <img src={event?.members[1]?.photo} alt={event?.members[1]?._id} className=" w-full h-full object-cover rounded-full " />
+                                                // <div className=' w-7 h-7 rounded-full -ml-2 ' >
+                                                //     <img src={event?.members[1]?.logo} alt={event?.members[1]?._id} className=" w-full h-full object-cover rounded-full " />
+                                                // </div>
+
+                                                <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
+                                                    <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
+                                                    <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
                                                 </div>
                                             )}
                                             {event?.members?.length > 2 && (
-                                                <div className=' w-7 h-7 rounded-full -ml-2 ' >
-                                                    <img src={event?.members[2]?.photo} alt={event?.members[2]?._id} className=" w-full h-full object-cover rounded-full " />
+                                                // <div className=' w-7 h-7 rounded-full -ml-2 ' >
+                                                //     <img src={event?.members[2]?.logo} alt={event?.members[2]?._id} className=" w-full h-full object-cover rounded-full " />
+                                                // </div>
+                                                <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
+                                                    <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
+                                                    <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
                                                 </div>
                                             )}
                                             <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithK(event?.members?.length)} Attending</Text>
@@ -184,32 +194,21 @@ function SharePage() {
                                 </div>
                             </div>
                         </div>
-                        <div className=" flex flex-col gap-4 w-full px-4 py-4 " >
-                            <div className=" w-full flex flex-col lg:pt-4 pt-4 " >
+                        <div className=" flex flex-col gap-4 w-full  px-4 py-4 " >
+                            <div className=" w-full flex flex-col items-center lg:pt-4 pt-4 " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                     <Text className=" font-extrabold text-xs " >About Event</Text>
                                 </div>
                                 <Text className=" text-primary text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</Text>
 
                             </div>
-                            <div className=" w-full flex gap-4 " >
-                                <div className=" flex flex-col gap-3 items-center " >
-                                    <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                        <Text className=" font-extrabold text-xs " >Minimum Pledge</Text>
-                                    </div>
-
-                                    <div className=" w-fit bg-[#37137F] text-white rounded-full px-[10px] h-[25px] flex justify-center items-center "  >
-                                        <Text className=" font-extrabold text-xs " >{formatNumber(event?.fundRaiser?.fundRaisingGoal/100)}</Text>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className=" flex flex-col gap-3 " >
+                            <div className=" flex flex-col gap-3 items-center " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                     <Text className=" font-extrabold text-xs " >Tickets Available</Text>
                                 </div>
                                 {event?.ticketing?.map((item, index) => {
                                     return (
-                                        <div role="button" onClick={()=> clickHandler(item)} className=" w-full justify-start items-center flex border rounded-lg  px-4 h-[96px] " >
+                                        <div role="button" onClick={() => clickHandler(item)} className=" w-full justify-start items-center flex border rounded-lg  px-4 h-[96px] " >
                                             <div key={index} className=" lg:max-w-[360px] w-full flex flex-col gap-1 justify-center" >
                                                 <p className=" text-xs font-semibold " >{item?.ticketType}</p>
                                                 <p className=" font-semibold " >{formatNumber(item?.ticketPrice)}</p>
@@ -268,10 +267,10 @@ function SharePage() {
                         <div className=" w-full hidden flex-col mt-auto items-center py-4 lg:flex px-4 " >
                             {event?.fundRaiser?.fundRaisingGoal && (
                                 <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
-                            ) 
-                            // : (
-                            //     <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
-                            // )
+                            )
+                                // : (
+                                //     <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
+                                // )
                             }
                         </div>
                     </div>

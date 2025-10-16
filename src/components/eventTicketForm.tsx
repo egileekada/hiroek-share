@@ -70,7 +70,7 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                             <CustomInput borderRadius="8px" name="phone" label="Phone Number" type="tel" placeholder="" />
                             <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
                             <CustomButton type="submit" loading={signupMutation.isLoading} rounded="44px" width="100%" height="50px"  >Proceed</CustomButton>
-                            <p className=" text-primary20 text-xs font-medium " >Already have an account? <span className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</span></p>
+                            <p className=" text-primary20 text-xs font-medium " >Already have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</button></p>
                         </div>
                     </form>
                 </FormikProvider>
@@ -114,7 +114,7 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                             <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" /> 
                             <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(6)} >forgot password</p>
                             <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
-                            <p className=" text-primary20 text-xs font-medium " >Don't have an account? <span className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</span></p>
+                            <p className=" text-primary20 text-xs font-medium " >Don't have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</button></p>
                         </div>
                     </form>
                 </FormikProvider>
@@ -127,7 +127,7 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                         <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" /> 
                             <CustomButton type="submit" loading={forgotMutation.isLoading} rounded="44px" width="100%" height="50px"  >Submit</CustomButton>
-                            <p className=" text-primary20 text-xs font-medium " >Already have an account? <span className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</span></p>
+                            <p className=" text-primary20 text-xs font-medium " >Already have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</button></p>
                         </div>
                     </form>
                 </FormikProvider>
