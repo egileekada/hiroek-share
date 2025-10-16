@@ -12,7 +12,7 @@ import CustomButton from "../components/shared/customButton"
 import ModalLayout from "../components/shared/modalLayout"
 import DonateForm from "../components/donateForm"
 import CountdownTimer from "../components/countDownTimer"
-import { Avatar, Text } from "@radix-ui/themes"
+import { Text } from "@radix-ui/themes"
 import EventTicketForm from "../components/eventTicketForm"
 import type { IEventTicket } from "../model/event"
 // import { Helmet } from 'react-helmet';
