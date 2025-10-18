@@ -14,7 +14,7 @@ import DonateForm from "../components/donateForm"
 import CountdownTimer from "../components/countDownTimer"
 import { Text } from "@radix-ui/themes"
 import EventTicketForm from "../components/eventTicketForm"
-import type { IEventTicket } from "../model/event"
+// import type { IEventTicket } from "../model/event"
 import { IoMdEye } from "react-icons/io"
 import { capitalizeFLetter } from "../utils/capitalLetter" 
 
@@ -27,12 +27,12 @@ function SharePage() {
     const [showPartner, setShowPartner] = useState(false)
     const [showHost, setShowHost] = useState(false)
  
-    const [ticketDetail, setTicketDetail] = useState({} as IEventTicket)
+    // const [ticketDetail, setTicketDetail] = useState({} as IEventTicket)
 
-    const clickHandler = (item: IEventTicket) => {
-        setTicketDetail(item)
-        setShow(true)
-    }
+    // const clickHandler = (item: IEventTicket) => {
+    //     setTicketDetail(item)
+    //     setShow(true)
+    // }
 
     const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.signUpLimit, 0);
 
@@ -63,7 +63,7 @@ function SharePage() {
                                         </div>
                                     </div>
                                     <div className=" w-full " >
-                                        {/* <CustomButton onClick={() => setShow(true)} bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton> */}
+                                        <CustomButton onClick={() => setShow(true)} bgColor="#ffffff" rounded="44px" width="100%" height="50px" color="#37137f"  >Join Event</CustomButton>
                                     </div>
                                 </div>
                                 <div className=" w-full p-4 flex flex-col gap-2 shadow rounded-[10px] bg-white " >
@@ -125,22 +125,22 @@ function SharePage() {
                                 <Text className=" text-primary text-center text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</Text>
 
                             </div>
-                            <div className=" flex flex-col gap-3 items-center " >
+                            {/* <div className=" flex flex-col gap-3 items-center " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                     <Text className=" font-extrabold text-xs " >Tickets Available</Text>
                                 </div>
                                 {event?.ticketing?.map((item, index) => {
                                     return (
-                                        <div role="button" onClick={() => clickHandler(item)} className=" w-full justify-start items-center flex border rounded-lg  px-4 h-[96px] " >
+                                        <div role="button" key={index} onClick={() => clickHandler(item)} className=" w-full justify-start items-center flex border rounded-lg  px-4 h-[96px] " >
                                             <div key={index} className=" lg:max-w-[360px] w-full flex flex-col gap-1 justify-center" >
                                                 <p className=" text-xs font-semibold " >{item?.ticketType}</p>
-                                                <p className=" font-semibold " >{formatNumber(item?.ticketPrice)}</p>
+                                                <p className=" font-semibold " >{formatNumber(item?.ticketPrice/100)}</p>
                                                 <p className=" text-xs font-semibold ">Sales End On {dateFormat(item?.salesEndDate)}</p>
                                             </div> 
                                         </div>
                                     )
                                 })}
-                            </div>
+                            </div> */}
                             {event?.eventPledge?.minimumPledge > 0 && (
                                 <div className=" flex w-full gap-3 " >
                                     <div className=" flex flex-col gap-2 items-center " >
@@ -202,7 +202,7 @@ function SharePage() {
                             )}
                         </div>
                     )}
-                </div>
+                </div>x
 
                 <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
                     <DonateForm setOpen={setOpen} />
@@ -232,7 +232,7 @@ function SharePage() {
                     </div>
                 </ModalLayout>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
-                    <EventTicketForm setOpen={setShow} ticket={ticketDetail} event={event} />
+                    <EventTicketForm setOpen={setShow} event={event} />
                 </ModalLayout>
                 <ModalLayout onIcon={true} width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >

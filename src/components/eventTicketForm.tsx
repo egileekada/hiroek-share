@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CustomButton from "./shared/customButton";
 import { formatNumber } from "../utils/numberFormat";
 import { unstable_OneTimePasswordField as OneTimePasswordField } from "radix-ui";
-import type { IEvent, IEventTicket } from "../model/event";
+import type { IEvent } from "../model/event";
 import { dateFormat } from "../utils/dateFormat";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -11,11 +11,50 @@ import CustomInput from "./shared/input";
 import useAuth from "../hooks/useAuth";
 import { FormikProvider } from "formik";
 
-export default function EventTicketForm({ ticket, event }: { setOpen?: any, ticket: IEventTicket, event: IEvent }) {
+export default function EventTicketForm({ event }: { setOpen?: any, event: IEvent }) {
 
     const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword } = useAuth()
+ 
+    const [totalPrices, setTotalPrices] = useState(0)
+    const [serviceFees, setServiceFees] = useState(0)
 
-    const [ticketNo, setTicketNo] = useState(1)
+    
+    const [payload, setPayload] = useState<
+        { numberOfTickets: number; ticketTypeId: string }[]
+    >([]);
+
+    const getTicketCount = (ticketTypeId: string) => {
+        return payload.find((p) => p.ticketTypeId === ticketTypeId)?.numberOfTickets || 0;
+    };
+
+    const updateTicket = (ticketTypeId: string, action: "add" | "remove") => {
+        setPayload((prev) => {
+            const existing = prev.find((p) => p.ticketTypeId === ticketTypeId);
+            if (existing) {
+                const newCount =
+                    action === "add"
+                        ? existing.numberOfTickets + 1
+                        : existing.numberOfTickets - 1;
+
+                // Remove ticket if number is 0
+                if (newCount <= 0) {
+                    return prev.filter((p) => p.ticketTypeId !== ticketTypeId);
+                }
+
+                // Update ticket count
+                return prev.map((p) =>
+                    p.ticketTypeId === ticketTypeId
+                        ? { ...p, numberOfTickets: newCount }
+                        : p
+                );
+            } else if (action === "add") {
+                // Add new ticket entry
+                return [...prev, { ticketTypeId, numberOfTickets: 1 }];
+            }
+
+            return prev;
+        });
+    };
 
     useEffect(() => {
         if (!formikVerify?.values?.phoneOrEmail) {
@@ -24,38 +63,40 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
     }, [email])
 
     const handleSubmit = () => {
-        if (ticket.ticketPrice > 0) {
+        if (event?.ticketing[0].ticketPrice > 0) {
             payForTicket.mutate({
                 eventId: event?._id,
-                ticketTypes: [
-                    {
-                        numberOfTickets: ticketNo,
-                        ticketTypeId: ticket?._id
-                    }
-                ]
+                ticketTypes: payload
             })
         } else {
             payForTicketFree.mutate({
                 eventId: event?._id,
-                ticketTypes: [
-                    {
-                        numberOfTickets: ticketNo,
-                        ticketTypeId: ticket?._id
-                    }
-                ]
+                ticketTypes: payload
             })
         }
-    }
+    } 
 
-    const clickTicket = (type: "remove" | "add") => {
-        if (ticketNo > 0 && type === "remove") {
-            setTicketNo((prev) => prev - 1)
-        } else if (type === "add") {
-            setTicketNo((prev) => prev + 1)
-        }
-    }
+    useEffect(()=> {
 
-    const servicefee = 0.6 + (Number(ticket?.ticketPrice) * 0.015) + 0.2
+        const totalPrice = payload.reduce((sum, selected) => {
+            const ticket = event?.ticketing.find((t) => t._id === selected.ticketTypeId);
+            if (ticket) {
+              sum += ticket.ticketPrice * selected.numberOfTickets;
+            }
+            return sum;
+        }, 0);
+
+        setTotalPrices(totalPrice/100)
+
+    }, [event, payload])
+
+    useEffect(()=> {
+        const servicefee = 0.6 + (Number(totalPrices) * 0.015) + 0.2
+
+        setServiceFees(servicefee)
+
+    }, [totalPrices, ])
+    
 
     return (
         <>
@@ -111,7 +152,7 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                         <p className=" text-primary20 text-xs font-medium " >Please fill in your details below.</p>
                         <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
-                            <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" /> 
+                            <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
                             <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(6)} >forgot password</p>
                             <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
                             <p className=" text-primary20 text-xs font-medium " >Don't have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</button></p>
@@ -125,7 +166,7 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                         <p className=" text-primary text-2xl font-bold " >Forgot Password</p>
                         <p className=" text-primary20 text-xs font-medium " >Please fill in your details below.</p>
                         <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
-                            <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" /> 
+                            <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
                             <CustomButton type="submit" loading={forgotMutation.isLoading} rounded="44px" width="100%" height="50px"  >Submit</CustomButton>
                             <p className=" text-primary20 text-xs font-medium " >Already have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</button></p>
                         </div>
@@ -139,44 +180,48 @@ export default function EventTicketForm({ ticket, event }: { setOpen?: any, tick
                         <p className=" text-xs font-bold " >{dateFormat(event?.endTime)}</p>
                         <p className=" text-xs font-semibold " >{event?.address}</p>
                     </div>
-                    <div className=" w-full border rounded-xl flex items-center justify-between gap-4 p-4 " >
-                        <div className=" flex flex-col " >
-                            <p className=" text-xs font-semibold text-primary " >{ticket?.ticketType}</p>
-                            <p className=" font-semibold text-primary " >{formatNumber(ticket?.ticketPrice)}</p>
-                            <p className=" text-xs font-semibold text-primary " >{"Sale Ends On " + dateFormat(ticket?.salesEndDate)}</p>
-                        </div>
+                    {event?.ticketing?.map((item, index) => {
+                        const count = getTicketCount(item._id);
+                        return (
+                            <div key={index} className=" w-full border rounded-xl flex items-center justify-between gap-4 p-4 " >
+                                <div className=" flex flex-col " >
+                                    <p className=" text-xs font-semibold text-primary " >{item?.ticketType}</p>
+                                    <p className=" font-semibold text-primary " >{formatNumber(item?.ticketPrice / 100)}</p>
+                                    <p className=" text-xs font-semibold text-primary " >{"Sale Ends On " + dateFormat(item?.salesEndDate)}</p>
+                                </div>
 
-                        <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
-                            <div role="button" onClick={() => clickTicket("remove")} >
-                                <AiOutlineMinusCircle size={"30px"} />
+                                <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
+                                    <div role="button" onClick={() => updateTicket(item._id, "remove")} >
+                                        <AiOutlineMinusCircle size={"30px"} />
+                                    </div>
+                                    <input value={count}
+                                        name="signUpLimit" 
+                                        placeholder="0" 
+                                        readOnly                        
+                                        className=" focus:border-0 w-[40px] outline-none text-center "
+                                        onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
+                                    <div role="button" onClick={() => updateTicket(item._id, "add")} >
+                                        <IoMdAddCircleOutline size={"30px"} />
+                                    </div>
+                                </div>
                             </div>
-                            <input value={ticketNo}
-                                name="signUpLimit"
-                                onChange={(e) => setTicketNo(Number(e.target.value))}
-                                placeholder="0"
-                                type="number"
-                                className=" focus:border-0 w-[40px] outline-none text-center "
-                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
-                            <div role="button" onClick={() => clickTicket("add")} >
-                                <IoMdAddCircleOutline size={"30px"} />
-                            </div>
-                        </div>
-                    </div>
+                        )
+                    })}
                     <div className=" w-full p-4 bg-[#37137F1A] rounded-2xl flex flex-col " >
                         <div className=" w-full flex justify-end text-[#37137F] " >
                             <RiInformationFill size={"24px"} />
                         </div>
                         <div className=" grid grid-cols-2 text-primary gap-3 w-full mt-1 " >
                             <p className=" text-sm font-bold " >Ticket Price</p>
-                            <p className=" font-black text-right " >{formatNumber(ticket?.ticketPrice)}</p>
+                            <p className=" font-black text-right " >{formatNumber(totalPrices)}</p>
                             <p className=" text-sm font-bold " >Service Fee</p>
-                            <p className=" font-black text-right " >{formatNumber(servicefee)}</p>
+                            <p className=" font-black text-right " >{formatNumber(serviceFees)}</p>
                             <p className=" text-sm font-bold " >Ticket Price</p>
-                            <p className=" font-black text-right " >{formatNumber(ticket?.ticketPrice + servicefee)}</p>
+                            <p className=" font-black text-right " >{formatNumber(totalPrices + serviceFees)}</p>
                         </div>
                     </div>
                     <div className=" w-full flex items-center border-t justify-between border-[#E8E8E8] " >
-                        <CustomButton loading={payForTicket?.isLoading || payForTicketFree?.isLoading} isDisabled={ticketNo === 0 || payForTicket?.isLoading || payForTicketFree?.isLoading} onClick={() => handleSubmit()} rounded="44px" height="50px"  >Get Ticket (s)</CustomButton>
+                        <CustomButton loading={payForTicket?.isLoading || payForTicketFree?.isLoading} isDisabled={payload.length === 0 || payForTicket?.isLoading || payForTicketFree?.isLoading} onClick={() => handleSubmit()} rounded="44px" height="50px"  >Get Ticket (s)</CustomButton>
                     </div>
                 </div>
             )}
