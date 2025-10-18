@@ -16,7 +16,7 @@ import { Text } from "@radix-ui/themes"
 import EventTicketForm from "../components/eventTicketForm"
 // import type { IEventTicket } from "../model/event"
 import { IoMdEye } from "react-icons/io"
-import { capitalizeFLetter } from "../utils/capitalLetter" 
+import { capitalizeFLetter } from "../utils/capitalLetter"
 
 function SharePage() {
 
@@ -26,7 +26,7 @@ function SharePage() {
     const [show, setShow] = useState(false)
     const [showPartner, setShowPartner] = useState(false)
     const [showHost, setShowHost] = useState(false)
- 
+
     // const [ticketDetail, setTicketDetail] = useState({} as IEventTicket)
 
     // const clickHandler = (item: IEventTicket) => {
@@ -193,16 +193,14 @@ function SharePage() {
                             )}
                         </div>
                     </div>
-                    {event?.fundRaiser?.fundRaisingGoal && (
-                        <div style={{ boxShadow: "0px -4px 8px 0px #00000026" }} className=" w-full flex lg:hidden flex-col items-center fixed bottom-0 py-5 bg-white z-50 px-4 " >
-                            {event?.fundRaiser?.fundRaisingGoal ? (
-                                <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
-                            ) : (
-                                <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
-                            )}
-                        </div>
-                    )}
-                </div>x
+                    <div style={{ boxShadow: "0px -4px 8px 0px #00000026" }} className=" w-full flex lg:hidden flex-col items-center fixed bottom-0 py-5 bg-white z-50 px-4 " >
+                        {event?.fundRaiser?.fundRaisingGoal ? (
+                            <CustomButton onClick={() => setOpen(true)} rounded="44px" width="100%" height="50px"  >Give Now</CustomButton>
+                        ) : (
+                            <CustomButton onClick={() => setShow(true)} rounded="44px" width="100%" height="50px"  >Join Event</CustomButton>
+                        )}
+                    </div>
+                </div>
 
                 <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-fit " rounded="24px" open={open} setOpen={setOpen} >
                     <DonateForm setOpen={setOpen} />
@@ -216,7 +214,7 @@ function SharePage() {
                         </div>
                         <div className=" mt-6 flex flex-col gap-3 " >
                             {event?.eventPledge?.organizations?.map((item) => {
-                                return ( 
+                                return (
                                     <div className=" w-full flex items-center gap-2 shadow rounded-xl p-3 " >
                                         <div className=" w-[64px] h-[64px] rounded-2xl " >
                                             <img src={item?.logo} alt="logo" className=" w-full h-full object-cover rounded-2xl " />
