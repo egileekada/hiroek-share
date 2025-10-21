@@ -188,7 +188,7 @@ const useAuth = () => {
             email: Yup.string().email("Invalid email").required("Required"),
         }),
         onSubmit: (data) => {
-            forgotMutation.mutate(data)
+            resetPasswordMutation.mutate(data)
         },
     });
 
