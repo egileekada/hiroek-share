@@ -29,10 +29,7 @@ export default function UserId() {
                     <div className=" w-full flex flex-col h-full py-5 gap-3 px-4 rounded-t-4xl text-center text-[#37137F] items-center bg-white " >
                         <div className=" w-full flex flex-col items-center " >
                             <p className=" text-2xl font-extrabold " >{data?.name}</p>
-                            <p className=" text-xs font-semibold " >{data?.address}</p>
-                            <div className=" px-[14px] py-[10px] font-extrabold text-xs rounded-3xl bg-[#37137F1A] shadow " >
-                                Partner Since 2024
-                            </div>
+                            <p className=" text-xs font-semibold " >{data?.address}</p> 
                         </div>
 
                         <div className=" px-[14px] w-full flex flex-col items-center gap-1 py-[10px] font-extrabold text-xs rounded-3xl bg-[#37137F1A] shadow " >
