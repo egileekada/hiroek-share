@@ -220,7 +220,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                     <p className=" text-xs font-semibold text-primary " >{item?.ticketType}</p>
                                     <p className=" font-semibold text-primary " >{formatNumber(item?.ticketPrice / 100)}</p>
                                     <p className=" text-xs font-semibold text-primary " >{"Sale Ends On " + dateFormat(item?.salesEndDate)}</p>
-                                    <p className=" text-xs font-bold text-primary " >Spot Left: <span >{item?.spotsLeft}</span></p>
+                                    <p className=" text-xs font-bold text-primary " >Tickets Available: <span >{item?.spotsLeft}</span></p>
                                 </div>
 
                                 <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
@@ -248,9 +248,9 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                             <p className=" text-sm font-bold " >Ticket Price</p>
                             <p className=" font-black text-right " >{formatNumber(totalPrices)}</p>
                             <p className=" text-sm font-bold " >Service Fee</p>
-                            <p className=" font-black text-right " >{formatNumber(serviceFees)}</p>
+                            <p className=" font-black text-right " >{formatNumber(totalPrices > 0 ? serviceFees : 0)}</p>
                             <p className=" text-sm font-bold " >Ticket Price</p>
-                            <p className=" font-black text-right " >{formatNumber(totalPrices + serviceFees)}</p>
+                            <p className=" font-black text-right " >{formatNumber(totalPrices > 0 ? (totalPrices + serviceFees) : totalPrices)}</p>
                         </div>
                     </div>
                     <div className=" w-full flex items-center border-t justify-between border-[#E8E8E8] " >
