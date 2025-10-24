@@ -5,6 +5,7 @@ import type { IEvent } from "../model/event";
 import httpService from "../utils/httpService"; 
 import { useParams } from "react-router-dom";
 import type { IParnter } from "../model/user";
+import Cookies from "js-cookie";
 
 
 interface EventData {
@@ -17,7 +18,7 @@ interface EventData {
   
 
 const useGetUserData = () => {
-  
+
     const { id } = useParams(); 
 
     // Get Event list
@@ -45,6 +46,34 @@ const useGetUserData = () => {
     }
 
 
+    // Get Event list
+    const getCurrentUserData = () => {
+        const [data, setData] = useState<IParnter>({} as IParnter)
+        const userId = Cookies.get("userId");
+        
+        const { isLoading, isRefetching } = useQuery(
+            ["userdetail", id],
+            () => httpService.get(`/users`),
+            {
+                onError: (error: any) => {
+                    toast.error(error.response?.data)
+                },
+                onSuccess: (data: any) => {    
+                    setData(data?.data?.user)
+                    
+                }, 
+                enabled: userId ? true : false
+            },
+        );
+
+        return {
+            data,
+            isLoading,
+            isRefetching
+        }
+    }
+
+    // /api
     // Get Event list
     const getEventData = () => {
         const [data, setData] = useState<Props>({} as Props)
@@ -104,7 +133,8 @@ const useGetUserData = () => {
     return {
         getUserData, 
         getEventDataByDate,
-        getEventData
+        getEventData,
+        getCurrentUserData
     };
 }
 

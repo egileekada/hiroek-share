@@ -17,24 +17,21 @@ import EventTicketForm from "../components/eventTicketForm"
 // import type { IEventTicket } from "../model/event"
 import { IoMdEye } from "react-icons/io"
 import { capitalizeFLetter } from "../utils/capitalLetter"
+import useGetUserData from "../hooks/useGetUserData"
+import type { IUserDetail } from "../model/user"
 
 function SharePage() {
 
     const { isLoading, data: event } = useGetEventData()?.getEventData()
+    const { data: user } = useGetUserData().getCurrentUserData() 
+    
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
     const [showPartner, setShowPartner] = useState(false)
-    const [showHost, setShowHost] = useState(false)
+    const [showHost, setShowHost] = useState(false) 
 
-    // const [ticketDetail, setTicketDetail] = useState({} as IEventTicket)
-
-    // const clickHandler = (item: IEventTicket) => {
-    //     setTicketDetail(item)
-    //     setShow(true)
-    // }
-
-    const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.signUpLimit, 0);
+    const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.spotsLeft, 0);
 
     return (
         <>
@@ -111,7 +108,7 @@ function SharePage() {
                                         )}
                                         <div className=" flex gap-2 items-center " >
                                             <TicketIcon />
-                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Spot(s) Available` : "Tickets Available"} </Text>
+                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "":"(s)" } Available` : "Tickets Available"} </Text>
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +227,7 @@ function SharePage() {
                     </div>
                 </ModalLayout>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
-                    <EventTicketForm setOpen={setShow} event={event} />
+                    <EventTicketForm user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
                 <ModalLayout onIcon={true} width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >

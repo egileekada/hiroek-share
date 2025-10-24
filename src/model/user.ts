@@ -17,6 +17,27 @@ export interface IParnter {
     "bio": string
 } 
 
+
+export interface IUserDetail {
+    "isActive": boolean,
+    "isAdmin": boolean,
+    "blocked": boolean,
+    "isDeleted": boolean,
+    "isAccountSetup": boolean,
+    "role": string,
+    "blockedUsers": string[],
+    "following": string[],
+    "followers": string[],
+    "importedContacts": string[],
+    "fcm_tokens": string,
+    "_id": string,
+    "fullname": string,
+    "email": string,
+    "phone": string,
+    "createdAt": string,
+    "updatedAt": string, 
+}
+
 export interface IUser {
     accountClaimed: boolean;
     bankAccountName: string;

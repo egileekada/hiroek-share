@@ -57,8 +57,9 @@ const useAuth = () => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: (data) => {
+        onSuccess: (data) => { 
 
+            Cookies.set("userId", data?.data?.user?._id)
             Cookies.set("access_token", data?.data?.token)
 
             toast.success("Logged In Successfully")

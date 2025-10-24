@@ -9,16 +9,22 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { RiInformationFill } from "react-icons/ri";
 import CustomInput from "./shared/input";
 import useAuth from "../hooks/useAuth";
+import { io } from "socket.io-client";
 import { FormikProvider } from "formik";
+import Cookies from "js-cookie"
+import type { IUserDetail } from "../model/user";
 
-export default function EventTicketForm({ event }: { setOpen?: any, event: IEvent }) {
+export default function EventTicketForm({ event, user }: { setOpen?: any, event: IEvent, user: IUserDetail }) {
 
     const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword } = useAuth()
- 
+
     const [totalPrices, setTotalPrices] = useState(0)
     const [serviceFees, setServiceFees] = useState(0)
 
-    
+    const userId = Cookies.get("userId")
+    const token = Cookies.get("access_token")
+
+
     const [payload, setPayload] = useState<
         { numberOfTickets: number; ticketTypeId: string }[]
     >([]);
@@ -26,6 +32,14 @@ export default function EventTicketForm({ event }: { setOpen?: any, event: IEven
     const getTicketCount = (ticketTypeId: string) => {
         return payload.find((p) => p.ticketTypeId === ticketTypeId)?.numberOfTickets || 0;
     };
+
+
+    const socket: any = io("https://staging.hiroek.io", {
+        auth: {
+            token: token
+        }
+    });
+
 
     const updateTicket = (ticketTypeId: string, action: "add" | "remove") => {
         setPayload((prev) => {
@@ -62,6 +76,8 @@ export default function EventTicketForm({ event }: { setOpen?: any, event: IEven
         }
     }, [email])
 
+    // Listen to: ticket-purchase-{userid}
+
     const handleSubmit = () => {
         if (event?.ticketing[0].ticketPrice > 0) {
             payForTicket.mutate({
@@ -74,29 +90,45 @@ export default function EventTicketForm({ event }: { setOpen?: any, event: IEven
                 ticketTypes: payload
             })
         }
-    } 
+    }
 
-    useEffect(()=> {
+    useEffect(() => {
 
         const totalPrice = payload.reduce((sum, selected) => {
             const ticket = event?.ticketing.find((t) => t._id === selected.ticketTypeId);
             if (ticket) {
-              sum += ticket.ticketPrice * selected.numberOfTickets;
+                sum += ticket.ticketPrice * selected.numberOfTickets;
             }
             return sum;
         }, 0);
 
-        setTotalPrices(totalPrice/100)
+        setTotalPrices(totalPrice / 100)
 
     }, [event, payload])
 
-    useEffect(()=> {
-        const servicefee = 0.6 + (Number(totalPrices) * 0.015) + 0.2
+    useEffect(() => {
+        const serviceFee =
+            Math.round((0.6 + Number(totalPrices) * 0.015 + 0.2) * 100) / 100;
 
-        setServiceFees(servicefee)
+        setServiceFees(serviceFee);
+    }, [totalPrices]);
 
-    }, [totalPrices, ])
-    
+    useEffect(() => {
+        if (user?.fullname) {
+            setTab(2)
+        }
+    }, [])
+
+
+    useEffect(() => {
+        // Establish connection
+        if (userId) {
+            // Listen for incoming messages
+            socket.on(`ticket-purchase-${userId}`, () => {
+                setTab(4)
+            });
+        }
+    }, [userId]);
 
     return (
         <>
@@ -188,21 +220,22 @@ export default function EventTicketForm({ event }: { setOpen?: any, event: IEven
                                     <p className=" text-xs font-semibold text-primary " >{item?.ticketType}</p>
                                     <p className=" font-semibold text-primary " >{formatNumber(item?.ticketPrice / 100)}</p>
                                     <p className=" text-xs font-semibold text-primary " >{"Sale Ends On " + dateFormat(item?.salesEndDate)}</p>
+                                    <p className=" text-xs font-bold text-primary " >Spot Left: <span >{item?.spotsLeft}</span></p>
                                 </div>
 
                                 <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
-                                    <div role="button" onClick={() => updateTicket(item._id, "remove")} >
+                                    <button role="button" onClick={() => updateTicket(item._id, "remove")} >
                                         <AiOutlineMinusCircle size={"30px"} />
-                                    </div>
+                                    </button>
                                     <input value={count}
-                                        name="signUpLimit" 
-                                        placeholder="0" 
-                                        readOnly                        
+                                        name="signUpLimit"
+                                        placeholder="0"
+                                        readOnly
                                         className=" focus:border-0 w-[40px] outline-none text-center "
                                         onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
-                                    <div role="button" onClick={() => updateTicket(item._id, "add")} >
+                                    <button disabled={item?.spotsLeft === 0 ? true : item?.spotsLeft > count ? false : true} role="button" onClick={() => updateTicket(item._id, "add")} >
                                         <IoMdAddCircleOutline size={"30px"} />
-                                    </div>
+                                    </button>
                                 </div>
                             </div>
                         )
