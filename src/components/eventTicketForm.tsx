@@ -16,7 +16,7 @@ import type { IUserDetail } from "../model/user";
 
 export default function EventTicketForm({ event, user }: { setOpen?: any, event: IEvent, user: IUserDetail }) {
 
-    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword } = useAuth()
+    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword, paymentUrl } = useAuth()
 
     const [totalPrices, setTotalPrices] = useState(0)
     const [serviceFees, setServiceFees] = useState(0)
@@ -120,15 +120,29 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
     }, [])
 
 
+
     useEffect(() => {
-        // Establish connection
-        if (userId) {
-            // Listen for incoming messages
-            socket.on(`ticket-purchase-${userId}`, () => {
-                setTab(4)
-            });
-        }
-    }, [userId]);
+        if (!userId || !socket) return;
+      
+        const eventName = `ticket-purchase-${userId}`;
+      
+        const handlePurchase = (data: any) => {
+          console.log("Received ticket purchase event:", data);
+          setTab(4);
+        };
+      
+        console.log("Subscribing to:", eventName);
+        socket.on(eventName, handlePurchase);
+      
+        // Cleanup to avoid duplicate listeners
+        // return () => {
+        //   console.log("Unsubscribing from:", eventName);
+        //   socket.off(eventName, handlePurchase);
+        // };
+      }, [userId, socket]);
+      
+      
+      
 
     return (
         <>
@@ -191,6 +205,11 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                         </div>
                     </form>
                 </FormikProvider>
+            )}
+            {tab === 7 && (
+                <div className=" w-full flex flex-col h-[90vh] " >
+                    <iframe src={paymentUrl} width="100%" height="100%" ></iframe>
+                </div>
             )}
             {tab === 6 && (
                 <FormikProvider value={formikForgotPassword}>

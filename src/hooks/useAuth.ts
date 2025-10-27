@@ -7,19 +7,22 @@ import { useState } from 'react';
 import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
 import { useQuery } from '../utils/useQuery';
+import { useParams } from 'react-router-dom';
 
 
 const useAuth = () => {
 
     const [open, setOpen] = useState(false)
+    const [paymentUrl, setPaymentUrl] = useState("")
     const [tab, setTab] = useState(0)
+
+    const { id, slug } = useParams();
 
     const [email, setEmail] = useState("")
 
     const query = useQuery();
     const resetCode = query.get('resetCode');
-    const emailData = query.get('email');
-
+    const emailData = query.get('email'); 
 
     const signupMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/email-signup`, data),
@@ -74,7 +77,6 @@ const useAuth = () => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
         onSuccess: () => {
-
             toast.success("Password reset link sent to your email");
             setTab(3)
         },
@@ -95,7 +97,7 @@ const useAuth = () => {
         onSuccess: (data) => {
             const paymentUrl = data?.data?.url;
 
-            if (paymentUrl) {
+            if (paymentUrl) { 
                 // ✅ Open the payment page in a new tab
                 window.open(paymentUrl, "_blank");
             } else {
@@ -181,8 +183,8 @@ const useAuth = () => {
         "password": string
     }>({
         initialValues: {
-            email: emailData + "",
-            "resetCode": resetCode + "",
+            email: slug ?? emailData + "",
+            "resetCode": id ?? resetCode + "",
             "password": ""
         },
         validationSchema: Yup.object({
@@ -243,6 +245,8 @@ const useAuth = () => {
         setTab,
         email,
         setEmail,
+        setPaymentUrl,
+        paymentUrl,
         forgotMutation,
         formikForgotPassword,
         resetPasswordMutation,

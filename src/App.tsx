@@ -19,6 +19,7 @@ function App() {
         <Route path="event/:id" element={<SharePage />} /> 
         <Route path="user/:id" element={<UserId />} /> 
         <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="reset-password/:id/:slug" element={<ResetPassword />} />
         <Route path="channel/:id" element={<ChannelsPage />} /> 
         <Route path="invite" element={<InvitePage />} /> 
       </Route>
