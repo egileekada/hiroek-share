@@ -38,8 +38,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         auth: {
             token: token
         }
-    });
-
+    }); 
 
     const updateTicket = (ticketTypeId: string, action: "add" | "remove") => {
         setPayload((prev) => {
@@ -123,26 +122,20 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
 
     useEffect(() => {
         if (!userId || !socket) return;
-      
-        const eventName = `ticket-purchase-${userId}`;
-      
-        const handlePurchase = (data: any) => {
-          console.log("Received ticket purchase event:", data);
-          setTab(4);
+
+        const eventName = `ticket-payment-${userId}`;
+
+        const handlePurchase = () => { 
+            setTab(4);
         };
-      
+
         console.log("Subscribing to:", eventName);
         socket.on(eventName, handlePurchase);
-      
-        // Cleanup to avoid duplicate listeners
-        // return () => {
-        //   console.log("Unsubscribing from:", eventName);
-        //   socket.off(eventName, handlePurchase);
-        // };
-      }, [userId, socket]);
-      
-      
-      
+
+    }, [userId, socket]);
+
+
+
 
     return (
         <>

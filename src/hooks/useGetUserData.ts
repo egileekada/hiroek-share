@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useQuery } from "react-query";   
 import type { IEvent } from "../model/event";
 import httpService from "../utils/httpService"; 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { IParnter } from "../model/user";
 import Cookies from "js-cookie";
 
@@ -20,6 +20,7 @@ interface EventData {
 const useGetUserData = () => {
 
     const { id } = useParams(); 
+    const navigate = useNavigate();
 
     // Get Event list
     const getUserData = () => {
@@ -49,7 +50,8 @@ const useGetUserData = () => {
     // Get Event list
     const getCurrentUserData = () => {
         const [data, setData] = useState<IParnter>({} as IParnter)
-        const userId = Cookies.get("userId");
+        // const userId = Cookies.get("userId");
+        const token = Cookies.get("access_token")
         
         const { isLoading, isRefetching } = useQuery(
             ["userdetail", id],
@@ -57,12 +59,14 @@ const useGetUserData = () => {
             {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
+                    Cookies.remove("access_token")
+                    navigate(0)
                 },
                 onSuccess: (data: any) => {    
                     setData(data?.data?.user)
                     
                 }, 
-                enabled: userId ? true : false
+                enabled: token ? true : false
             },
         );
 
