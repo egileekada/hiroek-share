@@ -63,7 +63,7 @@ export default function UserId() {
                                                 {event[date].map((item: any) => {
 
                                                     return (
-                                                        <div className=" bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                        <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                             <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
                                                             <div className=" flex items-center gap-2 " >
                                                                 <HiMiniMapPin />
@@ -73,7 +73,7 @@ export default function UserId() {
                                                                 <HiClock />
                                                                 <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
                                                             </div>
-                                                        </div>
+                                                        </a>
                                                     )
                                                 })}
                                             </div>
