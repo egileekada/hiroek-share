@@ -23,8 +23,8 @@ export default function UserId() {
                 <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow bg-[#37137F] h-full" >
                     <div className=" w-full h-fit flex justify-center " >
                         <div className=" w-[80%] h-[150px] flex flex-col gap-2 items-center justify-end " >
-                            <img src={data?.logo} alt="logo" className=" w-14 h-14 rounded-2xl " />
-                            <p className=" font-black text-3xl text-white text-center " >{data?.name}</p>
+                            <img src={data?.logo} alt="logo" className=" w-24 h-24 rounded-2xl " />
+                            {/* <p className= " font-black text-3xl text-white text-center " >{data?.name}</p> */}
                         </div>
                     </div>
                     <div className=" w-full flex flex-col h-full py-5 gap-3 px-4 rounded-t-4xl text-center text-[#37137F] items-center bg-white " >
@@ -58,7 +58,7 @@ export default function UserId() {
                                 <>
                                     {sortedDates.map((date) => (
                                         <div className=" w-full " key={date}>
-                                            <div className=" flex w-full flex-col gap-2 " >
+                                            <div className=" flex w-full flex-col gap-3 " >
                                                 {/* @ts-ignore fixed this */}
                                                 {event[date].map((item: any) => {
 
@@ -83,7 +83,7 @@ export default function UserId() {
                             )}
                             {(dateEvent?.length > 0) && (
                                 <LoadingAnimation loading={loading} length={dateEvent?.length} >
-                                    <>
+                                    <div className="  w-full flex flex-col gap-3" >
                                         {dateEvent.map((item) => {
                                             return (
                                                 <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
@@ -99,7 +99,7 @@ export default function UserId() {
                                                 </a>
                                             )
                                         })}
-                                    </>
+                                    </div>
                                 </LoadingAnimation>
                             )}
                         </div>

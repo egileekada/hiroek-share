@@ -80,7 +80,7 @@ function SharePage() {
                                     </div>
                                 </div>
                                 <div className=" w-full p-4 flex flex-col gap-2 shadow rounded-[10px] bg-white " >
-                                    <p className=" font-bold text-xs text-primary " >{textLimit(event?.name, 70)}</p>
+                                    <p className=" font-bold text-lg capitalize text-primary " >{textLimit(event?.name, 70)}</p>
                                     <div className=" w-full flex gap-3 items-center justify-between " >
                                         <div className=" flex gap-2 " >
                                             <div className=" w-fit text-primary text-opacity-50 " >
