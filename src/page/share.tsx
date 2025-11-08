@@ -3,7 +3,7 @@ import ChartGraph from "../components/chartGraph"
 // import CountdownTimer from "../components/countDownTimer"
 import LoadingAnimation from "../components/loadingAnimation"
 import useGetEventData from "../hooks/useGetEventData"
-import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon } from "../svg"
+import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon, BackArrowIcon } from "../svg"
 import { dateFormat, timeFormat } from "../utils/dateFormat"
 import { formatNumberWithK } from "../utils/formatNumberWithK"
 import { formatNumber } from "../utils/numberFormat"
@@ -19,29 +19,45 @@ import { IoMdEye } from "react-icons/io"
 import { capitalizeFLetter } from "../utils/capitalLetter"
 import useGetUserData from "../hooks/useGetUserData"
 import type { IUserDetail } from "../model/user"
+import { useQuery } from "../utils/useQuery"
+import { useNavigate } from "react-router-dom"
 
 function SharePage() {
 
     const { isLoading, data: event } = useGetEventData()?.getEventData()
-    const { data: user } = useGetUserData().getCurrentUserData() 
-    
+    const { data: user } = useGetUserData().getCurrentUserData()
+
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
     const [showPartner, setShowPartner] = useState(false)
-    const [showHost, setShowHost] = useState(false) 
+    const [showHost, setShowHost] = useState(false)
+    const navigate = useNavigate()
 
     const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.spotsLeft, 0);
+
+    const query = useQuery();
+
+    const back = query.get("back");
 
     return (
         <>
             <LoadingAnimation loading={isLoading} >
                 <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
+
                     <div className=" w-full h-fit flex flex-col gap-4 lg:rounded-[44px] lg:p-8 " >
                         <div className=" w-full lg:h-[300px] h-[300px] relative " >
+                            {back && (
+                                <div className=" flex gap-2 absolute left-4 top-4 z-30  " >
+                                    <div className=' w-fit relative z-20 ' >
+                                        <div onClick={() => navigate(-1)} role='button' className=' w-11 h-11 lg:w-[45px] lg:h-[45px] flex justify-center bg-white bg-opacity-15 rounded-[6px] items-center cursor-pointer ' style={{ boxShadow: "0px 2px 4px 0px #0000000D" }} >
+                                            <BackArrowIcon />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                             <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
                             <div className=" absolute z-10 inset-0 bg-[#0000004D] " />
-
                         </div>
                         <div className=" w-full -mt-[150px] z-20 px-3  " >
                             <div className=" w-full rounded-2xl flex flex-col gap-2 " >
@@ -108,7 +124,7 @@ function SharePage() {
                                         )}
                                         <div className=" flex gap-2 items-center " >
                                             <TicketIcon />
-                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "":"(s)" } Available` : "Tickets Available"} </Text>
+                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
                                         </div>
                                     </div>
                                 </div>

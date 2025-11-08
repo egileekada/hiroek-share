@@ -4,6 +4,7 @@ import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
 import { textLimit } from "../utils/textlimit";
+import { useNavigate } from "react-router-dom";
 
 
 export default function UserId() {
@@ -16,20 +17,21 @@ export default function UserId() {
     const { date, setDate, data: dateEvent, isLoading: loading } = useGetUserData().getEventDataByDate()
 
     const sortedDates = Object.keys(event).sort();
+    const navigate = useNavigate()
 
     return (
         <LoadingAnimation loading={isLoading} >
             <div className=" w-full flex flex-col h-screen items-center overflow-y-auto " >
                 <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow bg-[#37137F] h-full" >
                     <div className=" w-full h-fit flex justify-center " >
-                        <div className=" w-[80%] h-[150px] flex flex-col justify-end " >
-                            <p className=" font-black text-3xl text-white text-center mt-auto " >{data?.name}</p>
+                        <div className=" w-[80%] h-[150px] flex flex-col gap-2 items-center justify-end " >
+                            <img src={data?.logo} alt="logo" className=" w-14 h-14 rounded-2xl " />
+                            <p className=" font-black text-3xl text-white text-center " >{data?.name}</p>
                         </div>
                     </div>
                     <div className=" w-full flex flex-col h-full py-5 gap-3 px-4 rounded-t-4xl text-center text-[#37137F] items-center bg-white " >
                         <div className=" w-full flex flex-col items-center " >
-                            <p className=" text-2xl font-extrabold " >{data?.name}</p>
-                            <p className=" text-xs font-semibold " >{data?.address}</p> 
+                            <p className=" text-2xl font-extrabold " >{data?.name}</p> 
                         </div>
 
                         <div className=" px-[14px] w-full flex flex-col items-center gap-1 py-[10px] font-extrabold text-xs rounded-3xl bg-[#37137F1A] shadow " >
@@ -84,9 +86,9 @@ export default function UserId() {
                             {(dateEvent?.length > 0) && (
                                 <LoadingAnimation loading={loading} length={dateEvent?.length} >
                                     <>
-                                        {dateEvent.map((item: any) => {
+                                        {dateEvent.map((item) => {
                                             return (
-                                                <div className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} target="_blank" className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                     <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
                                                     <div className=" flex items-center gap-2 " >
                                                         <HiMiniMapPin />
@@ -96,7 +98,7 @@ export default function UserId() {
                                                         <HiClock />
                                                         <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
                                                     </div>
-                                                </div>
+                                                </a>
                                             )
                                         })}
                                     </>
