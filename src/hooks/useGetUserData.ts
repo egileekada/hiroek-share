@@ -51,7 +51,7 @@ const useGetUserData = () => {
     const getCurrentUserData = () => {
         const [data, setData] = useState<IParnter>({} as IParnter)
         // const userId = Cookies.get("userId");
-        const token = Cookies.get("access_token")
+        const token = localStorage.getItem("access_token")
         
         const { isLoading, isRefetching } = useQuery(
             ["userdetail", id],
