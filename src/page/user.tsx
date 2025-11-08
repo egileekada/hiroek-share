@@ -3,8 +3,7 @@ import { HiClock, HiMiniMapPin } from "react-icons/hi2";
 import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
-import { textLimit } from "../utils/textlimit";
-import { useNavigate } from "react-router-dom";
+import { textLimit } from "../utils/textlimit"; 
 
 
 export default function UserId() {
@@ -16,8 +15,7 @@ export default function UserId() {
 
     const { date, setDate, data: dateEvent, isLoading: loading } = useGetUserData().getEventDataByDate()
 
-    const sortedDates = Object.keys(event).sort();
-    const navigate = useNavigate()
+    const sortedDates = Object.keys(event).sort(); 
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -88,7 +86,7 @@ export default function UserId() {
                                     <>
                                         {dateEvent.map((item) => {
                                             return (
-                                                <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} target="_blank" className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                     <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
                                                     <div className=" flex items-center gap-2 " >
                                                         <HiMiniMapPin />
