@@ -24,15 +24,15 @@ export default function UserId() {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <div className=" w-full flex flex-col h-screen items-center overflow-y-auto " >
-                <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow bg-[#37137F] h-fit" >
+            <div className=" w-full flex flex-col h-full pb-6 items-center overflow-y-auto " >
+                <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow rounded-b-4xl bg-[#37137F] h-auto" >
                     <div className=" w-full h-fit flex justify-center " >
                         <div className=" w-[80%] h-[150px] flex flex-col gap-2 items-center justify-end " >
                             <img src={data?.logo} alt="logo" className=" w-24 h-24 rounded-2xl object-cover " />
                             {/* <p className= " font-black text-3xl text-white text-center " >{data?.name}</p> */}
                         </div>
                     </div>
-                    <div className=" w-full flex flex-col h-full py-5 gap-3 px-4 rounded-t-4xl text-center text-[#37137F] items-center bg-white " >
+                    <div className=" w-full flex flex-col h-full py-5 gap-3 px-4 rounded-4xl text-center text-[#37137F] items-center bg-white " >
                         <div className=" w-full flex flex-col items-center " >
                             <p className=" text-2xl font-extrabold " >{data?.name}</p> 
                         </div>
@@ -55,7 +55,7 @@ export default function UserId() {
                             />
                         </div>
 
-                        <div className=" w-full flex flex-col items-center gap-4 " >
+                        <div className=" w-full flex h-auto flex-col items-center gap-4 " >
                             <div className=" p-3 font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
                                 Event Schedules
                             </div>
