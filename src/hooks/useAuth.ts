@@ -63,7 +63,7 @@ const useAuth = () => {
         onSuccess: (data) => { 
 
             Cookies.set("userId", data?.data?.user?._id)
-            Cookies.set("access_token", data?.data?.token)
+            localStorage.setItem("access_token", data?.data?.token)
 
             toast.success("Logged In Successfully")
             setTab(2)

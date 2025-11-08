@@ -1,5 +1,4 @@
-import axios, { AxiosError } from "axios"
-import Cookies from "js-cookie"
+import axios, { AxiosError } from "axios" 
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 const httpService = axios.create({
@@ -19,7 +18,7 @@ unsecureHttpService.interceptors.response.use((data) => {
 
 httpService.interceptors.request.use(
   function (config: any) {
-    const token = Cookies.get("access_token") 
+    const token = localStorage.getItem("access_token")
     
     if (token) {
       config.headers["Authorization"] = "Bearer " +token
