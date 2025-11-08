@@ -17,13 +17,18 @@ export default function UserId() {
 
     const sortedDates = Object.keys(event).sort(); 
 
+    console.log(dateEvent);
+
+    console.log(event);
+    
+
     return (
         <LoadingAnimation loading={isLoading} >
             <div className=" w-full flex flex-col h-screen items-center overflow-y-auto " >
-                <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow bg-[#37137F] h-full" >
+                <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow bg-[#37137F] h-fit" >
                     <div className=" w-full h-fit flex justify-center " >
                         <div className=" w-[80%] h-[150px] flex flex-col gap-2 items-center justify-end " >
-                            <img src={data?.logo} alt="logo" className=" w-24 h-24 rounded-2xl " />
+                            <img src={data?.logo} alt="logo" className=" w-24 h-24 rounded-2xl object-cover " />
                             {/* <p className= " font-black text-3xl text-white text-center " >{data?.name}</p> */}
                         </div>
                     </div>
@@ -58,12 +63,12 @@ export default function UserId() {
                                 <>
                                     {sortedDates.map((date) => (
                                         <div className=" w-full " key={date}>
-                                            <div className=" flex w-full flex-col gap-3 " >
+                                            <div className=" flex w-full flex-col gap-2 " >
                                                 {/* @ts-ignore fixed this */}
-                                                {event[date].map((item: any) => {
+                                                {event[date].map((item, index) => {
 
                                                     return (
-                                                        <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                        <a key={index} href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                             <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
                                                             <div className=" flex items-center gap-2 " >
                                                                 <HiMiniMapPin />
@@ -81,7 +86,7 @@ export default function UserId() {
                                     ))}
                                 </>
                             )}
-                            {(dateEvent?.length > 0) && (
+                            {(date) && (
                                 <LoadingAnimation loading={loading} length={dateEvent?.length} >
                                     <div className="  w-full flex flex-col gap-3" >
                                         {dateEvent.map((item) => {
@@ -104,7 +109,7 @@ export default function UserId() {
                             )}
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>
         </LoadingAnimation>
     )
