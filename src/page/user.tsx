@@ -15,12 +15,7 @@ export default function UserId() {
 
     const { date, setDate, data: dateEvent, isLoading: loading } = useGetUserData().getEventDataByDate()
 
-    const sortedDates = Object.keys(event).sort(); 
-
-    console.log(dateEvent);
-
-    console.log(event);
-    
+    const sortedDates = Object.keys(event).sort();  
 
     return (
         <LoadingAnimation loading={isLoading} >
