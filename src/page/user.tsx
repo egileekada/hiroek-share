@@ -55,15 +55,15 @@ export default function UserId() {
                             />
                         </div>
 
-                        <div className=" w-full flex h-auto flex-col items-center gap-4 " >
+                        <div className=" w-full flex h-auto flex-col items-center" >
                             <div className=" p-3 font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
                                 Event Schedules
                             </div>
                             {!date && (
-                                <>
+                                <div className=" w-full flex flex-col gap-3 mt-6 " >
                                     {sortedDates.map((date) => (
                                         <div className=" w-full " key={date}>
-                                            <div className=" flex w-full flex-col gap-2 " >
+                                            <div className=" flex w-full flex-col gap-3 " >
                                                 {/* @ts-ignore fixed this */}
                                                 {event[date].map((item, index) => {
 
@@ -84,11 +84,11 @@ export default function UserId() {
                                             </div>
                                         </div>
                                     ))}
-                                </>
+                                </div>
                             )}
                             {(date) && (
                                 <LoadingAnimation loading={loading} length={dateEvent?.length} >
-                                    <div className="  w-full flex flex-col gap-3" >
+                                    <div className="  w-full flex flex-col gap-3 mt-6 " >
                                         {dateEvent.map((item) => {
                                             return (
                                                 <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
