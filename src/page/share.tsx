@@ -35,6 +35,7 @@ function SharePage() {
     const navigate = useNavigate()
 
     const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.spotsLeft, 0);
+    // const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.spotsLeft, 0);
 
     const query = useQuery();
 
@@ -122,10 +123,19 @@ function SharePage() {
                                                 <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithK(event?.members?.length)} Attending</Text>
                                             </div>
                                         )}
-                                        <div className=" flex gap-2 items-center " >
-                                            <TicketIcon />
-                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
-                                        </div>
+                                        {event?.ticketing?.length > 0 && (
+                                            <div className=" flex gap-2 items-center " >
+                                                {event?.ticketing[0]?.spotsLeft > 0 && (
+                                                    <TicketIcon />
+                                                )}
+                                                {event?.ticketing[0]?.spotsLeft === undefined && (
+                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                )}
+                                                {event?.ticketing[0]?.spotsLeft > 0 && (
+                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

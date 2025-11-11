@@ -15,6 +15,8 @@ interface EventData {
   interface Props {
     data: EventData;
   }
+
+  const userId = Cookies.get("userId")
   
 
 const useGetUserData = () => {
@@ -55,16 +57,15 @@ const useGetUserData = () => {
         
         const { isLoading, isRefetching } = useQuery(
             ["userdetail", id],
-            () => httpService.get(`/users`),
+            () => httpService.get(`/users/${userId}`),
             {
                 onError: (error: any) => {
-                    toast.error(error.response?.data)
-                    Cookies.remove("access_token")
+                    toast.error(error.response?.data) 
+                    localStorage.setItem("access_token", "")
                     navigate(0)
                 },
                 onSuccess: (data: any) => {    
-                    setData(data?.data?.user)
-                    
+                    setData(data?.data?.user) 
                 }, 
                 enabled: token ? true : false
             },

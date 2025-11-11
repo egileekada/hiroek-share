@@ -38,7 +38,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         auth: {
             token: token
         }
-    }); 
+    });
 
     const updateTicket = (ticketTypeId: string, action: "add" | "remove") => {
         setPayload((prev) => {
@@ -91,6 +91,9 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         }
     }
 
+    console.log(event);
+
+
     useEffect(() => {
 
         const totalPrice = payload.reduce((sum, selected) => {
@@ -118,14 +121,12 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         }
     }, [])
 
-
-
     useEffect(() => {
         if (!userId || !socket) return;
 
         const eventName = `ticket-payment-${userId}`;
 
-        const handlePurchase = () => { 
+        const handlePurchase = () => {
             setTab(4);
         };
 
@@ -133,8 +134,6 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         socket.on(eventName, handlePurchase);
 
     }, [userId, socket]);
-
-
 
 
     return (
@@ -234,21 +233,50 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                     <p className=" text-xs font-semibold text-primary " >{"Sale Ends On " + dateFormat(item?.salesEndDate)}</p>
                                     <p className=" text-xs font-bold text-primary " >Tickets Available: <span >{item?.spotsLeft}</span></p>
                                 </div>
-
-                                <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
-                                    <button role="button" onClick={() => updateTicket(item._id, "remove")} >
-                                        <AiOutlineMinusCircle size={"30px"} />
-                                    </button>
-                                    <input value={count}
-                                        name="signUpLimit"
-                                        placeholder="0"
-                                        readOnly
-                                        className=" focus:border-0 w-[40px] outline-none text-center "
-                                        onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
-                                    <button disabled={item?.spotsLeft === 0 ? true : item?.spotsLeft > count ? false : true} role="button" onClick={() => updateTicket(item._id, "add")} >
-                                        <IoMdAddCircleOutline size={"30px"} />
-                                    </button>
-                                </div>
+                                {((item?.signUpLimit === 0) && (new Date() >= new Date(item?.salesStartDate) && (new Date() < new Date(item?.salesEndDate))))  && (
+                                    <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
+                                        <button role="button" onClick={() => updateTicket(item._id, "remove")} >
+                                            <AiOutlineMinusCircle size={"30px"} />
+                                        </button>
+                                        <input value={count}
+                                            name="signUpLimit"
+                                            placeholder="0"
+                                            readOnly
+                                            className=" focus:border-0 w-[40px] outline-none text-center "
+                                            onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
+                                        {item?.signUpLimit === 0 && (
+                                            <button role="button" onClick={() => updateTicket(item._id, "add")} >
+                                                <IoMdAddCircleOutline size={"30px"} />
+                                            </button>
+                                        )}
+                                        {item?.spotsLeft > -1 && (
+                                            <button disabled={(item?.spotsLeft === 0 && item?.spotsLeft !== null) ? true : item?.spotsLeft > count ? false : true} role="button" onClick={() => updateTicket(item._id, "add")} >
+                                                <IoMdAddCircleOutline size={"30px"} />
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
+                                {((item?.spotsLeft > 0) && (new Date() >= new Date(item?.salesStartDate) && (new Date() < new Date(item?.salesEndDate)))) && (
+                                    <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
+                                        <button role="button" onClick={() => updateTicket(item._id, "remove")} >
+                                            <AiOutlineMinusCircle size={"30px"} />
+                                        </button>
+                                        <input value={count}
+                                            name="signUpLimit"
+                                            placeholder="0"
+                                            readOnly
+                                            className=" focus:border-0 w-[40px] outline-none text-center "
+                                            onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
+                                        <button disabled={(item?.spotsLeft === 0 && item?.spotsLeft !== null) ? true : item?.spotsLeft > count ? false : true} role="button" onClick={() => updateTicket(item._id, "add")} >
+                                            <IoMdAddCircleOutline size={"30px"} />
+                                        </button>
+                                    </div>
+                                )} 
+                                {((new Date() > new Date(item?.salesEndDate)) || item?.spotsLeft === 0) && (
+                                    <div className=" w-[116px] h-[54px] text-primary px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
+                                        <p className=" text-sm font-semibold text-center " >Ticket Sold Out</p>
+                                    </div>
+                                )}
                             </div>
                         )
                     })}
@@ -270,21 +298,19 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                     </div>
                 </div>
             )}
-
             {tab === 4 && (
-                <div className=" w-full h-full flex flex-col items-center justify-center " >
-                    <div className=" flex flex-col gap-1 items-center " >
+                <div className=" w-full h-[100vh]  flex flex-col items-center " >
+                    <div className=" flex flex-col gap-1 items-center px-3 text-center " >
                         <p className=" text-xl font-black text-[#37137F] " >{`Congratulations, You're In!`}</p>
                         <p className=" text-sm font-medium text-primary30 " >{`Thank you for joining ${event?.name}! We're excited to have you with us.`}</p>
                     </div>
                     <img src="/images/heart.png" alt="heart" />
-
-                    <div className=" w-full mt-auto " >
+                    <div className=" w-full h-[34%] flex justify-end items-end " >
                         <CustomButton type="button" onClick={() => setTab(5)} rounded="44px" height="50px"  >View Ticket On The App </CustomButton>
                     </div>
                 </div>
             )}
-            {tab === 5 && (
+            {tab === 6 && (
                 <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
                     <p className=" font-bold text-primary " >Get The Full Experience In The App!</p>
                     <div className=" w-full flex flex-col gap-4 " >
