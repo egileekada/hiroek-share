@@ -91,8 +91,6 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         }
     }
 
-    console.log(event);
-
 
     useEffect(() => {
 
@@ -134,6 +132,9 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         socket.on(eventName, handlePurchase);
 
     }, [userId, socket]);
+
+    console.log(event?.ticketing);
+
 
 
     return (
@@ -225,6 +226,12 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                     </div>
                     {event?.ticketing?.map((item, index) => {
                         const count = getTicketCount(item._id);
+
+
+
+                        console.log(item?.signUpLimit === 0);
+                        console.log((new Date() >= new Date(item?.salesStartDate)));
+                        console.log((new Date() < new Date(item?.salesEndDate)));
                         return (
                             <div key={index} className=" w-full border rounded-xl flex items-center justify-between gap-4 p-4 " >
                                 <div className=" flex flex-col " >
@@ -233,7 +240,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                     <p className=" text-xs font-semibold text-primary " >{"Sale Ends On " + dateFormat(item?.salesEndDate)}</p>
                                     <p className=" text-xs font-bold text-primary " >Tickets Available: <span >{item?.spotsLeft}</span></p>
                                 </div>
-                                {((item?.signUpLimit === 0) && (new Date() >= new Date(item?.salesStartDate) && (new Date() < new Date(item?.salesEndDate))))  && (
+                                {((item?.signUpLimit === 0 || !item?.signUpLimit) && (new Date() >= new Date(item?.salesStartDate)) && (new Date() < new Date(item?.salesEndDate))) && (
                                     <div className=" w-[116px] h-[54px] text-primary border-2 px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
                                         <button role="button" onClick={() => updateTicket(item._id, "remove")} >
                                             <AiOutlineMinusCircle size={"30px"} />
@@ -244,16 +251,10 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                             readOnly
                                             className=" focus:border-0 w-[40px] outline-none text-center "
                                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} />
-                                        {item?.signUpLimit === 0 && (
-                                            <button role="button" onClick={() => updateTicket(item._id, "add")} >
-                                                <IoMdAddCircleOutline size={"30px"} />
-                                            </button>
-                                        )}
-                                        {item?.spotsLeft > -1 && (
-                                            <button disabled={(item?.spotsLeft === 0 && item?.spotsLeft !== null) ? true : item?.spotsLeft > count ? false : true} role="button" onClick={() => updateTicket(item._id, "add")} >
-                                                <IoMdAddCircleOutline size={"30px"} />
-                                            </button>
-                                        )}
+
+                                        <button role="button" onClick={() => updateTicket(item._id, "add")} >
+                                            <IoMdAddCircleOutline size={"30px"} />
+                                        </button> 
                                     </div>
                                 )}
                                 {((item?.spotsLeft > 0) && (new Date() >= new Date(item?.salesStartDate)) && (new Date() < new Date(item?.salesEndDate))) && (
@@ -271,7 +272,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                             <IoMdAddCircleOutline size={"30px"} />
                                         </button>
                                     </div>
-                                )} 
+                                )}
                                 {((new Date() > new Date(item?.salesEndDate)) || item?.spotsLeft === 0) && (
                                     <div className=" w-[116px] h-[54px] text-primary px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
                                         <p className=" text-sm font-semibold text-center " >{(new Date() > new Date(event?.eventEndDate)) ? "Event Ended" : (new Date() > new Date(item?.salesEndDate)) ? "Sales Ended" : "Ticket Sold Out"}</p>
