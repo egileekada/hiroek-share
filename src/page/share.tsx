@@ -125,7 +125,7 @@ function SharePage() {
                                         )}
                                         {event?.ticketing?.length > 0 && (
                                             <div className=" flex gap-2 items-center " >
-                                                {event?.ticketing[0]?.spotsLeft > 0 && (
+                                                {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
                                                     <TicketIcon />
                                                 )}
                                                 {event?.ticketing[0]?.spotsLeft === undefined && (
