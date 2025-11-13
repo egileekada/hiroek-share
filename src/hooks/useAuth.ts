@@ -99,7 +99,7 @@ const useAuth = () => {
 
             if (paymentUrl) { 
                 // ✅ Open the payment page in a new tab
-                window.open(`${paymentUrl}&event=true`, "_blank");
+                window.open(`${paymentUrl}&eventbtn=true`, "_blank");
             } else {
                 toast.error("Payment URL not found.");
             }

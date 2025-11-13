@@ -115,7 +115,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
 
     useEffect(() => {
         if (user?.fullname) {
-            setTab(2)
+            setTab(4)
         }
     }, [])
 
@@ -132,10 +132,6 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
         socket.on(eventName, handlePurchase);
 
     }, [userId, socket]);
-
-    console.log(event?.ticketing);
-
-
 
     return (
         <>
@@ -192,7 +188,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                         <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
                             <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
-                            <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(6)} >forgot password</p>
+                            <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(10)} >forgot password</p>
                             <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
                             <p className=" text-primary20 text-xs font-medium " >Don't have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</button></p>
                         </div>
@@ -204,7 +200,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                     <iframe src={paymentUrl} width="100%" height="100%" ></iframe>
                 </div>
             )}
-            {tab === 6 && (
+            {tab === 10 && (
                 <FormikProvider value={formikForgotPassword}>
                     <form onSubmit={formikForgotPassword.handleSubmit} className=" w-full flex flex-col items-center pb-3 " >
                         <p className=" text-primary text-2xl font-bold " >Forgot Password</p>
@@ -225,13 +221,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                         <p className=" text-xs font-semibold " >{event?.address}</p>
                     </div>
                     {event?.ticketing?.map((item, index) => {
-                        const count = getTicketCount(item._id);
-
-
-
-                        console.log(item?.signUpLimit === 0);
-                        console.log((new Date() >= new Date(item?.salesStartDate)));
-                        console.log((new Date() < new Date(item?.salesEndDate)));
+                        const count = getTicketCount(item._id); 
                         return (
                             <div key={index} className=" w-full border rounded-xl flex items-center justify-between gap-4 p-4 " >
                                 <div className=" flex flex-col " >
@@ -300,14 +290,14 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                 </div>
             )}
             {tab === 4 && (
-                <div className=" w-full h-[100vh]  flex flex-col items-center " >
+                <div className=" w-full h-[75vh] flex flex-col items-center " >
                     <div className=" flex flex-col gap-1 items-center px-3 text-center " >
                         <p className=" text-xl font-black text-[#37137F] " >{`Congratulations, You're In!`}</p>
                         <p className=" text-sm font-medium text-primary30 " >{`Thank you for joining ${event?.name}! We're excited to have you with us.`}</p>
                     </div>
                     <img src="/images/heart.png" alt="heart" />
-                    <div className=" w-full h-[34%] flex justify-end items-end " >
-                        <CustomButton type="button" onClick={() => setTab(5)} rounded="44px" height="50px"  >View Ticket On The App </CustomButton>
+                    <div className=" w-full mt-auto pb-4 px-4 flex justify-end items-end " >
+                        <CustomButton type="button" onClick={() => setTab(6)} rounded="44px" height="50px"  >View Ticket On The App </CustomButton>
                     </div>
                 </div>
             )}
