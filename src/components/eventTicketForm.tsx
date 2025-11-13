@@ -115,7 +115,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
 
     useEffect(() => {
         if (user?.fullname) {
-            setTab(4)
+            setTab(2)
         }
     }, [])
 
@@ -221,7 +221,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                         <p className=" text-xs font-semibold " >{event?.address}</p>
                     </div>
                     {event?.ticketing?.map((item, index) => {
-                        const count = getTicketCount(item._id); 
+                        const count = getTicketCount(item._id);
                         return (
                             <div key={index} className=" w-full border rounded-xl flex items-center justify-between gap-4 p-4 " >
                                 <div className=" flex flex-col " >
@@ -244,7 +244,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
 
                                         <button role="button" onClick={() => updateTicket(item._id, "add")} >
                                             <IoMdAddCircleOutline size={"30px"} />
-                                        </button> 
+                                        </button>
                                     </div>
                                 )}
                                 {((item?.spotsLeft > 0) && (new Date() >= new Date(item?.salesStartDate)) && (new Date() < new Date(item?.salesEndDate))) && (
@@ -263,11 +263,11 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                         </button>
                                     </div>
                                 )}
-                                {((new Date() > new Date(item?.salesEndDate)) || item?.spotsLeft === 0) && (
+                                {((new Date() < new Date(item?.salesStartDate)) || (new Date() > new Date(item?.salesEndDate)) || item?.spotsLeft === 0) && (
                                     <div className=" w-[116px] h-[54px] text-primary px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
-                                        <p className=" text-sm font-semibold text-center " >{(new Date() > new Date(event?.eventEndDate)) ? "Event Ended" : (new Date() > new Date(item?.salesEndDate)) ? "Sales Ended" : "Ticket Sold Out"}</p>
+                                        <p className=" text-xs font-semibold text-center " >{(new Date() < new Date(item?.salesStartDate)) ? `Sales Start At ${dateFormat(item?.salesStartDate)}` : (new Date() > new Date(event?.eventEndDate)) ? "Event Ended" : (new Date() > new Date(item?.salesEndDate)) ? "Sales Ended" : "Ticket Sold Out"}</p>
                                     </div>
-                                )}
+                                )}  
                             </div>
                         )
                     })}
