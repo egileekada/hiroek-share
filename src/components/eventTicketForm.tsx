@@ -265,7 +265,7 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
                                 )}
                                 {((new Date() < new Date(item?.salesStartDate)) || (new Date() > new Date(item?.salesEndDate)) || item?.spotsLeft === 0) && (
                                     <div className=" w-[116px] h-[54px] text-primary px-2 border-[#37137F4D] flex justify-between items-center rounded-lg " >
-                                        <p className=" text-xs font-semibold text-center " >{(new Date() < new Date(item?.salesStartDate)) ? `Sales Start At ${dateFormat(item?.salesStartDate)}` : (new Date() > new Date(event?.eventEndDate)) ? "Event Ended" : (new Date() > new Date(item?.salesEndDate)) ? "Sales Ended" : "Ticket Sold Out"}</p>
+                                        <p className=" text-xs font-semibold text-center " >{(new Date() < new Date(item?.salesStartDate)) ? `Sales Starts on ${dateFormat(item?.salesStartDate)}` : (new Date() > new Date(event?.eventEndDate)) ? "Event Ended" : (new Date() > new Date(item?.salesEndDate)) ? "Sales Ended" : "Ticket Sold Out"}</p>
                                     </div>
                                 )}  
                             </div>
