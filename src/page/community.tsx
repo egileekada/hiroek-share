@@ -57,7 +57,7 @@ export default function ChannelsPage() {
                         </div>
                     </div>
                     {!user?._id && (
-                        <CustomButton onClick={() => setOpen(true)} rounded="10px" width="100%" height="50px"  >Request To Join Channel</CustomButton>
+                        <CustomButton onClick={() => setOpen(true)} rounded="10px" width="100%" height="50px"  >Join Channel</CustomButton>
                     )}
                     {user?._id &&
                         !item?.members?.some((m) => m?._id === user?._id) && (
