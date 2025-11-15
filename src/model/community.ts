@@ -1,3 +1,4 @@
+import type { IMember } from "./user";
 
 export interface ICommunity {
     admin: {
@@ -8,7 +9,7 @@ export interface ICommunity {
     description: string;
     interests: any
     invitees: Array<any>;
-    members: Array<any>;
+    members: Array<IMember>;
     moderators: Array<any>;
     name: string;
     photo: string;

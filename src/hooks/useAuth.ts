@@ -2,7 +2,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useState } from 'react';
 import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
@@ -21,6 +21,8 @@ const useAuth = () => {
     const [email, setEmail] = useState("")
 
     const query = useQuery();
+
+    const queryClient = useQueryClient()
     const resetCode = query.get('resetCode');
     const emailData = query.get('email'); 
 
@@ -64,6 +66,7 @@ const useAuth = () => {
 
             Cookies.set("userId", data?.data?.user?._id)
             localStorage.setItem("access_token", data?.data?.token)
+            queryClient.invalidateQueries("userdata")
 
             toast.success("Logged In Successfully")
             setTab(2)
@@ -123,6 +126,20 @@ const useAuth = () => {
 
             setTab(4)
 
+        },
+    });
+
+    const joinChannel = useMutation({
+        mutationFn: (data: string
+        ) => httpService.post(`/communities/join-community/${data}`, {}),
+        onError: (error: any) => {
+            toast.error(error?.response?.data?.error?.details?.message)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries("userdata")
+            queryClient.invalidateQueries("communities-by-id")
+            setTab(4)
+            setOpen(true)
         },
     });
 
@@ -233,6 +250,7 @@ const useAuth = () => {
     return {
         formik,
         signupMutation,
+        joinChannel,
         formikVerify,
         verifyMutation,
         loginMutation,
