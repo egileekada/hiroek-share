@@ -7,17 +7,19 @@ import { FormikProvider } from "formik";
 import type { IUserDetail } from "../model/user";
 import type { ICommunity } from "../model/community";
 
-export default function CommunityModal({ channel, setOpen, tab, setTab }: { setOpen?: any, user: IUserDetail, channel?: ICommunity, tab?: number, setTab?: any }) {
+export default function CommunityModal({ channel, user, setOpen }: { setOpen?: any, user: IUserDetail, channel?: ICommunity, tab?: number, setTab?: any }) {
 
-    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, forgotMutation, formikForgotPassword } = useAuth()
+    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, forgotMutation, formikForgotPassword, joinChannel, setTab, tab } = useAuth(channel)
 
     useEffect(()=> {
         if(loginMutation.isSuccess){
-            setOpen(false)
+            if(!channel?.members?.some((m) => m?._id === user?._id)){
+                joinChannel.mutate(channel?._id+"")
+            } else {
+                setOpen(false)
+            }
         }
     }, [loginMutation?.isSuccess])
-
-
 
     return (
         <>
@@ -75,7 +77,7 @@ export default function CommunityModal({ channel, setOpen, tab, setTab }: { setO
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
                             <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
                             <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(10)} >forgot password</p>
-                            <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
+                            <CustomButton type="submit" loading={loginMutation.isLoading || joinChannel?.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
                             <p className=" text-primary20 text-xs font-medium " >Don't have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</button></p>
                         </div>
                     </form>
@@ -97,8 +99,8 @@ export default function CommunityModal({ channel, setOpen, tab, setTab }: { setO
             {tab === 4 && (
                 <div className=" w-full h-[75vh] flex flex-col items-center " >
                     <div className=" flex flex-col gap-1 items-center px-3 text-center " >
-                        <p className=" text-xl font-black text-[#37137F] " >{`You have successfully joined the channel`}</p>
-                        <p className=" text-sm font-medium text-primary30 " >{channel?.name}</p>
+                        <p className=" text-xl font-black text-[#37137F] max-w-[320px] text-center " >{`You have successfully joined the channel`}</p>
+                        <p className=" text-sm font-medium text-[#37137F] " >{channel?.name}</p>
                     </div>
                     <img src="/images/heart.png" alt="heart" />
                     <div className=" w-full mt-auto pb-4 px-4 flex justify-end items-end " >

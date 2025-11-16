@@ -8,12 +8,15 @@ import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
 import { useQuery } from '../utils/useQuery';
 import { useParams } from 'react-router-dom';
+import type { ICommunity } from '../model/community';
 
 
-const useAuth = () => {
+const useAuth = (community?: ICommunity) => {
 
     const [open, setOpen] = useState(false)
-    const [paymentUrl, setPaymentUrl] = useState("")
+    const [show, setShow] = useState(false)
+    const [paymentUrl, setPaymentUrl] = useState("") 
+
     const [tab, setTab] = useState(0)
 
     const { id, slug } = useParams();
@@ -64,12 +67,18 @@ const useAuth = () => {
         },
         onSuccess: (data) => { 
 
+            let token: string = data?.data?.token
+
             Cookies.set("userId", data?.data?.user?._id)
             localStorage.setItem("access_token", data?.data?.token)
             queryClient.invalidateQueries("userdata")
+            if(!community?._id) {
+                toast.success("Logged In Successfully")
+                setTab(2)
+            } else {
+                joinChannelWithToken.mutate({ id: community?._id+"", token })
+            }
 
-            toast.success("Logged In Successfully")
-            setTab(2)
         },
     });
 
@@ -131,18 +140,46 @@ const useAuth = () => {
 
     const joinChannel = useMutation({
         mutationFn: (data: string
-        ) => httpService.post(`/communities/join-community/${data}`, {}),
-        onError: (error: any) => {
-            toast.error(error?.response?.data?.error?.details?.message)
+        ) => httpService.post(`/communities/join-community/${data}`, {},),
+        onError: () => { 
+            setTab(4) 
         },
         onSuccess: () => {
             queryClient.invalidateQueries("userdata")
             queryClient.invalidateQueries("communities-by-id")
-            setTab(4)
-            setOpen(true)
+            if(!community?._id) {    
+                setShow(true)
+                setTab(4)
+            } 
         },
     });
 
+    const joinChannelWithToken = useMutation({
+        mutationFn: ({ id, token }: { id: string; token: string }) =>
+          httpService.post(
+            `/communities/join-community/${id}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          ),
+      
+        onError: () => {
+          setTab(4);
+        },
+      
+        onSuccess: () => {
+          queryClient.invalidateQueries("userdata");
+          queryClient.invalidateQueries("communities-by-id");
+      
+        //   if (!community?._id) { 
+            setTab(4);
+        //   }
+        },
+      });
+      
 
     const verifyMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/verify-otp`, data),
@@ -260,6 +297,8 @@ const useAuth = () => {
         open,
         setOpen,
         tab,
+        show,
+        setShow,
         setTab,
         email,
         setEmail,

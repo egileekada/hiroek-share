@@ -7,25 +7,25 @@ import CustomButton from "../components/shared/customButton";
 import { textLimit } from "../utils/textlimit";
 import useAuth from "../hooks/useAuth";
 import CommunityModal from "../components/communityModal";
-import useGetUserData from "../hooks/useGetUserData";
+import useGetUserData from "../hooks/useGetUserData"; 
 
 
 export default function ChannelsPage() {
 
     const { data: item, isLoading } = useGetCommunityById()
 
-    const { data: user } = useGetUserData().getCurrentUserData()
-    const { joinChannel, tab, setTab, open, setOpen } = useAuth()
+    const { data: user } = useGetUserData().getCurrentUserData() 
+    const { joinChannel, open, setOpen, tab, setTab, setShow, show } = useAuth()
 
 
     const handleClick = () => {
         joinChannel?.mutate(item?._id)
     }
 
-    const handleOpen = () => {  
+    const handleOpen = () => {
         setTab(6)
-        setOpen(true)
-    } 
+        setShow(true)
+    }
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -69,10 +69,43 @@ export default function ChannelsPage() {
                     )}
                 </div>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={open} setOpen={setOpen} >
-                    <CommunityModal user={user as any} setOpen={setOpen} tab={tab} setTab={setTab} />
+                    <CommunityModal user={user as any} channel={item} setOpen={setOpen} />
+                </ModalLayout>
+
+                <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
+                    {tab === 4 && (
+                        <div className=" w-full h-[75vh] flex flex-col items-center " >
+                            <div className=" flex flex-col gap-1 items-center px-3 text-center " >
+                                <p className=" text-xl font-black text-[#37137F] max-w-[320px] text-center " >{`You have successfully joined the channel`}</p>
+                                <p className=" text-sm font-medium text-[#37137F] " >{item?.name}</p>
+                            </div>
+                            <img src="/images/heart.png" alt="heart" />
+                            <div className=" w-full mt-auto pb-4 px-4 flex justify-end items-end " >
+                                <CustomButton type="button" onClick={() => setTab(6)} rounded="44px" height="50px"  >View Channel On The App</CustomButton>
+                            </div>
+                        </div>
+                    )}
+                    {tab === 6 && (
+                        <div className=" w-full flex flex-col gap-6 items-center px-2 pb-4 " >
+                            <p className=" font-bold text-primary " >Get The Full Experience In The App!</p>
+                            <div className=" w-full flex flex-col gap-4 " >
+                                <div className=" flex w-full justify-between items-center " >
+                                    <img src="/images/google.png" alt="google" className=" w-[145px] " />
+                                    <a href="https://play.google.com/store/apps/details?id=com.hiroek.app.hiroek" target="_blank" >
+                                        <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Proceed</CustomButton>
+                                    </a>
+                                </div>
+                                <div className=" flex w-full justify-between items-center " >
+                                    <img src="/images/apple.png" alt="google" className=" w-[145px] " />
+                                    <a href="https://apps.apple.com/ng/app/hiroek/id6474194083" target="_blank" >
+                                        <CustomButton rounded="8px" width="93px" fontSize="12px" color="#37137F" bgColor="#37137F4D" height="44px"  >Proceed</CustomButton>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </ModalLayout>
             </div>
         </LoadingAnimation>
     )
-}
-// 670e447270be6b0ed3cd7f02 
+} 
