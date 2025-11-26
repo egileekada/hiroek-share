@@ -1,9 +1,11 @@
 import SmartCalendar from "../components/shared/calendar";
-import { HiClock, HiMiniMapPin } from "react-icons/hi2";
+import { HiClock, HiMiniMapPin, HiTicket } from "react-icons/hi2";
 import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
-import { textLimit } from "../utils/textlimit"; 
+import { textLimit } from "../utils/textlimit";
+import { TicketIcon } from "../svg";
+import { formatNumber } from "../utils/numberFormat";
 
 
 export default function UserId() {
@@ -15,7 +17,7 @@ export default function UserId() {
 
     const { date, setDate, data: dateEvent, isLoading: loading } = useGetUserData().getEventDataByDate()
 
-    const sortedDates = Object.keys(event).sort();  
+    const sortedDates = Object.keys(event).sort();
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -29,7 +31,7 @@ export default function UserId() {
                     </div>
                     <div className=" w-full flex flex-col h-full py-5 gap-3 px-4 rounded-4xl text-center text-[#37137F] items-center bg-white " >
                         <div className=" w-full flex flex-col items-center " >
-                            <p className=" text-2xl font-extrabold " >{data?.name}</p> 
+                            <p className=" text-2xl font-extrabold " >{data?.name}</p>
                         </div>
 
                         <div className=" px-[14px] w-full flex flex-col items-center gap-1 py-[10px] font-extrabold text-xs rounded-3xl bg-[#37137F1A] shadow " >
@@ -73,6 +75,16 @@ export default function UserId() {
                                                                 <HiClock />
                                                                 <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
                                                             </div>
+                                                            <div className=" flex items-center gap-2 " >
+                                                                <HiTicket />
+                                                                <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice)}</p>
+                                                                {item?.ticketing?.length > 1 && (
+                                                                    <div className=" flex items-center gap-2 " >
+                                                                        <p className=" text-xs font-medium " >-</p>
+                                                                        <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice)}</p>
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </a>
                                                     )
                                                 })}
@@ -96,6 +108,9 @@ export default function UserId() {
                                                         <HiClock />
                                                         <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
                                                     </div>
+                                                    <div>
+                                                        <TicketIcon />
+                                                    </div>
                                                 </a>
                                             )
                                         })}
@@ -104,7 +119,7 @@ export default function UserId() {
                             )}
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </LoadingAnimation>
     )
