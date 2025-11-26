@@ -77,11 +77,11 @@ export default function UserId() {
                                                             </div>
                                                             <div className=" flex items-center gap-2 " >
                                                                 <HiTicket />
-                                                                <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice)}</p>
+                                                                <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice/100)}</p>
                                                                 {item?.ticketing?.length > 1 && (
                                                                     <div className=" flex items-center gap-2 " >
                                                                         <p className=" text-xs font-medium " >-</p>
-                                                                        <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice)}</p>
+                                                                        <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice/100)}</p>
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -110,11 +110,11 @@ export default function UserId() {
                                                     </div>
                                                     <div className=" flex items-center gap-2 " >
                                                         <HiTicket />
-                                                        <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice)}</p>
+                                                        <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice/100)}</p>
                                                         {item?.ticketing?.length > 1 && (
                                                             <div className=" flex items-center gap-2 " >
                                                                 <p className=" text-xs font-medium " >-</p>
-                                                                <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice)}</p>
+                                                                <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice/100)}</p>
                                                             </div>
                                                         )}
                                                     </div>
