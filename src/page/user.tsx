@@ -3,7 +3,7 @@ import { HiClock, HiMiniMapPin, HiTicket } from "react-icons/hi2";
 import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
-import { textLimit } from "../utils/textlimit"; 
+import { textLimit } from "../utils/textlimit";
 import { formatNumber } from "../utils/numberFormat";
 
 
@@ -76,11 +76,11 @@ export default function UserId() {
                                                             </div>
                                                             <div className=" flex items-center gap-2 " >
                                                                 <HiTicket />
-                                                                <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice/100)}</p>
+                                                                <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice / 100)}</p>
                                                                 {item?.ticketing?.length > 1 && (
                                                                     <div className=" flex items-center gap-2 " >
                                                                         <p className=" text-xs font-medium " >-</p>
-                                                                        <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice/100)}</p>
+                                                                        <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -109,11 +109,14 @@ export default function UserId() {
                                                     </div>
                                                     <div className=" flex items-center gap-2 " >
                                                         <HiTicket />
-                                                        <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice/100)}</p>
+                                                        {item?.ticketing?.length > 1 && (
+                                                            <p className=" text-xs font-medium " >From</p>
+                                                        )}
+                                                        <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice / 100)}</p>
                                                         {item?.ticketing?.length > 1 && (
                                                             <div className=" flex items-center gap-2 " >
                                                                 <p className=" text-xs font-medium " >-</p>
-                                                                <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice/100)}</p>
+                                                                <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
                                                             </div>
                                                         )}
                                                     </div>
