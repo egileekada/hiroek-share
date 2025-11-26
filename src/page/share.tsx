@@ -179,7 +179,7 @@ function SharePage() {
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                             <Text className=" font-extrabold text-xs " >Minimum Pledge</Text>
                                         </div>
-                                        <CustomButton isDisabled={true} rounded="44px" color="white" height="50px"  >{formatNumber(event?.eventPledge?.minimumPledge)}</CustomButton>
+                                        <CustomButton isDisabled={true} rounded="44px" color="white" height="50px"  >{formatNumber(event?.eventPledge?.minimumPledge/100)}</CustomButton>
                                     </div>
                                 </div>
                             )}
