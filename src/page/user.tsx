@@ -3,8 +3,7 @@ import { HiClock, HiMiniMapPin, HiTicket } from "react-icons/hi2";
 import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
-import { textLimit } from "../utils/textlimit";
-import { TicketIcon } from "../svg";
+import { textLimit } from "../utils/textlimit"; 
 import { formatNumber } from "../utils/numberFormat";
 
 
