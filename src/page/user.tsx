@@ -63,6 +63,8 @@ export default function UserId() {
                                                 {/* @ts-ignore fixed this */}
                                                 {event[date].map((item, index) => {
 
+                                                    const minPrice = Math.min(...item?.ticketing?.map((ticket: any) => ticket.ticketPrice));
+
                                                     return (
                                                         <a key={index} href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                             <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
@@ -79,13 +81,13 @@ export default function UserId() {
                                                                 {item?.ticketing?.length > 1 && (
                                                                     <p className=" text-xs font-medium " >From</p>
                                                                 )}
-                                                                <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice / 100)}</p>
-                                                                {item?.ticketing?.length > 1 && (
+                                                                <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
+                                                                {/* {item?.ticketing?.length > 1 && (
                                                                     <div className=" flex items-center gap-2 " >
                                                                         <p className=" text-xs font-medium " >-</p>
                                                                         <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
                                                                     </div>
-                                                                )}
+                                                                )} */}
                                                             </div>
                                                         </a>
                                                     )
@@ -99,6 +101,9 @@ export default function UserId() {
                                 <LoadingAnimation loading={loading} length={dateEvent?.length} >
                                     <div className="  w-full flex flex-col gap-3 mt-6 " >
                                         {dateEvent.map((item) => {
+
+                                            const minPrice = Math.min(...item?.ticketing?.map(ticket => ticket.ticketPrice));
+
                                             return (
                                                 <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                     <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
@@ -115,13 +120,13 @@ export default function UserId() {
                                                         {item?.ticketing?.length > 1 && (
                                                             <p className=" text-xs font-medium " >From</p>
                                                         )}
-                                                        <p className=" text-xs font-medium " >{item?.ticketing[0]?.ticketPrice === 0 ? "Free" : formatNumber(item?.ticketing[0]?.ticketPrice / 100)}</p>
-                                                        {item?.ticketing?.length > 1 && (
+                                                        <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
+                                                        {/* {item?.ticketing?.length > 1 && (
                                                             <div className=" flex items-center gap-2 " >
                                                                 <p className=" text-xs font-medium " >-</p>
                                                                 <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
                                                             </div>
-                                                        )}
+                                                        )} */}
                                                     </div>
                                                 </a>
                                             )
