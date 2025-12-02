@@ -20,8 +20,8 @@ import { capitalizeFLetter } from "../utils/capitalLetter"
 import useGetUserData from "../hooks/useGetUserData"
 import type { IUserDetail } from "../model/user"
 import { useQuery } from "../utils/useQuery"
-import { useNavigate } from "react-router-dom"
-import ChartGraphPledge from "../components/chartGraphPledge"
+import { useNavigate } from "react-router-dom" 
+
 
 function SharePage() {
 
