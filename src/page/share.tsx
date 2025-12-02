@@ -40,9 +40,7 @@ function SharePage() {
 
     const query = useQuery();
 
-    const back = query.get("back");
-
-    console.log(event);
+    const back = query.get("back"); 
 
 
     return (
