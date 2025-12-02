@@ -246,7 +246,7 @@ function SharePage() {
                     {/* <DonateForm setOpen={setOpen} /> */}
                     <div className=" w-full flex flex-col h-[90vh] overflow-y-auto " >
                         <div className=" flex w-full justify-center " >
-                            <p className=" text-primary text-center font-extrabold " >Charity Partner</p>
+                            <p className=" text-primary text-center font-extrabold " >Charity Partner(s)</p>
                         </div>
                         <div className=" mt-6 flex flex-col gap-3 " >
                             {event?.eventPledge?.organizations?.map((item) => {
