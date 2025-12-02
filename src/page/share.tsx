@@ -170,11 +170,11 @@ function SharePage() {
                                 <div className=" flex w-full gap-3 items-center justify-center " >
                                     <div className=" flex flex-col gap-2 items-center " >
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                            <Text className=" font-extrabold text-xs " >Charity Partner</Text>
+                                            <Text className=" font-extrabold text-xs " >Charity Partner(s)</Text>
                                         </div>
 
                                         <CustomButton onClick={() => setShowPartner(true)} hasIcon icon={<IoMdEye size={"20px"} />} rounded="44px" width="100%" height="50px"  >
-                                            View Charity Partner
+                                            View Charity Partner(s)
                                         </CustomButton>
                                     </div>
                                 </div>
