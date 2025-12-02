@@ -210,8 +210,11 @@ function SharePage() {
                                 <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-xs font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue the important work.</p>
                                 {/* <ChartGraphPledge /> */}
                                 <div className=" w-full h-[180px] flex px-6 flex-col items-center justify-center relative my-4 " >
-                                    <div className=" max-w-[400px] w-full h-[200px] absolute top-0 left-auto right-auto flex justify-center rounded-t-full border-t-4 border-l-4 border-r-4 border-primary " />
-                                    <div className=" w-4 h-4 absolute -bottom-[5px] -right-[4px] z-30 rounded-full bg-[#37137F] " />
+                                    <div className=" max-w-[400px] w-full h-[200px] relative  " >
+
+                                        <div className=" max-w-[400px] w-full h-[200px] absolute top-0 left-auto right-auto flex justify-center rounded-t-full border-t-4 border-l-4 border-r-4 border-primary " />
+                                        {/* <div className=" w-4 h-4 absolute -bottom-[5px] -right-[4px] z-30 rounded-full bg-[#37137F] " /> */}
+                                    </div>
                                 </div>
                                 <div className=" w-full px-2 flex justify-center -mt-24 " >
                                     <div className=" flex flex-col items-center" >
