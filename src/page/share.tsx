@@ -21,6 +21,7 @@ import useGetUserData from "../hooks/useGetUserData"
 import type { IUserDetail } from "../model/user"
 import { useQuery } from "../utils/useQuery"
 import { useNavigate } from "react-router-dom"
+import ChartGraphPledge from "../components/chartGraphPledge"
 
 function SharePage() {
 
@@ -40,6 +41,9 @@ function SharePage() {
     const query = useQuery();
 
     const back = query.get("back");
+
+    console.log(event);
+
 
     return (
         <>
@@ -165,7 +169,7 @@ function SharePage() {
                                 })}
                             </div> */}
                             {event?.eventPledge?.minimumPledge > 0 && (
-                                <div className=" flex w-full gap-3 " >
+                                <div className=" flex w-full gap-3 items-center justify-center " >
                                     <div className=" flex flex-col gap-2 items-center " >
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                             <Text className=" font-extrabold text-xs " >Charity Partner</Text>
@@ -174,12 +178,6 @@ function SharePage() {
                                         <CustomButton onClick={() => setShowPartner(true)} hasIcon icon={<IoMdEye size={"20px"} />} rounded="44px" width="100%" height="50px"  >
                                             View Charity Partner
                                         </CustomButton>
-                                    </div>
-                                    <div className=" flex flex-col gap-2 items-center " >
-                                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                            <Text className=" font-extrabold text-xs " >Minimum Pledge</Text>
-                                        </div>
-                                        <CustomButton isDisabled={true} rounded="44px" color="white" height="50px"  >{formatNumber(event?.eventPledge?.minimumPledge/100)}</CustomButton>
                                     </div>
                                 </div>
                             )}
@@ -200,6 +198,23 @@ function SharePage() {
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-medium text-[#667085] text-sm " >Donated</p>
                                         <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised / 100)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {event?.eventPledge?.minimumPledge > 0 && (
+                            <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
+
+                                <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                    <Text className=" !font-extrabold text-xs " >Pledge</Text>
+                                </div>
+                                <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-xs font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue the important work.</p>
+                                <ChartGraphPledge />
+                                <div className=" w-full px-2 flex justify-center pt-2 " >
+                                    <div className=" flex flex-col items-center" >
+                                        <p className=" font-semibold text-xl " >£{formatNumberWithK(event?.eventPledge?.minimumPledge / 100)}</p>
+                                        <p className=" font-medium text-green-500 bg-green-500/10 px-2 py-1 rounded-full text-sm " >Minimum Pledge</p>
                                     </div>
                                 </div>
                             </div>

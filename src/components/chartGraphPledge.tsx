@@ -12,7 +12,7 @@ export default function ChartGraphPledge() {
         datasets: [
             {
                 label: "Donation",
-                data: [event.eventPledge.organizations[0].fundRaised/100, ((event.eventPledge?.totalPledgedAmount/100) - event.eventPledge.organizations[0].fundRaised/100)],
+                data: [event.eventPledge.totalPledgedAmount/100, ((event.eventPledge?.minimumPledge/100) - event.eventPledge.totalPledgedAmount === 0  ? 0 : event.eventPledge.minimumPledge/100)],
                 backgroundColor: ["#37137F", "#37137F26"],
                 circumference: 180,
                 rotation: 270,
