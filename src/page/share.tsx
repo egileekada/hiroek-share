@@ -209,7 +209,7 @@ function SharePage() {
                                 </div>
                                 <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-xs font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue the important work.</p>
                                 <ChartGraphPledge />
-                                <div className=" w-full px-2 flex justify-center pt-2 " >
+                                <div className=" w-full px-2 flex justify-center -mt-24 " >
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-semibold text-xl " >£{formatNumberWithK(event?.eventPledge?.minimumPledge / 100)}</p>
                                         <p className=" font-medium text-green-500 bg-green-500/10 px-2 py-1 rounded-full text-sm " >Minimum Pledge</p>

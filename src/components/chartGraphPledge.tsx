@@ -26,7 +26,7 @@ export default function ChartGraphPledge() {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                display: true,
+                display: false,
                 position: 'bottom',
             },
         },
@@ -37,21 +37,21 @@ export default function ChartGraphPledge() {
     const centerTextPlugin = {
         id: 'centerText',
         beforeDraw: (chart: any) => {
-            const { width, height, ctx } = chart;
-            const sum = chart.data.datasets[0].data.reduce((acc: number, value: number) => acc + value, 0);
-            const value = chart.data.datasets[0].data[0]; // You can customize which percentage to show
-            const percentage = ((value / sum) * 100).toFixed(1);
+            const { height, ctx } = chart;
+            // const sum = chart.data.datasets[0].data.reduce((acc: number, value: number) => acc + value, 0);
+            // const value = chart.data.datasets[0].data[0]; // You can customize which percentage to show
+            // const percentage = ((value / sum) * 100).toFixed(1);
 
             ctx.restore();
             const fontSize = (height / 160).toFixed(2);
             ctx.font = `${fontSize}em sans-serif`;
             ctx.textBaseline = 'middle';
 
-            const text = `${percentage}%`,
-                textX = Math.round((width - ctx.measureText(text).width) / 2),
-                textY = height / 2;
+            // const text = event.eventPledge.totalPledgedAmount/100,
+            //     textX = Math.round((width - ctx.measureText(text).width) / 2),
+            //     textY = height / 2;
 
-            ctx.fillText(text, textX, textY);
+            // ctx.fillText(text, textX, textY);
             ctx.save();
         },
     };
