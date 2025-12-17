@@ -42,6 +42,9 @@ function SharePage() {
 
     const back = query.get("back");
 
+    const paragraphs = event?.description
+        ?.split(/\n\s*\n/)
+        .filter(Boolean);
 
     return (
         <>
@@ -147,7 +150,19 @@ function SharePage() {
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] mb-3 flex justify-center items-center "  >
                                     <Text className=" !font-extrabold text-xs " >About Event</Text>
                                 </div>
-                                <Text className=" text-primary text-center text-opacity-90 text-xs font-medium !leading-[16px] whitespace-pre-line" >{event?.description}</Text>
+                                {/* <Text className=" text-primary text-left text-opacity-90 text-xs font-medium !leading-[16px] whitespace-pre-line " >
+                                    {event?.description
+  ?.split(/\n\s*\n/)
+  .map(p => p.replace(/\n/g, " "))
+  .filter(Boolean)
+                                        }
+                                </Text> */}
+
+                                {paragraphs?.map((text, i) => (
+                                    <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-xs last:mb-0">
+                                        {text}
+                                    </Text>
+                                ))}
 
                             </div>
                             {/* <div className=" flex flex-col gap-3 items-center " >
@@ -275,7 +290,7 @@ function SharePage() {
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <EventTicketForm user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
-                <ModalLayout  width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
+                <ModalLayout width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" w-full h-full rounded-full " >
                         <img className=" w-full h-full rounded-full object-contain " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                     </div>
