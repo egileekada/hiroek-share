@@ -31,6 +31,7 @@ function SharePage() {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
+    const [showImg, setShowImg] = useState(false)
     const [showPartner, setShowPartner] = useState(false)
     const [showHost, setShowHost] = useState(false)
     const navigate = useNavigate()
@@ -69,12 +70,12 @@ function SharePage() {
                             <div className=" w-full rounded-2xl flex flex-col gap-2 " >
 
                                 <div className=" w-full flex gap-4" >
-                                    <div role="button" onClick={() => setShowHost(true)} className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
+                                    <div role="button" className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
 
-                                        <div className=" w-8 h-8 rounded-full " >
+                                        <div  onClick={() => setShowImg(true)} className=" w-8 h-8 rounded-full " >
                                             <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                         </div>
-                                        <div className=" flex flex-col items-center justify-center " >
+                                        <div  onClick={() => setShowHost(true)} className=" flex flex-col items-center justify-center " >
                                             <div className=" font-bold text-[10px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[18px] w-[75px] " >
                                                 Event Host:
                                             </div>
@@ -150,13 +151,6 @@ function SharePage() {
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] mb-3 flex justify-center items-center "  >
                                     <Text className=" !font-extrabold text-xs " >About Event</Text>
                                 </div>
-                                {/* <Text className=" text-primary text-left text-opacity-90 text-xs font-medium !leading-[16px] whitespace-pre-line " >
-                                    {event?.description
-  ?.split(/\n\s*\n/)
-  .map(p => p.replace(/\n/g, " "))
-  .filter(Boolean)
-                                        }
-                                </Text> */}
 
                                 {paragraphs?.map((text, i) => (
                                     <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-xs last:mb-0">
@@ -165,22 +159,6 @@ function SharePage() {
                                 ))}
 
                             </div>
-                            {/* <div className=" flex flex-col gap-3 items-center " >
-                                <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                    <Text className=" font-extrabold text-xs " >Tickets Available</Text>
-                                </div>
-                                {event?.ticketing?.map((item, index) => {
-                                    return (
-                                        <div role="button" key={index} onClick={() => clickHandler(item)} className=" w-full justify-start items-center flex border rounded-lg  px-4 h-[96px] " >
-                                            <div key={index} className=" lg:max-w-[360px] w-full flex flex-col gap-1 justify-center" >
-                                                <p className=" text-xs font-semibold " >{item?.ticketType}</p>
-                                                <p className=" font-semibold " >{formatNumber(item?.ticketPrice/100)}</p>
-                                                <p className=" text-xs font-semibold ">Sales End On {dateFormat(item?.salesEndDate)}</p>
-                                            </div> 
-                                        </div>
-                                    )
-                                })}
-                            </div> */}
                             {event?.eventPledge?.minimumPledge > 0 && (
                                 <div className=" flex w-full gap-3 items-center justify-center " >
                                     <div className=" flex flex-col gap-2 items-center " >
@@ -290,12 +268,31 @@ function SharePage() {
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <EventTicketForm user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
-                <ModalLayout width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
+                <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
                     <div className=" w-full h-full rounded-full " >
                         <img className=" w-full h-full rounded-full object-contain " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                     </div>
                 </ModalLayout>
 
+
+                <ModalLayout onIcon={true} width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
+                    <div className=" pb-3 px-4 flex flex-col gap-4 " >
+                        <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
+                            <div onClick={() => setShowImg(true)} className=" w-[44px] h-[44px] rounded-full " >
+                                <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
+                            </div>
+                            <div className=" flex flex-col gap-1 " >
+                                <div className=" font-bold text-[12px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[20px] w-[80px] " >
+                                    Event Host:
+                                </div>
+                                <p className=" font-bold text-[14px] text-center text-[#37137F] " >{event?.admin?.fullname ?? event?.admin?.name}</p>
+                            </div>
+                        </div>
+                        <div onClick={() => setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
+                            Close
+                        </div>
+                    </div>
+                </ModalLayout>
             </LoadingAnimation>
         </>
     )
