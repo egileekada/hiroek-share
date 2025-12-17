@@ -20,7 +20,7 @@ import { capitalizeFLetter } from "../utils/capitalLetter"
 import useGetUserData from "../hooks/useGetUserData"
 import type { IUserDetail } from "../model/user"
 import { useQuery } from "../utils/useQuery"
-import { useNavigate } from "react-router-dom" 
+import { useNavigate } from "react-router-dom"
 
 
 function SharePage() {
@@ -144,10 +144,10 @@ function SharePage() {
                         </div>
                         <div className=" flex flex-col gap-4 w-full  px-4 py-4 " >
                             <div className=" w-full flex flex-col items-center lg:pt-4 pt-4 " >
-                                <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] mb-3 flex justify-center items-center "  >
                                     <Text className=" !font-extrabold text-xs " >About Event</Text>
                                 </div>
-                                <Text className=" text-primary text-center text-opacity-90 text-xs font-medium !leading-[18px] mt-2 " >{event?.description}</Text>
+                                <Text className=" text-primary text-center text-opacity-90 text-xs font-medium !leading-[16px] whitespace-pre-line" >{event?.description}</Text>
 
                             </div>
                             {/* <div className=" flex flex-col gap-3 items-center " >
@@ -275,22 +275,9 @@ function SharePage() {
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
                     <EventTicketForm user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
-                <ModalLayout onIcon={true} width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
-                    <div className=" pb-3 px-4 flex flex-col gap-4 " >
-                        <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
-                            <div className=" w-[44px] h-[44px] rounded-full " >
-                                <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
-                            </div>
-                            <div className=" flex flex-col gap-1 " >
-                                <div className=" font-bold text-[12px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[20px] w-[80px] " >
-                                    Event Host:
-                                </div>
-                                <p className=" font-bold text-[14px] text-center text-[#37137F] " >{event?.admin?.fullname ?? event?.admin?.name}</p>
-                            </div>
-                        </div>
-                        <div onClick={() => setShowHost(false)} role="button" className=" w-full flex justify-center items-center text-[#CC1B1B] font-semibold text-sm cursor-pointer " >
-                            Close
-                        </div>
+                <ModalLayout  width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
+                    <div className=" w-full h-full rounded-full " >
+                        <img className=" w-full h-full rounded-full object-contain " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                     </div>
                 </ModalLayout>
 
