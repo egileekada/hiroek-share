@@ -41,7 +41,7 @@ export default function ModalLayout(props: {
                             <IoIosCloseCircle size={"25px"} />
                         </div>
                     )}
-                    <div className=' w-full flex h-full flex-col ' >
+                    <div className=' w-full flex h-fit flex-col ' >
                         {props?.children}
                     </div>
                 </Dialog.Content>

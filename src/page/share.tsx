@@ -269,7 +269,7 @@ function SharePage() {
                     <EventTicketForm user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
                 <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
-                    <div className=" w-full h-full rounded-full " >
+                    <div className=" w-full rounded-full " >
                         <img className=" w-full h-full rounded-full object-contain " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                     </div>
                 </ModalLayout>
