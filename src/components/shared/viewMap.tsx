@@ -8,10 +8,6 @@ interface LatLngLiteral {
     lng: number;
 }
 
-interface Props {
-    address: string
-}
-
 const libraries: ("places")[] = ['places']; // Libraries to load for Google Maps
 
 const mapContainerStyle = {
