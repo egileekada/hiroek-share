@@ -2,6 +2,7 @@ import type { IMember } from "./user"
 
 export interface IEvent {
     "fundRaiser": IFundRaiser,
+    currency: string,
     "eventPledge": {
         "organizations": 
             {

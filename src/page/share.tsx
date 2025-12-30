@@ -5,7 +5,7 @@ import LoadingAnimation from "../components/loadingAnimation"
 import useGetEventData from "../hooks/useGetEventData"
 import { LocationIcon, CalendarIcon2, ClockIcon, TicketIcon, BackArrowIcon } from "../svg"
 import { dateFormat, timeFormat } from "../utils/dateFormat"
-import { formatNumberWithK } from "../utils/formatNumberWithK"
+import { formatNumberWithK, formatNumberWithKCurrency } from "../utils/formatNumberWithK"
 import { formatNumber } from "../utils/numberFormat"
 import { textLimit } from "../utils/textlimit"
 import CustomButton from "../components/shared/customButton"
@@ -21,6 +21,7 @@ import useGetUserData from "../hooks/useGetUserData"
 import type { IUserDetail } from "../model/user"
 import { useQuery } from "../utils/useQuery"
 import { useNavigate } from "react-router-dom"
+import ViewMap from "../components/shared/viewMap"
 
 
 function SharePage() {
@@ -64,7 +65,7 @@ function SharePage() {
                                 </div>
                             )}
                             <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
-                            <div  onClick={() => setShowImg(true)} className=" absolute z-10 inset-0 bg-[#0000004D] " />
+                            <div onClick={() => setShowImg(true)} className=" absolute z-10 inset-0 bg-[#0000004D] " />
                         </div>
                         <div className=" w-full -mt-[150px] z-20 px-3  " >
                             <div className=" w-full rounded-2xl flex flex-col gap-2 " >
@@ -75,7 +76,7 @@ function SharePage() {
                                         <div onClick={() => setShowImg(true)} className=" w-8 h-8 rounded-full " >
                                             <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                         </div>
-                                        <div  onClick={() => setShowHost(true)} className=" flex flex-col items-center justify-center " >
+                                        <div onClick={() => setShowHost(true)} className=" flex flex-col items-center justify-center " >
                                             <div className=" font-bold text-[10px] flex justify-center items-center text-white bg-[#37137FBF] rounded h-[18px] w-[75px] " >
                                                 Event Host:
                                             </div>
@@ -126,7 +127,7 @@ function SharePage() {
                                                         <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
                                                     </div>
                                                 )}
-                                                <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithK(event?.members?.length)} Attending</Text>
+                                                <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length, event?.currency as any)} Attending</Text>
                                             </div>
                                         )}
                                         {event?.ticketing?.length > 0 && (
@@ -173,6 +174,11 @@ function SharePage() {
                                 </div>
                             )}
                         </div>
+                        {event?.address && (
+                            <div className=" w-full px-6 " >
+                                <ViewMap lat={event?.loc?.coordinates[1]} lng={event?.loc?.coordinates[0]} />
+                            </div>
+                        )}
                     </div>
                     <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
                         {event?.fundRaiser?.fundRaisingGoal > 0 && (
@@ -184,11 +190,11 @@ function SharePage() {
                                 <div className=" w-full px-2 flex justify-between pt-2 " >
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-medium text-[#667085] text-sm " >Target</p>
-                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >£{formatNumberWithK(event?.fundRaiser?.fundRaisingGoal / 100)}</p>
+                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumberWithKCurrency(event?.fundRaiser?.fundRaisingGoal / 100, event?.currency as any)}</p>
                                     </div>
                                     <div className=" flex flex-col items-center" >
                                         <p className=" font-medium text-[#667085] text-sm " >Donated</p>
-                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised / 100)}</p>
+                                        <p className=" font-semibold text-xl text-[#1D1F2C] " >{formatNumber(event?.fundRaiser?.fundRaised / 100, event?.currency as any)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +217,7 @@ function SharePage() {
                                 </div>
                                 <div className=" w-full px-2 flex justify-center -mt-24 " >
                                     <div className=" flex flex-col items-center" >
-                                        <p className=" font-semibold text-2xl " >£{formatNumberWithK(event?.eventPledge?.minimumPledge / 100)}</p>
+                                        <p className=" font-semibold text-2xl " >{formatNumberWithKCurrency(event?.eventPledge?.minimumPledge / 100, event?.currency as any)}</p>
                                         <p className=" font-medium text-green-500 bg-green-500/10 px-2 py-1 rounded-full text-sm " >Minimum Pledge</p>
                                     </div>
                                 </div>

@@ -1,13 +1,31 @@
-import formatter from "format-number"
+import formatter from "format-number";
 
+export const currencies = ["usd", "cad", "eur", "gbp", "aud", "nzd"] as const;
+export type Currency = (typeof currencies)[number];
 
-export const formatNumber = (number: any, prefix = "£") => {
-  if(number === "***") {
-    return prefix+" ****"
-  } else {
-    return(
-      formatter({ prefix })(number % 1 !== 0 ? number?.toFixed(2) : number)
-    )
+export const currencySymbols: Record<Currency, string> = {
+  usd: "$",
+  cad: "$",
+  eur: "€",
+  gbp: "£",
+  aud: "$",
+  nzd: "$",
+};
+
+export const formatNumber = (
+  number: any,
+  currency?: Currency
+) => {
+  const prefix = currency ? currencySymbols[currency] : "";
+
+  if (number === "***") {
+    return prefix + " ****";
   }
+
+  const value =
+    number % 1 !== 0
+      ? Number(number).toFixed(2)
+      : Number(number);
+
+  return formatter({ prefix })(Number(value))
 }
-  
