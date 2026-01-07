@@ -48,6 +48,28 @@ const useGetUserData = () => {
         }
     }
 
+    const getCurrencyData = () => {
+        const [data, setData] = useState<any>({} as any)
+        const { isLoading, isRefetching } = useQuery(
+            ["currencydata", id],
+            () => httpService.get(`/donations/currency-quote`),
+            {
+                onError: (error: any) => {
+                    toast.error(error.response?.data)
+                },
+                onSuccess: (data: any) => {    
+                    setData(data?.data?.quotes) 
+                }, 
+            },
+        );
+
+        return {
+            data,
+            isLoading,
+            isRefetching
+        }
+    }
+
 
     // Get Event list
     const getCurrentUserData = () => {
@@ -139,7 +161,8 @@ const useGetUserData = () => {
         getUserData, 
         getEventDataByDate,
         getEventData,
-        getCurrentUserData
+        getCurrentUserData,
+        getCurrencyData
     };
 }
 

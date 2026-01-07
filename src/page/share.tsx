@@ -28,6 +28,10 @@ function SharePage() {
 
     const { isLoading, data: event } = useGetEventData()?.getEventData()
     const { data: user } = useGetUserData().getCurrentUserData()
+    const { data: currencyData } = useGetUserData().getCurrencyData()
+
+    console.log(currencyData);
+    
 
 
     const [open, setOpen] = useState(false)
@@ -115,7 +119,6 @@ function SharePage() {
                                                     <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
                                                 </div>
                                                 {event?.members?.length > 1 && (
-
                                                     <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
                                                         <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
                                                         <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
@@ -165,8 +168,7 @@ function SharePage() {
                                     <div className=" flex flex-col gap-2 items-center " >
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                             <Text className=" font-extrabold text-xs " >Charity Partner(s)</Text>
-                                        </div>
-
+                                        </div> 
                                         <CustomButton onClick={() => setShowPartner(true)} hasIcon icon={<IoMdEye size={"20px"} />} rounded="44px" width="100%" height="50px"  >
                                             View Charity Partner(s)
                                         </CustomButton>
@@ -272,7 +274,7 @@ function SharePage() {
                     </div>
                 </ModalLayout>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
-                    <EventTicketForm user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
+                    <EventTicketForm convert={currencyData} user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
                 <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
                     <div className=" w-full rounded-full " >

@@ -14,7 +14,7 @@ import { FormikProvider } from "formik";
 import Cookies from "js-cookie"
 import type { IUserDetail } from "../model/user";
 
-export default function EventTicketForm({ event, user }: { setOpen?: any, event: IEvent, user: IUserDetail }) {
+export default function EventTicketForm({ event, user, convert }: { setOpen?: any, event: IEvent, user: IUserDetail, convert: any }) {
 
     const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword, paymentUrl } = useAuth()
 
@@ -107,11 +107,50 @@ export default function EventTicketForm({ event, user }: { setOpen?: any, event:
     }, [event, payload])
 
     useEffect(() => {
-        const serviceFee =
-            Math.round((0.6 + Number(totalPrices) * 0.015 + 0.2) * 100) / 100;
+        const stripeFees: Record<
+        string,
+        { percentage: number; fixed: number }
+      > = {
+        gbp: { percentage: 0.015, fixed: 0.2 },
+        usd: { percentage: 0.029, fixed: 0.3 },
+        eur: { percentage: 0.015, fixed: 0.25 },
+        aud: { percentage: 0.0175, fixed: 0.3 },
+        cad: { percentage: 0.029, fixed: 0.3 },
+        nzd: { percentage: 0.0265, fixed: 0.3 },
+        default: { percentage: 0.0325, fixed: 0.3 },
+      };
 
+      
+      const currency = event?.currency?.toLowerCase() || "default";
+      const stripeFee =
+        stripeFees[currency] ?? stripeFees.default;
+
+        const BASE_HIROEK_FEE = 0.6; // £0.60
+ 
+        
+        const rate =
+          convert?.[currency] ??
+          convert?.gbp ??
+          1;
+        
+        const hiroekFee = Math.round(
+          BASE_HIROEK_FEE * rate * 100
+        ) / 100;
+      
+        console.log(hiroekFee);
+        console.log(rate);
+        console.log(currency);
+
+      const serviceFee =
+        Math.round(
+          (
+            hiroekFee +
+            Number(totalPrices) * stripeFee.percentage +
+            stripeFee.fixed
+          ) * 100
+        ) / 100;
         setServiceFees(serviceFee);
-    }, [totalPrices]);
+    }, [totalPrices, event?.currency]);
 
     useEffect(() => {
         if (user?.fullname) {
