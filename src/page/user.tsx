@@ -11,12 +11,7 @@ export default function UserId() {
 
 
     const { data, isLoading } = useGetUserData().getUserData()
-
-    const { data: event } = useGetUserData().getEventData()
-
-    const { date, setDate, data: dateEvent, isLoading: loading } = useGetUserData().getEventDataByDate()
-
-    const sortedDates = Object.keys(event).sort();
+    const { data: dateEvent, isLoading: loading, month, setMonth } = useGetUserData().getEventDataByDate()
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -44,96 +39,55 @@ export default function UserId() {
                                 Upcoming Events
                             </div>
                             <SmartCalendar
-                                label="Select a date"
-                                value={date}
-                                onSelect={setDate}
-                                minDate={new Date()}
+                                label="Select month & year"
+                                value={month}
+                                onSelect={setMonth}
+                                minYear={2024}
+                                maxYear={2040}
                             />
+
+
                         </div>
 
                         <div className=" w-full flex h-auto flex-col items-center" >
                             <div className=" p-3 font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
                                 Event Schedules
                             </div>
-                            {!date && (
-                                <div className=" w-full flex flex-col gap-3 mt-6 " >
-                                    {sortedDates.map((date) => (
-                                        <div className=" w-full " key={date}>
-                                            <div className=" flex w-full flex-col gap-3 " >
-                                                {/* @ts-ignore fixed this */}
-                                                {event[date].map((item, index) => {
+                            <LoadingAnimation loading={loading} length={dateEvent?.length} >
+                                <div className="  w-full flex flex-col gap-3 mt-6 " >
+                                    {dateEvent.map((item) => {
 
-                                                    const minPrice = Math.min(...item?.ticketing?.map((ticket: any) => ticket.ticketPrice));
+                                        const minPrice = Math.min(...item?.ticketing?.map(ticket => ticket.ticketPrice));
 
-                                                    return (
-                                                        <a key={index} href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
-                                                            <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
-                                                            <div className=" flex items-center gap-2 " >
-                                                                <HiMiniMapPin />
-                                                                <p className=" text-xs font-medium " >{textLimit(item?.address, 40)}</p>
-                                                            </div>
-                                                            <div className=" flex items-center gap-2 " >
-                                                                <HiClock />
-                                                                <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
-                                                            </div>
-                                                            <div className=" flex items-center gap-2 " >
-                                                                <HiTicket />
-                                                                {item?.ticketing?.length > 1 && (
-                                                                    <p className=" text-xs font-medium " >From</p>
-                                                                )}
-                                                                <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
-                                                                {/* {item?.ticketing?.length > 1 && (
-                                                                    <div className=" flex items-center gap-2 " >
-                                                                        <p className=" text-xs font-medium " >-</p>
-                                                                        <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
-                                                                    </div>
-                                                                )} */}
-                                                            </div>
-                                                        </a>
-                                                    )
-                                                })}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                            {(date) && (
-                                <LoadingAnimation loading={loading} length={dateEvent?.length} >
-                                    <div className="  w-full flex flex-col gap-3 mt-6 " >
-                                        {dateEvent.map((item) => {
-
-                                            const minPrice = Math.min(...item?.ticketing?.map(ticket => ticket.ticketPrice));
-
-                                            return (
-                                                <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
-                                                    <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
-                                                    <div className=" flex items-center gap-2 " >
-                                                        <HiMiniMapPin />
-                                                        <p className=" text-xs font-medium " >{textLimit(item?.address, 40)}</p>
-                                                    </div>
-                                                    <div className=" flex items-center gap-2 " >
-                                                        <HiClock />
-                                                        <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
-                                                    </div>
-                                                    <div className=" flex items-center gap-2 " >
-                                                        <HiTicket />
-                                                        {item?.ticketing?.length > 1 && (
-                                                            <p className=" text-xs font-medium " >From</p>
-                                                        )}
-                                                        <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
-                                                        {/* {item?.ticketing?.length > 1 && (
+                                        return (
+                                            <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
+                                                <div className=" flex items-center gap-2 " >
+                                                    <HiMiniMapPin />
+                                                    <p className=" text-xs font-medium " >{textLimit(item?.address, 40)}</p>
+                                                </div>
+                                                <div className=" flex items-center gap-2 " >
+                                                    <HiClock />
+                                                    <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
+                                                </div>
+                                                <div className=" flex items-center gap-2 " >
+                                                    <HiTicket />
+                                                    {item?.ticketing?.length > 1 && (
+                                                        <p className=" text-xs font-medium " >From</p>
+                                                    )}
+                                                    <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
+                                                    {/* {item?.ticketing?.length > 1 && (
                                                             <div className=" flex items-center gap-2 " >
                                                                 <p className=" text-xs font-medium " >-</p>
                                                                 <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
                                                             </div>
                                                         )} */}
-                                                    </div>
-                                                </a>
-                                            )
-                                        })}
-                                    </div>
-                                </LoadingAnimation>
-                            )}
+                                                </div>
+                                            </a>
+                                        )
+                                    })}
+                                </div>
+                            </LoadingAnimation>
                         </div>
                     </div>
                 </div>

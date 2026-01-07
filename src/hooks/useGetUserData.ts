@@ -6,6 +6,7 @@ import httpService from "../utils/httpService";
 import { useNavigate, useParams } from "react-router-dom";
 import type { IParnter } from "../model/user";
 import Cookies from "js-cookie";
+import { format } from "date-fns";
 
 
 interface EventData {
@@ -132,11 +133,12 @@ const useGetUserData = () => {
 
 
         const [date, setDate] = useState<any>(""); 
-        
+        const [month, setMonth] = useState<Date | undefined>(new Date()); 
+
         const [data, setData] = useState<IEvent[]>([])
         const { isLoading, isRefetching } = useQuery(
             ["Event-date", id, date],
-            () => httpService.get(`/event-partners/event-daily-schedule/${id}/${new Date(date ?? "").toISOString()}`),
+            () => httpService.get(`/api/organizations/event-schedule/${id}/${format(month ?? new Date(), "yyyy-MM")}`),
             {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
@@ -152,6 +154,8 @@ const useGetUserData = () => {
             data,
             isLoading,
             date,
+            month,
+            setMonth,
             setDate,
             isRefetching
         }

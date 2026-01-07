@@ -1,115 +1,118 @@
 "use client";
 
 import React from "react";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 interface Props {
-  value?: Date | undefined;
-  onSelect?: (d: Date | undefined) => void;
-  placeholder?: string;
+  value?: Date;
+  onSelect?: (d: Date) => void;
   label?: string;
-  minDate?: Date;
-  maxDate?: Date;
+  minYear?: number;
+  maxYear?: number;
   disabled?: boolean;
-  showTime?: boolean;
 }
+
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr",
+  "May", "Jun", "Jul", "Aug",
+  "Sep", "Oct", "Nov", "Dec",
+];
 
 export default function SmartCalendar({
   value,
   onSelect,
-  placeholder = "Select date",
   label,
-  minDate,
-  maxDate,
+  minYear = 2000,
+  maxYear = new Date().getFullYear() + 5,
   disabled = false,
-  showTime = false,
 }: Props) {
-  const [internalValue, setInternalValue] = React.useState<Date | undefined>(value);
+  const initialYear = value?.getFullYear() ?? new Date().getFullYear();
+  const [year, setYear] = React.useState(initialYear);
 
-  const handleDateSelect = (date?: Date) => {
-    setInternalValue(date);
+  const selectedMonth = value?.getMonth();
+
+  const handleMonthSelect = (monthIndex: number) => {
+    if (disabled) return;
+
+    const date = new Date(year, monthIndex, 1);
     onSelect?.(date);
   };
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!internalValue) return;
-    const [hours, minutes] = e.target.value.split(":").map(Number);
-    const updated = new Date(internalValue);
-    updated.setHours(hours);
-    updated.setMinutes(minutes);
-    setInternalValue(updated);
-    onSelect?.(updated);
-  };
-
-  const displayLabel = internalValue
-    ? showTime
-      ? format(internalValue, "PPP p")
-      : format(internalValue, "PPP")
-    : placeholder;
+  const canGoPrev = year > minYear;
+  const canGoNext = year < maxYear;
 
   return (
     <div className="flex flex-col gap-3 w-full max-w-sm">
-      {label && <label className="text-sm text-gray-700 font-medium">{label}</label>}
+      {label && (
+        <label className="text-sm text-gray-700 font-medium">
+          {label}
+        </label>
+      )}
 
-      <div className="rounded-lg flex items-center justify-center border bg-white p-4 shadow-sm">
-        <DayPicker
-          mode="single"
-          selected={internalValue}
-          onSelect={handleDateSelect}
-          fromDate={minDate}
-          toDate={maxDate}
-        //   captionLayout="dropdown-buttons"
-          showOutsideDays
-          disabled={disabled}
-        />
+      {/* Year Selector */}
+      <div className="flex items-center justify-between px-2">
+        <button
+          type="button"
+          disabled={!canGoPrev || disabled}
+          onClick={() => setYear((y) => y - 1)}
+          className="rounded px-2 py-1 text-sm border disabled:opacity-40"
+        >
+          <IoChevronBack />
+        </button>
 
-        {showTime && (
-          <div className="mt-4 flex items-center justify-between border-t pt-3">
-            <label className="text-sm text-gray-700">Time:</label>
-            <input
-              type="time"
-              onChange={handleTimeChange}
-              value={
-                internalValue
-                  ? `${String(internalValue.getHours()).padStart(2, "0")}:${String(
-                      internalValue.getMinutes()
-                    ).padStart(2, "0")}`
-                  : ""
-              }
-              className="border rounded px-2 py-1 text-sm"
+        <span className="font-medium text-gray-800">
+          {year}
+        </span>
+
+        <button
+          type="button"
+          disabled={!canGoNext || disabled}
+          onClick={() => setYear((y) => y + 1)}
+          className="rounded px-2 py-1 text-sm border disabled:opacity-40"
+        >
+          <IoChevronForward />
+        </button>
+      </div>
+
+      {/* Month Grid */}
+      <div className="grid grid-cols-3 gap-3 rounded-lg border bg-white p-4 shadow-sm">
+        {MONTHS.map((month, index) => {
+          const isSelected =
+            index === selectedMonth &&
+            year === value?.getFullYear();
+
+          return (
+            <button
+              key={month}
+              type="button"
               disabled={disabled}
-            />
-          </div>
-        )}
+              onClick={() => handleMonthSelect(index)}
+              className={`
+                rounded-md px-3 py-2 text-sm font-medium transition
+                ${
+                  isSelected
+                    ? "bg-[#37137F] text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }
+                ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+              `}
+            >
+              {month}
+            </button>
+          );
+        })}
       </div>
 
-      <div className="text-sm text-gray-600">
-        Selected: <span className="font-medium text-gray-800">{displayLabel}</span>
-      </div>
+      {/* Selected Output */}
+      {value && (
+        <div className="text-sm text-gray-600">
+          Selected:{" "}
+          <span className="font-medium text-gray-800">
+            {format(value, "MMMM yyyy")}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
-
-/*
-✨ SmartCalendar (Inline Version) ✨
-- Inline display (no popup)
-- Accessible and mobile-friendly
-- Optional time input
-- Min/max date limits
-- Clean Tailwind styling
-
-Install:
-npm i react-day-picker date-fns
-
-Usage:
-const [date, setDate] = useState<Date | undefined>();
-<SmartCalendar
-  label="Select a date"
-  value={date}
-  onSelect={setDate}
-  minDate={new Date()}
-  showTime
-/>
-*/
