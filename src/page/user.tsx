@@ -31,7 +31,7 @@ export default function UserId() {
             <div className=" w-full flex flex-col h-full pb-6 items-center overflow-y-auto " >
                 <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow rounded-b-4xl bg-[#37137F] h-auto" >
                     <div className=" w-full h-fit flex justify-center " >
-                        <div className=" w-[80%] h-[150px] flex flex-col gap-2 items-center justify-end " >
+                        <div className=" w-[80%] h-[100px] flex flex-col gap-2 items-center justify-end " >
                             <img src={data?.logo} alt="logo" className=" w-24 h-24 rounded-2xl object-cover " />
                             {/* <p className= " font-black text-3xl text-white text-center " >{data?.name}</p> */}
                         </div>
