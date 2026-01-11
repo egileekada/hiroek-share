@@ -73,9 +73,9 @@ export default function UserId() {
 
 
                         <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " title="About Us" rounded="24px" open={show} setOpen={setShow} >
-                            <div className=" w-full px-3 pb-4 flex flex-col " >
+                            <div className=" w-full h-[80vh] overflow-y-auto px-3 pb-4 flex flex-col " >
                                 <p className=" text-sm font-medium text-primary " >
-                                    {paragraphs}
+                                    {paragraphs} 
                                 </p>
                             </div>
                         </ModalLayout>
