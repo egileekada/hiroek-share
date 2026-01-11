@@ -1,5 +1,5 @@
 import SmartCalendar from "../components/shared/calendar";
-import { HiClock, HiMiniMapPin, HiTicket } from "react-icons/hi2";
+import { HiClock, HiCurrencyDollar, HiMiniMapPin, HiTicket } from "react-icons/hi2";
 import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
@@ -105,8 +105,8 @@ export default function UserId() {
                                                                 {item?.ticketing?.length > 1 && (
                                                                     <p className=" text-xs font-medium " >From</p>
                                                                 )}
-                                                                <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
-                                                            </div>
+                                                                <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, item?.currency as any)}</p>
+                                                            </div>  
                                                         </a>
                                                     )
                                                 })}
