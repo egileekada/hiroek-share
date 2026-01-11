@@ -39,7 +39,7 @@ function LoadingAnimation(props: Props) {
     }, [loading])
 
     return (
-        <div className={` ${width ? width : "w-full h-full "}  bg-white `} >
+        <div className={` ${width ? width : ` w-full ${length === 0 ? " h-fit " : " h-full "}  `}  flex flex-col `} >
             {(!loading && !isLoading) && (
                 <div className=' w-full h-full ' >
                     {children}
@@ -60,7 +60,7 @@ function LoadingAnimation(props: Props) {
             {((!loading && !isLoading)) && (
                 <>
                     {length === 0 && (
-                        <div className=' w-full flex justify-center text-lg py-4 '  >
+                        <div className={` w-full flex justify-center text-sm font-bold text-primary ${text ? ""  : "py-4"} `}  >
                             <p>{text ?? "No Records Found"}</p>
                         </div>
                     )}

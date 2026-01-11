@@ -67,12 +67,12 @@ export default function UserId() {
 
                         <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " rounded="24px" open={showModal} setOpen={setShowModal} >
                             {/* <DonateForm setOpen={setOpen} /> */}
-                            <div className=" w-full h-full flex flex-col " >
+                            <div className=" w-full h-[80vh] flex gap-4 flex-col " >
                                 <div className=" p-3 w-fit mx-auto font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
                                     Event Schedules
                                 </div>
                                 {month && (
-                                    <div className="text-sm mt-2 mx-auto text-gray-600">
+                                    <div className="text-sm mx-auto text-gray-600">
                                         Selected:{" "}
                                         <span className="font-medium text-gray-800">
                                             {format(month, "MMMM yyyy")}
@@ -80,7 +80,7 @@ export default function UserId() {
                                     </div>
                                 )}
                                 <LoadingAnimation loading={loading} text="No Events Found" length={Object.keys(dateEvent ?? {}).length} >
-                                    <div className="  w-full flex overflow-auto max-h-[70vh] flex-col gap-3 mt-6 " >
+                                    <div className="  w-full flex overflow-auto max-h-[68vh] flex-col gap-3 " >
                                         {Object.entries(dateEvent).map(([date, events]) => (
                                             <div key={date}>
                                                 {(Array.isArray(events) ? events : []).map((item: IEvent) => {
@@ -111,7 +111,7 @@ export default function UserId() {
                                                     )
                                                 })}
                                             </div>
-                                        ))}
+                                        ))} 
                                     </div>
                                 </LoadingAnimation>
                             </div>
