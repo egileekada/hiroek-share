@@ -5,15 +5,19 @@ import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
 import { textLimit } from "../utils/textlimit";
 import { formatNumber } from "../utils/numberFormat";
+import { useEffect } from "react";
+import type { IEvent, IEventTicket } from "../model/event";
 
 
 export default function UserId() {
 
 
     const { data, isLoading } = useGetUserData().getUserData()
-    const { data: dateEvent, isLoading: loading, month, setMonth } = useGetUserData().getEventDataByDate()
+    const { data: dateEvent, isLoading: loading, month, setMonth, setInternalId } = useGetUserData().getEventDataByDate()
 
-    console.log(dateEvent);
+    useEffect(() => {
+        setInternalId(data?._id)
+    }, [data?.userId])
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -57,7 +61,7 @@ export default function UserId() {
                             </div>
                             <LoadingAnimation loading={loading} length={dateEvent?.length} >
                                 <div className="  w-full flex flex-col gap-3 mt-6 " >
-                                    {dateEvent.map((item) => {
+                                    {/* {dateEvent.map((item) => {
 
                                         const minPrice = Math.min(...item?.ticketing?.map(ticket => ticket.ticketPrice));
 
@@ -77,17 +81,45 @@ export default function UserId() {
                                                     {item?.ticketing?.length > 1 && (
                                                         <p className=" text-xs font-medium " >From</p>
                                                     )}
-                                                    <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
-                                                    {/* {item?.ticketing?.length > 1 && (
-                                                            <div className=" flex items-center gap-2 " >
-                                                                <p className=" text-xs font-medium " >-</p>
-                                                                <p className=" text-xs font-medium " >{formatNumber(item?.ticketing[item?.ticketing?.length - 1]?.ticketPrice / 100)}</p>
-                                                            </div>
-                                                        )} */}
+                                                    <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p> 
                                                 </div>
                                             </a>
                                         )
-                                    })}
+                                    })} */}
+
+                                    {Object.entries(dateEvent).map(([date, events]) => (
+                                        <div key={date}>
+                                            <h3>{date}</h3>
+                                            {(Array.isArray(events) ? events : []).map((item: IEvent) => {
+                                                const minPrice =
+                                                    Array.isArray(item?.ticketing) && item.ticketing.length > 0
+                                                        ? Math.min(...item.ticketing.map((ticket: IEventTicket) => ticket.ticketPrice))
+                                                        : 0;
+
+                                                return (
+                                                    <a href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                        <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
+                                                        <div className=" flex items-center gap-2 " >
+                                                            <HiMiniMapPin />
+                                                            <p className=" text-xs font-medium " >{item?.meetingLink ? "Online" : textLimit(item?.address, 40)}</p>
+                                                        </div>
+                                                        <div className=" flex items-center gap-2 " >
+                                                            <HiClock />
+                                                            <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
+                                                        </div>
+                                                        <div className=" flex items-center gap-2 " >
+                                                            <HiTicket />
+                                                            {item?.ticketing?.length > 1 && (
+                                                                <p className=" text-xs font-medium " >From</p>
+                                                            )}
+                                                            <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
+                                                        </div>
+                                                    </a>
+                                                )
+                                            })}
+                                        </div>
+                                    ))}
+
                                 </div>
                             </LoadingAnimation>
                         </div>

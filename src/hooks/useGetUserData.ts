@@ -1,7 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery } from "react-query";   
-import type { IEvent } from "../model/event";
+import { useQuery } from "react-query";    
 import httpService from "../utils/httpService"; 
 import { useNavigate, useParams } from "react-router-dom";
 import type { IParnter } from "../model/user";
@@ -132,35 +131,30 @@ const useGetUserData = () => {
     const getEventDataByDate = () => {
 
 
-        const [date, setDate] = useState<any>(""); 
+        const [internalId, setInternalId] = useState<string>(""); 
         const [month, setMonth] = useState<Date | undefined>(new Date()); 
-
-        console.log(month);
-
-        const [data, setData] = useState<IEvent[]>([])
+        const [data, setData] = useState<any>({} as any)
         const { isLoading, isRefetching } = useQuery(
-            ["Event-date", id, date],
-            () => httpService.get(`/organizations/event-schedule/${id}/${format(month ?? new Date(), "yyyy-MM")}`),
+            ["Event-date", internalId, month?.toISOString()],
+            () => httpService.get(`/event-partners/event-schedule/${internalId}/${format(month ?? new Date(), "yyyy-MM")}`),
             {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
                 onSuccess: (data: any) => {  
-                    setData([])
-                    console.log(data);
-                },
-                // enabled: date ? true : false
+                    setData(data?.data?.events)
+                    console.log(data?.data?.events);
+                }, 
             },
         );
 
         return {
             data,
-            isLoading,
-            date,
+            isLoading, 
             month,
-            setMonth,
-            setDate,
-            isRefetching
+            setInternalId,
+            setMonth, 
+            isRefetching, 
         }
     }
 

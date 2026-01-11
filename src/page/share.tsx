@@ -28,10 +28,7 @@ function SharePage() {
 
     const { isLoading, data: event } = useGetEventData()?.getEventData()
     const { data: user } = useGetUserData().getCurrentUserData()
-    const { data: currencyData } = useGetUserData().getCurrencyData()
-
-    console.log(currencyData);
-    
+    const { data: currencyData } = useGetUserData().getCurrencyData() 
 
 
     const [open, setOpen] = useState(false)
@@ -103,8 +100,8 @@ function SharePage() {
                                         <div className=" flex gap-2 " >
                                             <div className=" w-fit text-primary text-opacity-50 " >
                                                 <LocationIcon block={true} />
-                                            </div>
-                                            <p className=" font-semibold text-xs " >{event?.address}</p>
+                                                </div>
+                                                <p className=" font-semibold text-xs " >{event?.meetingLink ? "Online" : event?.address}</p>
                                         </div>
                                     </div>
                                     <div className=" flex items-center gap-2 " >
