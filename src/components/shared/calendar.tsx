@@ -105,14 +105,14 @@ export default function SmartCalendar({
       </div>
 
       {/* Selected Output */}
-      {value && (
+      {/* {value && (
         <div className="text-sm text-gray-600">
           Selected:{" "}
           <span className="font-medium text-gray-800">
             {format(value, "MMMM yyyy")}
           </span>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

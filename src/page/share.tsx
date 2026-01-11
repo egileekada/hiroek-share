@@ -180,7 +180,8 @@ function SharePage() {
                             )}
                         </div>
                         {event?.address && (
-                            <div className=" w-full px-6 " >
+                            <div className=" w-full px-6 flex flex-col gap-1 " >
+                                <Text className=" font-bold text-sm " >Location Map</Text>
                                 <ViewMap lat={event?.loc?.coordinates[1]} lng={event?.loc?.coordinates[0]} />
                             </div>
                         )}
@@ -211,7 +212,7 @@ function SharePage() {
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                     <Text className=" !font-extrabold text-xs " >Pledge</Text>
                                 </div>
-                                <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-xs font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue the important work.</p>
+                                <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-xs font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue this important work.</p>
                                 {/* <ChartGraphPledge /> */}
                                 <div className=" w-full h-[180px] flex px-6 flex-col items-center justify-center relative my-4 " >
                                     <div className=" max-w-[400px] w-full h-[200px] relative  " >
@@ -253,13 +254,13 @@ function SharePage() {
                     <DonateForm setOpen={setOpen} />
                 </ModalLayout>
 
-                <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " height=" h-[100%] " rounded="24px" open={showPartner} setOpen={setShowPartner} >
+                <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " rounded="24px" open={showPartner} setOpen={setShowPartner} >
                     {/* <DonateForm setOpen={setOpen} /> */}
-                    <div className=" w-full flex flex-col h-[90vh] overflow-y-auto " >
+                    <div className=" w-full flex flex-col " >
                         <div className=" flex w-full justify-center " >
                             <p className=" text-primary text-center font-extrabold " >Charity Partner(s)</p>
                         </div>
-                        <div className=" mt-6 flex flex-col gap-3 " >
+                        <div className=" mt-6 flex flex-col max-h-[70vh] overflow-y-auto h-[70vh] gap-3 " >
                             {event?.eventPledge?.organizations?.map((item) => {
                                 return (
                                     <div className=" w-full flex items-center gap-2 shadow rounded-xl p-3 " >
@@ -267,12 +268,11 @@ function SharePage() {
                                             <img src={item?.logo} alt="logo" className=" w-full h-full object-cover rounded-2xl " />
                                         </div>
                                         <div className=" flex flex-col " >
-                                            <p className=" text-sm !font-extrabold " >{capitalizeFLetter(item?.name)}</p>
-                                            <p className=" text-xs " >{item?.address}</p>
+                                            <p className=" text-sm !font-extrabold " >{capitalizeFLetter(item?.name)}</p> 
                                         </div>
                                     </div>
                                 )
-                            })}
+                            })} 
                         </div>
                     </div>
                 </ModalLayout>
@@ -289,7 +289,7 @@ function SharePage() {
                 <ModalLayout onIcon={true} width=" max-w-[400px] " rounded="24px" open={showHost} setOpen={setShowHost} >
                     <div className=" pb-3 px-4 flex flex-col gap-4 " >
                         <div className=" w-full flex items-center justify-center gap-3 px-2 bg-[#37137F4D] bg-opacity-30 rounded-[10px] py-3 " >
-                            <div onClick={() => setShowImg(true)} className=" w-[44px] h-[44px] rounded-full " >
+                            <div onClick={() => handleShowType("host")} className=" w-[44px] h-[44px] rounded-full " >
                                 <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                             </div>
                             <div className=" flex flex-col gap-1 " >

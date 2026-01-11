@@ -7,7 +7,8 @@ interface Props {
     children: React.ReactNode,
     length?: number,
     customLoader?: React.ReactNode,
-    width?: string
+    width?: string,
+    text?: string
 }
 
 function LoadingAnimation(props: Props) {
@@ -18,7 +19,8 @@ function LoadingAnimation(props: Props) {
         length,
         refeching,
         customLoader,
-        width
+        width,
+        text
     } = props
 
     const [isLoading, setLoading] = useState(true)
@@ -59,7 +61,7 @@ function LoadingAnimation(props: Props) {
                 <>
                     {length === 0 && (
                         <div className=' w-full flex justify-center text-lg py-4 '  >
-                            <p>No Records Found</p>
+                            <p>{text ?? "No Records Found"}</p>
                         </div>
                     )}
                 </>

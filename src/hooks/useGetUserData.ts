@@ -131,8 +131,11 @@ const useGetUserData = () => {
 
 
         const [internalId, setInternalId] = useState<string>("");
-        const [month, setMonth] = useState<Date | undefined>(new Date());
-        const [data, setData] = useState<any>({} as any)
+        const [month, setMonth] = useState<Date | undefined>(undefined); 
+        const [data, setData] = useState<any>({} as any);
+
+        const [showModal, setShowModal] = useState<boolean>(false);
+
         const { isLoading, isRefetching } = useQuery(
             ["Event-date", internalId, month?.toISOString()],
             () => httpService.get(`/event-partners/event-schedule/${internalId}/${format(month ?? new Date(), "yyyy-MM")}`),
@@ -154,6 +157,8 @@ const useGetUserData = () => {
             setInternalId,
             setMonth,
             isRefetching,
+            showModal,
+            setShowModal,
         }
     }
 

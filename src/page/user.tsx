@@ -7,17 +7,24 @@ import { textLimit } from "../utils/textlimit";
 import { formatNumber } from "../utils/numberFormat";
 import { useEffect } from "react";
 import type { IEvent, IEventTicket } from "../model/event";
+import ModalLayout from "../components/shared/modalLayout";
+import { format } from "date-fns";
 
 
 export default function UserId() {
 
 
     const { data, isLoading } = useGetUserData().getUserData()
-    const { data: dateEvent, isLoading: loading, month, setMonth, setInternalId } = useGetUserData().getEventDataByDate()
+    const { data: dateEvent, isLoading: loading, month, setMonth, setInternalId, showModal, setShowModal } = useGetUserData().getEventDataByDate()
 
     useEffect(() => {
         setInternalId(data?._id)
     }, [data?.userId])
+
+    const clickDate = (date: Date) => {
+        setShowModal(true)
+        setMonth(new Date(date))
+    }
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -45,9 +52,9 @@ export default function UserId() {
                                 Upcoming Events
                             </div>
                             <SmartCalendar
-                                label="Select month & year"
+                                label="Select Month & Year"
                                 value={month}
-                                onSelect={setMonth}
+                                onSelect={clickDate}
                                 minYear={2024}
                                 maxYear={2040}
                             />
@@ -56,47 +63,59 @@ export default function UserId() {
                         </div>
 
                         <div className=" w-full flex h-auto flex-col items-center" >
-                            <div className=" p-3 font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
-                                Event Schedules
-                            </div>
-                            <LoadingAnimation loading={loading} length={dateEvent?.length} >
-                                <div className="  w-full flex flex-col gap-3 mt-6 " > 
-
-                                    {Object.entries(dateEvent).map(([date, events]) => (
-                                        <div key={date}> 
-                                            {(Array.isArray(events) ? events : []).map((item: IEvent) => {
-                                                const minPrice =
-                                                    Array.isArray(item?.ticketing) && item.ticketing.length > 0
-                                                        ? Math.min(...item.ticketing.map((ticket: IEventTicket) => ticket.ticketPrice))
-                                                        : 0;
-
-                                                return (
-                                                    <a key={item?._id} href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
-                                                        <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
-                                                        <div className=" flex items-center gap-2 " >
-                                                            <HiMiniMapPin />
-                                                            <p className=" text-xs font-medium " >{item?.meetingLink ? "Online" : textLimit(item?.address, 40)}</p>
-                                                        </div>
-                                                        <div className=" flex items-center gap-2 " >
-                                                            <HiClock />
-                                                            <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
-                                                        </div>
-                                                        <div className=" flex items-center gap-2 " >
-                                                            <HiTicket />
-                                                            {item?.ticketing?.length > 1 && (
-                                                                <p className=" text-xs font-medium " >From</p>
-                                                            )}
-                                                            <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
-                                                        </div>
-                                                    </a>
-                                                )
-                                            })}
-                                        </div>
-                                    ))}
-
-                                </div>
-                            </LoadingAnimation>
                         </div>
+
+                        <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " rounded="24px" open={showModal} setOpen={setShowModal} >
+                            {/* <DonateForm setOpen={setOpen} /> */}
+                            <div className=" w-full h-full flex flex-col " >
+                                <div className=" p-3 w-fit mx-auto font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
+                                    Event Schedules
+                                </div>
+                                {month && (
+                                    <div className="text-sm mt-2 mx-auto text-gray-600">
+                                        Selected:{" "}
+                                        <span className="font-medium text-gray-800">
+                                            {format(month, "MMMM yyyy")}
+                                        </span>
+                                    </div>
+                                )}
+                                <LoadingAnimation loading={loading} text="No Events Found" length={Object.keys(dateEvent ?? {}).length} >
+                                    <div className="  w-full flex overflow-auto max-h-[70vh] flex-col gap-3 mt-6 " >
+                                        {Object.entries(dateEvent).map(([date, events]) => (
+                                            <div key={date}>
+                                                {(Array.isArray(events) ? events : []).map((item: IEvent) => {
+                                                    const minPrice =
+                                                        Array.isArray(item?.ticketing) && item.ticketing.length > 0
+                                                            ? Math.min(...item.ticketing.map((ticket: IEventTicket) => ticket.ticketPrice))
+                                                            : 0;
+
+                                                    return (
+                                                        <a key={item?._id} href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                            <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
+                                                            <div className=" flex items-center gap-2 " >
+                                                                <HiMiniMapPin />
+                                                                <p className=" text-xs font-medium " >{item?.meetingLink ? "Online" : textLimit(item?.address, 40)}</p>
+                                                            </div>
+                                                            <div className=" flex items-center gap-2 " >
+                                                                <HiClock />
+                                                                <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
+                                                            </div>
+                                                            <div className=" flex items-center gap-2 " >
+                                                                <HiTicket />
+                                                                {item?.ticketing?.length > 1 && (
+                                                                    <p className=" text-xs font-medium " >From</p>
+                                                                )}
+                                                                <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p>
+                                                            </div>
+                                                        </a>
+                                                    )
+                                                })}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </LoadingAnimation>
+                            </div>
+                        </ModalLayout>
                     </div>
                 </div>
             </div>
