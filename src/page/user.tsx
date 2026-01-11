@@ -1,5 +1,5 @@
 import SmartCalendar from "../components/shared/calendar";
-import { HiClock, HiCurrencyDollar, HiMiniMapPin, HiTicket } from "react-icons/hi2";
+import { HiClock, HiMiniMapPin, HiTicket } from "react-icons/hi2";
 import useGetUserData from "../hooks/useGetUserData";
 import LoadingAnimation from "../components/loadingAnimation";
 import { dateFormat } from "../utils/dateFormat";
