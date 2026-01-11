@@ -32,7 +32,7 @@ export default function ModalLayout(props: {
                 <Dialog.Overlay onClick={() => setOpen(false)} className="DialogOverlay bg-black bg-opacity-40 " />
                 <Dialog.Content style={{ height: height ? height : "fit-content", borderRadius: rounded ?? "16px", paddingTop: title ? "0px" : "30px" }} className={` ${width ? width : " max-w-[450px] "} DialogContent relative max-h-[90vh]`}>
                     {title && (
-                        <div className='w-full h-10 flex items-center justify-center ' >
+                        <div className='w-full h-10 font-extrabold text-primary flex items-center justify-center ' >
                             {title}
                         </div>
                     )}
