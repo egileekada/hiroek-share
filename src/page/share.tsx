@@ -38,6 +38,7 @@ function SharePage() {
     const [show, setShow] = useState(false)
     const [showImg, setShowImg] = useState(false)
     const [showPartner, setShowPartner] = useState(false)
+    const [showType, setShowType] = useState<string | null>(null)
     const [showHost, setShowHost] = useState(false)
     const navigate = useNavigate()
 
@@ -51,6 +52,11 @@ function SharePage() {
     const paragraphs = event?.description
         ?.split(/\n\s*\n/)
         .filter(Boolean);
+
+    const handleShowType = (type: string) => {
+        setShowType(type)
+        setShowImg(true)
+    }
 
     return (
         <>
@@ -69,7 +75,7 @@ function SharePage() {
                                 </div>
                             )}
                             <img src={event?.photo} alt={event?.name} className=" w-full h-full lg:rounded-b-3xl lg:rounded-3xl object-cover " />
-                            <div onClick={() => setShowImg(true)} className=" absolute z-10 inset-0 bg-[#0000004D] " />
+                            <div onClick={() => handleShowType("event")} className=" absolute z-10 inset-0 bg-[#0000004D] " />
                         </div>
                         <div className=" w-full -mt-[150px] z-20 px-3  " >
                             <div className=" w-full rounded-2xl flex flex-col gap-2 " >
@@ -77,7 +83,7 @@ function SharePage() {
                                 <div className=" w-full flex gap-4" >
                                     <div role="button" className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
 
-                                        <div onClick={() => setShowImg(true)} className=" w-8 h-8 rounded-full " >
+                                        <div onClick={() => handleShowType("host")} className=" w-8 h-8 rounded-full " >
                                             <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                         </div>
                                         <div onClick={() => setShowHost(true)} className=" flex flex-col items-center justify-center " >
@@ -277,8 +283,8 @@ function SharePage() {
                     <EventTicketForm convert={currencyData} user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
                 </ModalLayout>
                 <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
-                    <div className=" w-full rounded-full " >
-                        <img className=" w-full h-full rounded-full object-contain " src={event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
+                    <div className=" w-full rounded-full pt-2 " >
+                        <img className=" w-full h-full rounded-[24px] object-contain " src={showType === "event" ? event?.photo : event?.admin?.photo ? event?.admin?.photo : event?.admin?.logo} alt="image" />
                     </div>
                 </ModalLayout>
 

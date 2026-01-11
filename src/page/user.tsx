@@ -13,6 +13,8 @@ export default function UserId() {
     const { data, isLoading } = useGetUserData().getUserData()
     const { data: dateEvent, isLoading: loading, month, setMonth } = useGetUserData().getEventDataByDate()
 
+    console.log(dateEvent);
+
     return (
         <LoadingAnimation loading={isLoading} >
             <div className=" w-full flex flex-col h-full pb-6 items-center overflow-y-auto " >

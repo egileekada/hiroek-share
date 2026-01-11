@@ -135,18 +135,21 @@ const useGetUserData = () => {
         const [date, setDate] = useState<any>(""); 
         const [month, setMonth] = useState<Date | undefined>(new Date()); 
 
+        console.log(month);
+
         const [data, setData] = useState<IEvent[]>([])
         const { isLoading, isRefetching } = useQuery(
             ["Event-date", id, date],
-            () => httpService.get(`/api/organizations/event-schedule/${id}/${format(month ?? new Date(), "yyyy-MM")}`),
+            () => httpService.get(`/organizations/event-schedule/${id}/${format(month ?? new Date(), "yyyy-MM")}`),
             {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
                 onSuccess: (data: any) => {  
-                    setData(data?.data?.events)
+                    setData([])
+                    console.log(data);
                 },
-                enabled: date ? true : false
+                // enabled: date ? true : false
             },
         );
 
