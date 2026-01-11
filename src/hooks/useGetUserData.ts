@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery } from "react-query";    
-import httpService from "../utils/httpService"; 
+import { useQuery } from "react-query";
+import httpService from "../utils/httpService";
 import { useNavigate, useParams } from "react-router-dom";
 import type { IParnter } from "../model/user";
 import Cookies from "js-cookie";
@@ -10,18 +10,17 @@ import { format } from "date-fns";
 
 interface EventData {
     [date: string]: any; // date => list of events
-  }
-  
-  interface Props {
-    data: EventData;
-  }
+}
 
-  const userId = Cookies.get("userId")
-  
+interface Props {
+    data: EventData;
+}
+
+const userId = Cookies.get("userId")
 
 const useGetUserData = () => {
 
-    const { id } = useParams(); 
+    const { id } = useParams();
     const navigate = useNavigate();
 
     // Get Event list
@@ -34,10 +33,10 @@ const useGetUserData = () => {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => {   
+                onSuccess: (data: any) => {
                     setData(data?.data?.eventPartner)
-                    
-                }, 
+
+                },
             },
         );
 
@@ -57,9 +56,9 @@ const useGetUserData = () => {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => {    
-                    setData(data?.data?.quotes) 
-                }, 
+                onSuccess: (data: any) => {
+                    setData(data?.data?.quotes)
+                },
             },
         );
 
@@ -76,19 +75,19 @@ const useGetUserData = () => {
         const [data, setData] = useState<IParnter>({} as IParnter)
         // const userId = Cookies.get("userId");
         const token = localStorage.getItem("access_token")
-        
+
         const { isLoading, isRefetching } = useQuery(
             ["userdetail", id],
             () => httpService.get(`/users/${userId}`),
             {
                 onError: (error: any) => {
-                    toast.error(error.response?.data) 
+                    toast.error(error.response?.data)
                     localStorage.setItem("access_token", "")
                     navigate(0)
                 },
-                onSuccess: (data: any) => {    
-                    setData(data?.data?.user) 
-                }, 
+                onSuccess: (data: any) => {
+                    setData(data?.data?.user)
+                },
                 enabled: token ? true : false
             },
         );
@@ -111,10 +110,10 @@ const useGetUserData = () => {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => { 
-                    
+                onSuccess: (data: any) => {
+
                     setData(data?.data?.events)
-                }, 
+                },
             },
         );
 
@@ -131,8 +130,8 @@ const useGetUserData = () => {
     const getEventDataByDate = () => {
 
 
-        const [internalId, setInternalId] = useState<string>(""); 
-        const [month, setMonth] = useState<Date | undefined>(new Date()); 
+        const [internalId, setInternalId] = useState<string>("");
+        const [month, setMonth] = useState<Date | undefined>(new Date());
         const [data, setData] = useState<any>({} as any)
         const { isLoading, isRefetching } = useQuery(
             ["Event-date", internalId, month?.toISOString()],
@@ -141,25 +140,25 @@ const useGetUserData = () => {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => {  
+                onSuccess: (data: any) => {
                     setData(data?.data?.events)
                     console.log(data?.data?.events);
-                }, 
+                },
             },
         );
 
         return {
             data,
-            isLoading, 
+            isLoading,
             month,
             setInternalId,
-            setMonth, 
-            isRefetching, 
+            setMonth,
+            isRefetching,
         }
     }
 
     return {
-        getUserData, 
+        getUserData,
         getEventDataByDate,
         getEventData,
         getCurrentUserData,

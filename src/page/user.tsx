@@ -60,32 +60,7 @@ export default function UserId() {
                                 Event Schedules
                             </div>
                             <LoadingAnimation loading={loading} length={dateEvent?.length} >
-                                <div className="  w-full flex flex-col gap-3 mt-6 " >
-                                    {/* {dateEvent.map((item) => {
-
-                                        const minPrice = Math.min(...item?.ticketing?.map(ticket => ticket.ticketPrice));
-
-                                        return (
-                                            <a href={`https://events.hiroek.io/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
-                                                <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
-                                                <div className=" flex items-center gap-2 " >
-                                                    <HiMiniMapPin />
-                                                    <p className=" text-xs font-medium " >{textLimit(item?.address, 40)}</p>
-                                                </div>
-                                                <div className=" flex items-center gap-2 " >
-                                                    <HiClock />
-                                                    <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
-                                                </div>
-                                                <div className=" flex items-center gap-2 " >
-                                                    <HiTicket />
-                                                    {item?.ticketing?.length > 1 && (
-                                                        <p className=" text-xs font-medium " >From</p>
-                                                    )}
-                                                    <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100)}</p> 
-                                                </div>
-                                            </a>
-                                        )
-                                    })} */}
+                                <div className="  w-full flex flex-col gap-3 mt-6 " > 
 
                                     {Object.entries(dateEvent).map(([date, events]) => (
                                         <div key={date}>
