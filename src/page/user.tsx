@@ -63,8 +63,7 @@ export default function UserId() {
                                 <div className="  w-full flex flex-col gap-3 mt-6 " > 
 
                                     {Object.entries(dateEvent).map(([date, events]) => (
-                                        <div key={date}>
-                                            <h3>{date}</h3>
+                                        <div key={date}> 
                                             {(Array.isArray(events) ? events : []).map((item: IEvent) => {
                                                 const minPrice =
                                                     Array.isArray(item?.ticketing) && item.ticketing.length > 0
@@ -72,7 +71,7 @@ export default function UserId() {
                                                         : 0;
 
                                                 return (
-                                                    <a href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                    <a key={item?._id} href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
                                                         <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
                                                         <div className=" flex items-center gap-2 " >
                                                             <HiMiniMapPin />
