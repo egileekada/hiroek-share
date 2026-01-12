@@ -51,7 +51,7 @@ export default function UserId() {
                             <div className=" px-[14px] py-[8px] font-extrabold text-sm rounded-3xl bg-[#37137F] text-white shadow " >
                                 About Us
                             </div>
-                            <p className=" text-sm font-semibold " >{textLimit(data?.bio, 150)} {data?.bio?.length > 150 && <span onClick={() => setShow(true)} className=" font-bold cursor-pointer " >Show More</span>}</p>
+                            <p className=" text-sm font-medium " >{textLimit(data?.bio, 150)} {data?.bio?.length > 150 && <span onClick={() => setShow(true)} className=" font-bold cursor-pointer underline " >Show More</span>}</p>
                         </div>
                         <div className=" w-full flex flex-col items-center gap-2 " >
                             <div className=" p-3 font-extrabold text-sm rounded-lg text-white bg-[#B00062] shadow " >
