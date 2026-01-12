@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import type { IEvent, IEventTicket } from "../model/event";
 import ModalLayout from "../components/shared/modalLayout";
 import { format } from "date-fns";
+import { Text } from "@radix-ui/themes";
 
 
 export default function UserId() {
@@ -73,13 +74,15 @@ export default function UserId() {
 
 
                         <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " rounded="24px" open={show} setOpen={setShow} >
-                            <div className=" w-full h-[80vh] overflow-y-auto px-3 pb-4 flex flex-col gap-3 " >
-                                <div className=" px-[14px] py-[8px] font-extrabold w-fit mx-auto text-sm rounded-3xl bg-[#37137F] text-white shadow " >
+                            <div className=" w-full h-[80vh] overflow-y-auto px-3 pb-4 flex flex-col " >
+                                <div className=" px-[14px] py-[8px] font-extrabold w-fit mb-3 mx-auto text-sm rounded-3xl bg-[#37137F] text-white shadow " >
                                     About Us
-                                </div>
-                                <p className=" text-sm font-medium text-primary " >
-                                    {paragraphs}
-                                </p>
+                                </div> 
+                                {paragraphs?.map((text, i) => (
+                                    <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-sm last:mb-0">
+                                        {text}
+                                    </Text>
+                                ))}
                             </div>
                         </ModalLayout>
 
@@ -98,11 +101,11 @@ export default function UserId() {
                                     </div>
                                 )}
                                 <LoadingAnimation loading={loading} text="No Events Found" length={Object.keys(dateEvent ?? {}).length} >
-                                    <div className="  w-full flex overflow-auto max-h-[68vh] flex-col gap-3 " >
+                                    <div className="  w-full flex overflow-auto max-h-[68vh] flex-col " >
                                         {Object.entries(dateEvent).map(([date, events]) => (
-                                            <div key={date}>
+                                            <div className=" flex flex-col w-full " > 
                                                 {new Date(date) > new Date() &&
-                                                    <>
+                                                    <div key={date} className=" flex flex-col gap-3 mt-3 " >
                                                         {(Array.isArray(events) ? events : []).map((item: IEvent) => {
                                                             const minPrice =
                                                                 Array.isArray(item?.ticketing) && item.ticketing.length > 0
@@ -130,7 +133,7 @@ export default function UserId() {
                                                                 </a>
                                                             )
                                                         })}
-                                                    </>
+                                                    </div> 
                                                 }
                                             </div>
                                         ))}
