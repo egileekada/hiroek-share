@@ -4,12 +4,12 @@ export const currencies = ["usd", "cad", "eur", "gbp", "aud", "nzd"] as const;
 export type Currency = (typeof currencies)[number];
 
 export const currencySymbols: Record<Currency, string> = {
-  usd: "$",
-  cad: "$",
+  usd: "US$",
+  cad: "CA$",
   eur: "€",
   gbp: "£",
-  aud: "$",
-  nzd: "$",
+  aud: "A$",
+  nzd: "NZ$",
 };
 
 export const formatNumber = (
