@@ -28,7 +28,7 @@ function SharePage() {
 
     const { isLoading, data: event } = useGetEventData()?.getEventData()
     const { data: user } = useGetUserData().getCurrentUserData()
-    const { data: currencyData } = useGetUserData().getCurrencyData() 
+    const { data: currencyData } = useGetUserData().getCurrencyData()
 
 
     const [open, setOpen] = useState(false)
@@ -100,8 +100,8 @@ function SharePage() {
                                         <div className=" flex gap-2 " >
                                             <div className=" w-fit text-primary text-opacity-50 " >
                                                 <LocationIcon block={true} />
-                                                </div>
-                                                <p className=" font-semibold text-xs " >{event?.meetingLink ? "Online" : event?.address}</p>
+                                            </div>
+                                            <p className=" font-semibold text-xs " >{event?.meetingLink ? "Online" : event?.address}</p>
                                         </div>
                                     </div>
                                     <div className=" flex items-center gap-2 " >
@@ -136,18 +136,39 @@ function SharePage() {
                                                 <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
                                             </div>
                                         )}
-                                        {event?.ticketing?.length > 0 && (
-                                            <div className=" flex gap-2 items-center " >
-                                                {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
-                                                    <TicketIcon />
+                                        {event?.ticketing[0]?.signUpLimit > 0 && (
+                                            <> 
+                                                {event?.ticketing?.length > 0 && (
+                                                    <div className=" flex gap-2 items-center " >
+                                                        {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
+                                                            <TicketIcon />
+                                                        )}
+                                                        {event?.ticketing[0]?.spotsLeft === undefined && (
+                                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                        )}
+                                                        {event?.ticketing[0]?.spotsLeft > 0 && (
+                                                            <Text className=" font-bold text-xs " >{totalTickets === 0 ? "Sold Out" : totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                        )}
+                                                    </div>
                                                 )}
-                                                {event?.ticketing[0]?.spotsLeft === undefined && (
-                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                            </>
+                                        )}
+                                        {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
+                                            <> 
+                                                {event?.ticketing?.length > 0 && (
+                                                    <div className=" flex gap-2 items-center " >
+                                                        {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
+                                                            <TicketIcon />
+                                                        )}
+                                                        {event?.ticketing[0]?.spotsLeft === undefined && (
+                                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                        )}
+                                                        {event?.ticketing[0]?.spotsLeft > 0 && (
+                                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                        )}
+                                                    </div>
                                                 )}
-                                                {event?.ticketing[0]?.spotsLeft > 0 && (
-                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
-                                                )}
-                                            </div>
+                                            </>
                                         )}
                                     </div>
                                 </div>
@@ -171,7 +192,7 @@ function SharePage() {
                                     <div className=" flex flex-col gap-2 items-center " >
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                             <Text className=" font-extrabold text-xs " >Charity Partner(s)</Text>
-                                        </div> 
+                                        </div>
                                         <CustomButton onClick={() => setShowPartner(true)} hasIcon icon={<IoMdEye size={"20px"} />} rounded="44px" width="100%" height="50px"  >
                                             View Charity Partner(s)
                                         </CustomButton>
@@ -268,11 +289,11 @@ function SharePage() {
                                             <img src={item?.logo} alt="logo" className=" w-full h-full object-cover rounded-2xl " />
                                         </div>
                                         <div className=" flex flex-col " >
-                                            <p className=" text-sm !font-extrabold " >{capitalizeFLetter(item?.name)}</p> 
+                                            <p className=" text-sm !font-extrabold " >{capitalizeFLetter(item?.name)}</p>
                                         </div>
                                     </div>
                                 )
-                            })} 
+                            })}
                         </div>
                     </div>
                 </ModalLayout>
