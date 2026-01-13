@@ -133,7 +133,7 @@ function SharePage() {
                                                         <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
                                                     </div>
                                                 )}
-                                                <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length, event?.currency as any)} Attending</Text>
+                                                <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
                                             </div>
                                         )}
                                         {event?.ticketing?.length > 0 && (
