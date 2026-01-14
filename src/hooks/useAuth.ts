@@ -17,7 +17,7 @@ const useAuth = (community?: ICommunity) => {
     const [show, setShow] = useState(false)
     const [paymentUrl, setPaymentUrl] = useState("") 
 
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useState(2)
 
     const { id, slug } = useParams();
 
@@ -105,6 +105,7 @@ const useAuth = (community?: ICommunity) => {
         ) => httpService.post(`/donations/event-ticket-payment-intent`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
+            setTab(0)
         },
         onSuccess: (data) => {
             const paymentUrl = data?.data?.url;
@@ -130,6 +131,7 @@ const useAuth = (community?: ICommunity) => {
         ) => httpService.post(`/donations/event-ticket-free-purchase`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
+            setTab(0)
         },
         onSuccess: () => {
 

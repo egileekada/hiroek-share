@@ -22,8 +22,7 @@ export default function EventTicketForm({ event, user, convert }: { setOpen?: an
     const [serviceFees, setServiceFees] = useState(0)
 
     const userId = Cookies.get("userId")
-    const token = localStorage.getItem("access_token")
-
+    const token = localStorage.getItem("access_token") 
 
     const [payload, setPayload] = useState<
         { numberOfTickets: number; ticketTypeId: string }[]

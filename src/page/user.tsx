@@ -59,20 +59,15 @@ export default function UserId() {
                                 Upcoming Events
                             </div>
                             <SmartCalendar
-                                label="Select Month & Year"
+                                label="Select a Month and Year to view availability"
                                 value={month}
                                 onSelect={clickDate}
                                 minYear={2024}
                                 maxYear={2040}
-                            />
-
-
-                        </div>
-
+                            /> 
+                        </div> 
                         <div className=" w-full flex h-auto flex-col items-center" >
-                        </div>
-
-
+                        </div> 
                         <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " rounded="24px" open={show} setOpen={setShow} >
                             <div className=" w-full h-[80vh] overflow-y-auto px-3 pb-4 flex flex-col " >
                                 <div className=" px-[14px] py-[8px] font-extrabold w-fit mb-3 mx-auto text-sm rounded-3xl bg-[#37137F] text-white shadow " >
