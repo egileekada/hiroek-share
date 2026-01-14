@@ -136,37 +136,32 @@ function SharePage() {
                                                 <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
                                             </div>
                                         )}
-                                        {event?.ticketing[0]?.signUpLimit > 0 && (
-                                            <> 
-                                                {event?.ticketing?.length > 0 && (
-                                                    <div className=" flex gap-2 items-center " >
-                                                        {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
+                                        {event?.ticketing?.length > 0 && (
+                                            <>
+                                                {event?.ticketing[0]?.signUpLimit > 0 && (
+                                                    <>
+                                                        <div className=" flex gap-2 items-center " >
                                                             <TicketIcon />
-                                                        )}
-                                                        {event?.ticketing[0]?.spotsLeft === undefined && (
-                                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
-                                                        )}
-                                                        {event?.ticketing[0]?.spotsLeft > 0 && (
                                                             <Text className=" font-bold text-xs " >{totalTickets === 0 ? "Sold Out" : totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
-                                                        )}
-                                                    </div>
+                                                        </div>
+                                                    </>
                                                 )}
-                                            </>
-                                        )}
-                                        {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
-                                            <> 
-                                                {event?.ticketing?.length > 0 && (
-                                                    <div className=" flex gap-2 items-center " >
-                                                        {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
-                                                            <TicketIcon />
+                                                {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
+                                                    <>
+                                                        {event?.ticketing?.length > 0 && (
+                                                            <div className=" flex gap-2 items-center " >
+                                                                {(event?.ticketing[0]?.spotsLeft > 0 || !event?.ticketing[0]?.signUpLimit || event?.ticketing[0]?.signUpLimit === 0) && (
+                                                                    <TicketIcon />
+                                                                )}
+                                                                {event?.ticketing[0]?.spotsLeft === undefined && (
+                                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                                )}
+                                                                {event?.ticketing[0]?.spotsLeft > 0 && (
+                                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                                )}
+                                                            </div>
                                                         )}
-                                                        {event?.ticketing[0]?.spotsLeft === undefined && (
-                                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
-                                                        )}
-                                                        {event?.ticketing[0]?.spotsLeft > 0 && (
-                                                            <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
-                                                        )}
-                                                    </div>
+                                                    </>
                                                 )}
                                             </>
                                         )}
