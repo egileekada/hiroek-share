@@ -115,7 +115,7 @@ function SharePage() {
                                         <p className=" font-semibold text-xs " >{timeFormat(event?.endTime)}</p>
                                     </div>
                                     <div className=" w-full flex justify-between items-center " >
-                                        {event?.members?.length > 0 && (
+                                        {/* {event?.members?.length > 0 && (
                                             <div className='flex items-center mt-2 bg-[#37137F4D] px-3 rounded-full w-fit h-[40px] text-black ' >
                                                 <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 '>
                                                     <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
@@ -135,14 +135,14 @@ function SharePage() {
                                                 )}
                                                 <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
                                             </div>
-                                        )}
+                                        )} */}
                                         {event?.ticketing?.length > 0 && (
                                             <>
                                                 {event?.ticketing[0]?.signUpLimit > 0 && (
                                                     <>
                                                         <div className=" flex gap-2 items-center " >
                                                             <TicketIcon />
-                                                            <Text className=" font-bold text-xs " >{totalTickets === 0 ? "Sold Out" : totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                            <Text className=" font-bold text-xs " >{totalTickets === 0 ? "Sold Out" : "Tickets Available"} </Text>
                                                         </div>
                                                     </>
                                                 )}
@@ -154,10 +154,10 @@ function SharePage() {
                                                                     <TicketIcon />
                                                                 )}
                                                                 {event?.ticketing[0]?.spotsLeft === undefined && (
-                                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                                    <Text className=" font-bold text-xs " >{"Tickets Available"} </Text>
                                                                 )}
                                                                 {event?.ticketing[0]?.spotsLeft > 0 && (
-                                                                    <Text className=" font-bold text-xs " >{totalTickets > 0 ? ` ${totalTickets} Ticket${totalTickets === 1 ? "" : "(s)"} Available` : "Tickets Available"} </Text>
+                                                                    <Text className=" font-bold text-xs " >{"Tickets Available"} </Text>
                                                                 )}
                                                             </div>
                                                         )}
