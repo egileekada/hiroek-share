@@ -28,7 +28,6 @@ export default function UserId() {
         setMonth(new Date(date))
     }
 
-
     const paragraphs = data?.bio
         ?.split(/\n\s*\n/)
         .filter(Boolean);

@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useState } from 'react';
 import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
-import { useQuery } from '../utils/useQuery';
+import { useQuerys } from '../utils/useQuery';
 import { useParams } from 'react-router-dom';
 import type { ICommunity } from '../model/community';
 
@@ -23,11 +23,11 @@ const useAuth = (community?: ICommunity) => {
 
     const [email, setEmail] = useState("")
 
-    const query = useQuery();
+    const query = useQuerys();
 
     const queryClient = useQueryClient()
     const resetCode = query.get('resetCode');
-    const emailData = query.get('email'); 
+    const emailData = query.get('email');  
 
     const signupMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/email-signup`, data),
@@ -69,7 +69,7 @@ const useAuth = (community?: ICommunity) => {
 
             let token: string = data?.data?.token
 
-            Cookies.set("userId", data?.data?.user?._id)
+            sessionStorage.setItem("userId", data?.data?.user?._id)
             localStorage.setItem("access_token", data?.data?.token)
             queryClient.invalidateQueries("userdata")
             if(!community?._id) {

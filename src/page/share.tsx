@@ -19,7 +19,7 @@ import { IoMdEye } from "react-icons/io"
 import { capitalizeFLetter } from "../utils/capitalLetter"
 import useGetUserData from "../hooks/useGetUserData"
 import type { IUserDetail } from "../model/user"
-import { useQuery } from "../utils/useQuery"
+import { useQuerys } from "../utils/useQuery"
 import { useNavigate } from "react-router-dom"
 import ViewMap from "../components/shared/viewMap"
 import { HiTicket } from "react-icons/hi2"
@@ -44,7 +44,7 @@ function SharePage() {
     const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.spotsLeft, 0);
     // const totalTickets = event?.ticketing?.reduce((sum, ticket) => sum + ticket?.spotsLeft, 0);
 
-    const query = useQuery();
+    const query = useQuerys();
 
     const back = query.get("back");
 

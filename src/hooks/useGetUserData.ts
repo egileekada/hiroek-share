@@ -3,8 +3,7 @@ import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import httpService from "../utils/httpService";
 import { useNavigate, useParams } from "react-router-dom";
-import type { IParnter } from "../model/user";
-import Cookies from "js-cookie";
+import type { IParnter } from "../model/user"; 
 import { format } from "date-fns";
 
 
@@ -16,7 +15,7 @@ interface Props {
     data: EventData;
 }
 
-const userId = Cookies.get("userId")
+const userId = sessionStorage.getItem("userId")
 
 const useGetUserData = () => {
 
@@ -73,22 +72,23 @@ const useGetUserData = () => {
     // Get Event list
     const getCurrentUserData = () => {
         const [data, setData] = useState<IParnter>({} as IParnter)
-        // const userId = Cookies.get("userId");
-        const token = localStorage.getItem("access_token")
+        // const userId = Cookies.get("userId"); 
 
         const { isLoading, isRefetching } = useQuery(
-            ["userdetail", id],
+            ["userdetail", userId],
             () => httpService.get(`/users/${userId}`),
             {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
-                    localStorage.setItem("access_token", "")
-                    navigate(0)
+                    // localStorage.setItem("access_token", "")
+                    // navigate(0)
                 },
                 onSuccess: (data: any) => {
-                    setData(data?.data?.user)
+                    if (data?.data?.user) {
+                        setData(data?.data?.user)
+                    }
                 },
-                enabled: token ? true : false
+                enabled: userId ? true : false
             },
         );
 
@@ -131,7 +131,7 @@ const useGetUserData = () => {
 
 
         const [internalId, setInternalId] = useState<string>("");
-        const [month, setMonth] = useState<Date | undefined>(undefined); 
+        const [month, setMonth] = useState<Date | undefined>(undefined);
         const [data, setData] = useState<any>({} as any);
 
         const [showModal, setShowModal] = useState<boolean>(false);
