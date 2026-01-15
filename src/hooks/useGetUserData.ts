@@ -19,8 +19,7 @@ const userId = sessionStorage.getItem("userId")
 
 const useGetUserData = () => {
 
-    const { id } = useParams();
-    const navigate = useNavigate();
+    const { id } = useParams(); 
 
     // Get Event list
     const getUserData = () => {
