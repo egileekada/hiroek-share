@@ -22,6 +22,8 @@ import type { IUserDetail } from "../model/user"
 import { useQuery } from "../utils/useQuery"
 import { useNavigate } from "react-router-dom"
 import ViewMap from "../components/shared/viewMap"
+import { HiTicket } from "react-icons/hi2"
+import type { IEventTicket } from "../model/event"
 
 
 function SharePage() {
@@ -55,6 +57,12 @@ function SharePage() {
         setShowImg(true)
     }
 
+
+    const minPrice =
+        Array.isArray(event?.ticketing) && event.ticketing.length > 0
+            ? Math.min(...event.ticketing.map((ticket: IEventTicket) => ticket.ticketPrice))
+            : 0;
+
     return (
         <>
             <LoadingAnimation loading={isLoading} >
@@ -79,7 +87,6 @@ function SharePage() {
 
                                 <div className=" w-full flex gap-4" >
                                     <div role="button" className=" w-full flex items-center justify-center gap-2 px-2 bg-[#FFFFFF4D] bg-opacity-30 rounded-[10px] h-[50px] " >
-
                                         <div onClick={() => handleShowType("host")} className=" w-8 h-8 rounded-full " >
                                             <img className=" w-full h-full rounded-full object-cover " src={event?.admin?.photo ?? event?.admin?.logo} alt="image" />
                                         </div>
@@ -101,39 +108,39 @@ function SharePage() {
                                             <div className=" w-fit text-primary text-opacity-50 " >
                                                 <LocationIcon block={true} />
                                             </div>
-                                            <p className=" font-semibold text-xs " >{event?.meetingLink ? "Online" : event?.address}</p>
+                                            <p className=" font-semibold text-sm " >{event?.meetingLink ? "Online" : event?.address}</p>
                                         </div>
                                     </div>
                                     <div className=" flex items-center gap-2 " >
                                         <div className=" w-fit text-primary text-opacity-50 " >
                                             <CalendarIcon2 />
                                         </div>
-                                        <p className=" font-semibold text-xs mr-2 " >{dateFormat(event?.endTime)}</p>
+                                        <p className=" font-semibold text-sm mr-2 " >{dateFormat(event?.endTime)}</p>
                                         <div className=" w-fit text-primary text-opacity-50 " >
                                             <ClockIcon />
                                         </div>
-                                        <p className=" font-semibold text-xs " >{timeFormat(event?.endTime)}</p>
+                                        <p className=" font-semibold text-sm " >{timeFormat(event?.endTime)}</p>
                                     </div>
                                     <div className=" w-full flex justify-between items-center " >
                                         {/* {event?.members?.length > 0 && (
                                             <div className='flex items-center mt-2 bg-[#37137F4D] px-3 rounded-full w-fit h-[40px] text-black ' >
                                                 <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 '>
-                                                    <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
-                                                    <p className=" text-primary text-xs " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
+                                                    <p className=" text-primary text-sm " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
+                                                    <p className=" text-primary text-sm " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
                                                 </div>
                                                 {event?.members?.length > 1 && (
                                                     <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
-                                                        <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
-                                                        <p className=" text-primary text-xs " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
+                                                        <p className=" text-primary text-sm " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
+                                                        <p className=" text-primary text-sm " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
                                                     </div>
                                                 )}
                                                 {event?.members?.length > 2 && (
                                                     <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
-                                                        <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
-                                                        <p className=" text-primary text-xs " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
+                                                        <p className=" text-primary text-sm " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
+                                                        <p className=" text-primary text-sm " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
                                                     </div>
                                                 )}
-                                                <Text className=' ml-2 font-semibold text-xs text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
+                                                <Text className=' ml-2 font-semibold text-sm text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
                                             </div>
                                         )} */}
                                         {event?.ticketing?.length > 0 && (
@@ -142,7 +149,7 @@ function SharePage() {
                                                     <>
                                                         <div className=" flex gap-2 items-center " >
                                                             <TicketIcon />
-                                                            <Text className=" font-bold text-xs " >{totalTickets === 0 ? "Sold Out" : "Tickets Available"} </Text>
+                                                            <Text className=" font-bold text-sm " >{totalTickets === 0 ? "Sold Out" : "Ticket Available"} </Text>
                                                         </div>
                                                     </>
                                                 )}
@@ -154,10 +161,10 @@ function SharePage() {
                                                                     <TicketIcon />
                                                                 )}
                                                                 {event?.ticketing[0]?.spotsLeft === undefined && (
-                                                                    <Text className=" font-bold text-xs " >{"Tickets Available"} </Text>
+                                                                    <Text className=" font-bold text-sm " >{"Ticket Available"} </Text>
                                                                 )}
                                                                 {event?.ticketing[0]?.spotsLeft > 0 && (
-                                                                    <Text className=" font-bold text-xs " >{"Tickets Available"} </Text>
+                                                                    <Text className=" font-bold text-sm " >{"Ticket Available"} </Text>
                                                                 )}
                                                             </div>
                                                         )}
@@ -165,18 +172,25 @@ function SharePage() {
                                                 )}
                                             </>
                                         )}
+                                    </div> 
+                                    <div className=" flex items-center gap-2 " >
+                                        <HiTicket />
+                                        {event?.ticketing?.length > 1 && (
+                                            <p className=" text-sm font-medium " >From</p>
+                                        )}
+                                        <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className=" flex flex-col gap-4 w-full  px-4 py-4 " >
-                            <div className=" w-full flex flex-col items-center lg:pt-4 pt-4 " >
+                            <div className=" w-full flex flex-col items-center " >
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] mb-3 flex justify-center items-center "  >
-                                    <Text className=" !font-extrabold text-xs " >About Event</Text>
+                                    <Text className=" font-bold text-sm " >About Event</Text>
                                 </div>
 
                                 {paragraphs?.map((text, i) => (
-                                    <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-xs last:mb-0">
+                                    <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-sm last:mb-0">
                                         {text}
                                     </Text>
                                 ))}
@@ -186,7 +200,7 @@ function SharePage() {
                                 <div className=" flex w-full gap-3 items-center justify-center " >
                                     <div className=" flex flex-col gap-2 items-center " >
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                            <Text className=" font-extrabold text-xs " >Charity Partner(s)</Text>
+                                            <Text className=" font-bold text-sm " >Charity Partner(s)</Text>
                                         </div>
                                         <CustomButton onClick={() => setShowPartner(true)} hasIcon icon={<IoMdEye size={"20px"} />} rounded="44px" width="100%" height="50px"  >
                                             View Charity Partner(s)
@@ -226,9 +240,9 @@ function SharePage() {
                             <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
 
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                    <Text className=" !font-extrabold text-xs " >Pledge</Text>
+                                    <Text className=" !font-bold text-sm " >Pledge</Text>
                                 </div>
-                                <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-xs font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue this important work.</p>
+                                <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-sm font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue this important work.</p>
                                 {/* <ChartGraphPledge /> */}
                                 <div className=" w-full h-[180px] flex px-6 flex-col items-center justify-center relative my-4 " >
                                     <div className=" max-w-[400px] w-full h-[200px] relative  " >
@@ -247,7 +261,7 @@ function SharePage() {
                         )}
                         <div className=" w-full flex bg-white relative z-10 flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 pb-36 " >
                             <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                <p className=" font-extrabold text-xs " >Event Countdown</p>
+                                <p className=" font-bold text-sm " >Event Countdown</p>
                             </div>
                             <CountdownTimer targetTime={event?.endTime} />
                         </div>

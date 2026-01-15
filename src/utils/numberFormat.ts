@@ -19,7 +19,7 @@ export const formatNumber = (
   const prefix = currency ? currencySymbols[currency] : "";
 
   if (number === "***") {
-    return prefix + " ****";
+    return prefix +" ****";
   }
 
   const value =

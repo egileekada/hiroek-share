@@ -74,7 +74,7 @@ const useAuth = (community?: ICommunity) => {
             queryClient.invalidateQueries("userdata")
             if(!community?._id) {
                 toast.success("Logged In Successfully")
-                setTab(2)
+                setTab(5)
             } else {
                 joinChannelWithToken.mutate({ id: community?._id+"", token })
             }

@@ -59,7 +59,7 @@ export default function UserId() {
                                 Upcoming Events
                             </div>
                             <SmartCalendar
-                                label="Select a Month and Year to view availability"
+                                label="Select A Month & Year To View Availability"
                                 value={month}
                                 onSelect={clickDate}
                                 minYear={2024}
@@ -89,7 +89,7 @@ export default function UserId() {
                                 </div>
                                 {month && (
                                     <div className="text-sm mx-auto text-gray-600">
-                                        View availability —{" "}
+                                        View Availablilty —{" "}
                                         <span className="font-medium text-gray-800">
                                             {format(month, "MMMM yyyy")}
                                         </span>
