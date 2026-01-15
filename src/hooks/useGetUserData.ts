@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import httpService from "../utils/httpService";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import type { IParnter } from "../model/user"; 
 import { format } from "date-fns";
 
