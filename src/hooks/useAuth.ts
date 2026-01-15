@@ -101,7 +101,7 @@ const useAuth = (community?: ICommunity) => {
 
     const userDataMutation = useMutation({
         mutationFn: (data: string) => httpService.get(`/users/${data}`),
-        onError: (error: any) => {
+        onError: () => {
             // toast.error(error?.response?.data?.error?.details?.message)
         },
         onSuccess: (data: any) => {

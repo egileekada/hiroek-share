@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "./shared/customButton";
 import { formatNumber } from "../utils/numberFormat";
 import { unstable_OneTimePasswordField as OneTimePasswordField } from "radix-ui";
