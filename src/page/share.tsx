@@ -29,7 +29,7 @@ import type { IEventTicket } from "../model/event"
 function SharePage() {
 
     const { isLoading, data: event } = useGetEventData()?.getEventData()
-    const { data: user } = useGetUserData().getCurrentUserData()
+    // const { data: user } = useGetUserData().getCurrentUserData()
     const { data: currencyData } = useGetUserData().getCurrencyData()
 
 
@@ -67,7 +67,6 @@ function SharePage() {
         <>
             <LoadingAnimation loading={isLoading} >
                 <div className=" w-full h-screen relative flex lg:flex-row flex-col gap-6 text-primary " >
-
                     <div className=" w-full h-fit flex flex-col gap-4 lg:rounded-[44px] lg:p-8 " >
                         <div className=" w-full lg:h-[300px] h-[300px] relative " >
                             {back && (
@@ -105,7 +104,7 @@ function SharePage() {
                                     <p className=" font-bold text-lg capitalize text-primary " >{textLimit(event?.name, 70)}</p>
                                     <div className=" w-full flex gap-3 items-center justify-between " >
                                         <div className=" flex gap-2 " >
-                                            <div className=" w-fit text-primary text-opacity-50 " >
+                                            <div className=" w-fit mt-[2px] text-primary text-opacity-50 " >
                                                 <LocationIcon block={true} />
                                             </div>
                                             <p className=" font-semibold text-sm " >{event?.meetingLink ? "Online" : event?.address}</p>
@@ -172,7 +171,7 @@ function SharePage() {
                                                 )}
                                             </>
                                         )}
-                                    </div> 
+                                    </div>
                                     <div className=" flex items-center gap-2 " >
                                         <HiTicket />
                                         {event?.ticketing?.length > 1 && (
@@ -189,11 +188,13 @@ function SharePage() {
                                     <Text className=" font-bold text-sm " >About Event</Text>
                                 </div>
 
-                                {paragraphs?.map((text, i) => (
-                                    <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-sm last:mb-0">
-                                        {text}
-                                    </Text>
-                                ))}
+                                <div className=" w-full flex flex-col " >
+                                    {paragraphs?.map((text, i) => (
+                                        <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-sm last:mb-0">
+                                            {text}
+                                        </Text>
+                                    ))}
+                                </div>
 
                             </div>
                             {event?.eventPledge?.minimumPledge > 0 && (
@@ -307,7 +308,7 @@ function SharePage() {
                     </div>
                 </ModalLayout>
                 <ModalLayout onIcon width=" lg:max-w-[390px] max-w-full w-full " height=" h-[100vh] " rounded="24px" open={show} setOpen={setShow} >
-                    <EventTicketForm convert={currencyData} user={user as unknown as IUserDetail} setOpen={setShow} event={event} />
+                    <EventTicketForm convert={currencyData} setOpen={setShow} event={event} />
                 </ModalLayout>
                 <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
                     <div className=" w-full rounded-full pt-2 " >

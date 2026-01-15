@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import CustomButton from "./shared/customButton";
 import { formatNumber } from "../utils/numberFormat";
 import { unstable_OneTimePasswordField as OneTimePasswordField } from "radix-ui";
@@ -11,13 +11,12 @@ import useAuth from "../hooks/useAuth";
 import { io } from "socket.io-client";
 import { FormikProvider } from "formik";
 import Cookies from "js-cookie"
-import type { IUserDetail } from "../model/user";
 import { textLimit } from "../utils/textlimit";
 import { IoChevronBack } from "react-icons/io5";
 
-export default function EventTicketForm({ event, user, convert }: { setOpen?: any, event: IEvent, user: IUserDetail, convert: any }) {
+export default function EventTicketForm({ event, convert }: { setOpen?: any, event: IEvent, convert: any }) {
 
-    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword, paymentUrl } = useAuth()
+    const { formikSignup, signupMutation, formikVerify, verifyMutation, formik, loginMutation, tab, setTab, payForTicket, payForTicketFree, email, forgotMutation, formikForgotPassword, paymentUrl, user, userDataMutation } = useAuth()
 
     const [totalPrices, setTotalPrices] = useState(0)
     const [serviceFees, setServiceFees] = useState(0)
@@ -43,6 +42,14 @@ export default function EventTicketForm({ event, user, convert }: { setOpen?: an
             token: token
         }
     });
+
+    useEffect(()=> {
+        if(!userId) {
+            return
+        }
+        userDataMutation?.mutate(userId)
+    }, [userId])
+    
 
     const updateTicket = (ticketTypeId: string, action: "add" | "remove") => {
         setPayload((prev) => {
@@ -188,9 +195,9 @@ export default function EventTicketForm({ event, user, convert }: { setOpen?: an
         <>
             {tab === 0 && (
                 <FormikProvider value={formikSignup}>
-                    <form onSubmit={formikSignup.handleSubmit} className=" w-full flex flex-col items-center pb-3 " >
-                        <p className=" text-primary text-2xl font-bold " >Sign Up</p>
-                        <p className=" text-primary20 text-xs font-medium " >Please fill in your details below.</p>
+                    <form onSubmit={formikSignup.handleSubmit} className=" w-full flex flex-col pb-3 " >
+                        <p className=" text-primary text-2xl text-left font-bold " >Checkout</p>
+                        <p className=" text-primary text-xs text-left font-semibold " >Continue to secure your place.</p>
                         <div className=" w-full flex flex-col items-center gap-4 mt-3 " >
                             <CustomInput borderRadius="8px" name="fullname" label="Full Name" type="text" placeholder="" />
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
@@ -206,7 +213,7 @@ export default function EventTicketForm({ event, user, convert }: { setOpen?: an
                 <FormikProvider value={formikVerify}>
                     <form onSubmit={formikVerify.handleSubmit} className=" w-full flex flex-col items-center pb-3 " >
                         <p className=" text-primary text-2xl font-bold " >Verify OTP</p>
-                        <p className=" text-primary20 text-xs font-medium " >Please enter the OTP sent to your email.</p>
+                        <p className=" text-primary text-xs font-semibold " >Please enter the OTP sent to your email.</p>
                         <div className=" w-full flex flex-col items-center gap-4 mt-3 " >
 
                             <div className=" w-full flex items-center justify-center gap-2 pt-2 pb-4 ">
@@ -234,14 +241,15 @@ export default function EventTicketForm({ event, user, convert }: { setOpen?: an
             {tab === 3 && (
                 <FormikProvider value={formik}>
                     <form onSubmit={formik.handleSubmit} className=" w-full flex flex-col items-center pb-3 " >
-                        <p className=" text-primary text-2xl font-bold " >Login</p>
-                        <p className=" text-primary20 text-xs font-medium " >Please fill in your details below.</p>
-                        <div className=" w-full flex flex-col items-center gap-4 pb-3 " >
+                        <p className=" text-primary text-2xl font-bold " >Welcome!</p> 
+                        <p className=" text-primary text-xs font-semibold " >Enter your details to continue.</p>
+                        <div className=" w-full flex flex-col items-center gap-4 py-3 " >
                             <CustomInput borderRadius="8px" name="email" label="Email Address" type="email" placeholder="" />
                             <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
-                            <p className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(10)} >forgot password</p>
-                            <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Login</CustomButton>
-                            <p className=" text-primary20 text-xs font-medium " >Don't have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</button></p>
+                            <p className=" text-primary font-medium cursor-pointer" onClick={() => setTab(10)} >Forgot Password</p>
+                            <CustomButton type="submit" loading={loginMutation.isLoading} rounded="44px" width="100%" height="50px"  >Continue</CustomButton>
+                            <p className=" text-primary20 text-xs font-medium " >First time here? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Continue</button></p>
+                            {/* <p className=" text-primary20 text-xs font-medium " >Don't have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(0)} >Sign Up</button></p> */}
                         </div>
                     </form>
                 </FormikProvider>

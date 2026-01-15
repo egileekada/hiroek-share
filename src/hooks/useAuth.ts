@@ -9,13 +9,16 @@ import Cookies from "js-cookie"
 import { useQuerys } from '../utils/useQuery';
 import { useParams } from 'react-router-dom';
 import type { ICommunity } from '../model/community';
+import type { IUserDetail } from '../model/user';
 
 
 const useAuth = (community?: ICommunity) => {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
-    const [paymentUrl, setPaymentUrl] = useState("") 
+    const [paymentUrl, setPaymentUrl] = useState("")
+
+    const [user, setUser] = useState<IUserDetail>({} as IUserDetail)
 
     const [tab, setTab] = useState(2)
 
@@ -27,7 +30,7 @@ const useAuth = (community?: ICommunity) => {
 
     const queryClient = useQueryClient()
     const resetCode = query.get('resetCode');
-    const emailData = query.get('email');  
+    const emailData = query.get('email');
 
     const signupMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/email-signup`, data),
@@ -65,18 +68,19 @@ const useAuth = (community?: ICommunity) => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
 
             let token: string = data?.data?.token
 
-            sessionStorage.setItem("userId", data?.data?.user?._id)
+            userDataMutation.mutate(data?.data?.user?._id)
+            Cookies.set("userId", data?.data?.user?._id)
             localStorage.setItem("access_token", data?.data?.token)
-            queryClient.invalidateQueries("userdata")
-            if(!community?._id) {
+            // queryClient.invalidateQueries("userdata")
+            if (!community?._id) {
                 toast.success("Logged In Successfully")
                 setTab(5)
             } else {
-                joinChannelWithToken.mutate({ id: community?._id+"", token })
+                joinChannelWithToken.mutate({ id: community?._id + "", token })
             }
 
         },
@@ -91,6 +95,19 @@ const useAuth = (community?: ICommunity) => {
         onSuccess: () => {
             toast.success("Password reset link sent to your email");
             setTab(3)
+        },
+    });
+
+
+    const userDataMutation = useMutation({
+        mutationFn: (data: string) => httpService.get(`/users/${data}`),
+        onError: (error: any) => {
+            // toast.error(error?.response?.data?.error?.details?.message)
+        },
+        onSuccess: (data: any) => {
+            if (data?.data?.user) {
+                setUser(data?.data?.user)
+            }
         },
     });
 
@@ -110,7 +127,7 @@ const useAuth = (community?: ICommunity) => {
         onSuccess: (data) => {
             const paymentUrl = data?.data?.url;
 
-            if (paymentUrl) { 
+            if (paymentUrl) {
                 // ✅ Open the payment page in a new tab
                 window.open(`${paymentUrl}&eventbtn=true`, "_blank");
             } else {
@@ -143,45 +160,45 @@ const useAuth = (community?: ICommunity) => {
     const joinChannel = useMutation({
         mutationFn: (data: string
         ) => httpService.post(`/communities/join-community/${data}`, {},),
-        onError: () => { 
-            setTab(4) 
+        onError: () => {
+            setTab(4)
         },
         onSuccess: () => {
             queryClient.invalidateQueries("userdata")
             queryClient.invalidateQueries("communities-by-id")
-            if(!community?._id) {    
+            if (!community?._id) {
                 setShow(true)
                 setTab(4)
-            } 
+            }
         },
     });
 
     const joinChannelWithToken = useMutation({
         mutationFn: ({ id, token }: { id: string; token: string }) =>
-          httpService.post(
-            `/communities/join-community/${id}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          ),
-      
+            httpService.post(
+                `/communities/join-community/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            ),
+
         onError: () => {
-          setTab(4);
-        },
-      
-        onSuccess: () => {
-          queryClient.invalidateQueries("userdata");
-          queryClient.invalidateQueries("communities-by-id");
-      
-        //   if (!community?._id) { 
             setTab(4);
-        //   }
         },
-      });
-      
+
+        onSuccess: () => {
+            queryClient.invalidateQueries("userdata");
+            queryClient.invalidateQueries("communities-by-id");
+
+            //   if (!community?._id) { 
+            setTab(4);
+            //   }
+        },
+    });
+
 
     const verifyMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/verify-otp`, data),
@@ -309,7 +326,9 @@ const useAuth = (community?: ICommunity) => {
         forgotMutation,
         formikForgotPassword,
         resetPasswordMutation,
-        formikResetPassword
+        formikResetPassword,
+        user,
+        userDataMutation
     }
 
 }
