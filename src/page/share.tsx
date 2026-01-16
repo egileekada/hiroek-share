@@ -159,7 +159,7 @@ function SharePage() {
                                             <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
                                         </div>
                                     )}
-
+                                    
                                     {event?.ticketing[0]?.signUpLimit > 0 && (
                                         <>
                                             {totalTickets > 0 && (
