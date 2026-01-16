@@ -189,13 +189,12 @@ function SharePage() {
                                 </div>
 
                                 <div className=" w-full flex flex-col " >
-                                    {paragraphs?.map((text, i) => (
-                                        <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-sm last:mb-0">
-                                            {text}
-                                        </Text>
-                                    ))}
-                                </div>
 
+                                <Text className="text-sm font-semibold text-primary leading-relaxed whitespace-pre-wrap text-start ">
+                                            {event?.description}
+                                        </Text> 
+                                </div>
+                                {/* text-sm font-semibold text-primary leading-relaxed whitespace-pre-wrap text-start */}
                             </div>
                             {event?.eventPledge?.minimumPledge > 0 && (
                                 <div className=" flex w-full gap-3 items-center justify-center " >
@@ -211,7 +210,7 @@ function SharePage() {
                             )}
                         </div>
                         {event?.address && (
-                            <div className=" w-full px-6 flex flex-col gap-1 " >
+                            <div className=" w-full px-4 flex flex-col gap-1 " >
                                 <Text className=" font-bold text-sm " >Location Map</Text>
                                 <ViewMap lat={event?.loc?.coordinates[1]} lng={event?.loc?.coordinates[0]} />
                             </div>
