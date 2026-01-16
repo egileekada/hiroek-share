@@ -47,9 +47,9 @@ function SharePage() {
 
     const back = query.get("back");
 
-    const paragraphs = event?.description
-        ?.split(/\n\s*\n/)
-        .filter(Boolean);
+    // const paragraphs = event?.description
+    //     ?.split(/\n\s*\n/)
+    //     .filter(Boolean);
 
     const handleShowType = (type: string) => {
         setShowType(type)
