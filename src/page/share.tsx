@@ -150,6 +150,7 @@ function SharePage() {
                                             </>
                                         )}
                                     </div>
+                                    
                                     {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
                                         <div className=" flex items-center gap-2 " >
                                             <HiTicket />
@@ -159,7 +160,7 @@ function SharePage() {
                                             <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
                                         </div>
                                     )}
-                                    
+
                                     {event?.ticketing[0]?.signUpLimit > 0 && (
                                         <>
                                             {totalTickets > 0 && (
