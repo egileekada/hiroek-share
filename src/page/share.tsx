@@ -17,7 +17,7 @@ import EventTicketForm from "../components/eventTicketForm"
 // import type { IEventTicket } from "../model/event"
 import { IoMdEye } from "react-icons/io"
 import { capitalizeFLetter } from "../utils/capitalLetter"
-import useGetUserData from "../hooks/useGetUserData" 
+import useGetUserData from "../hooks/useGetUserData"
 import { useQuerys } from "../utils/useQuery"
 import { useNavigate } from "react-router-dom"
 import ViewMap from "../components/shared/viewMap"
@@ -120,27 +120,6 @@ function SharePage() {
                                         <p className=" font-semibold text-sm " >{timeFormat(event?.endTime)}</p>
                                     </div>
                                     <div className=" w-full flex justify-between items-center " >
-                                        {/* {event?.members?.length > 0 && (
-                                            <div className='flex items-center mt-2 bg-[#37137F4D] px-3 rounded-full w-fit h-[40px] text-black ' >
-                                                <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 '>
-                                                    <p className=" text-primary text-sm " >{(event?.members[0]?.fullname).slice(0, 1)}</p>
-                                                    <p className=" text-primary text-sm " >{(event?.members[0]?.fullname).slice(1, 2)}</p>
-                                                </div>
-                                                {event?.members?.length > 1 && (
-                                                    <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
-                                                        <p className=" text-primary text-sm " >{(event?.members[1]?.fullname).slice(0, 1)}</p>
-                                                        <p className=" text-primary text-sm " >{(event?.members[1]?.fullname).slice(1, 2)}</p>
-                                                    </div>
-                                                )}
-                                                {event?.members?.length > 2 && (
-                                                    <div className=' w-7 h-7 rounded-full flex justify-center items-center bg-gray-200 -ml-2 '>
-                                                        <p className=" text-primary text-sm " >{(event?.members[2]?.fullname).slice(0, 1)}</p>
-                                                        <p className=" text-primary text-sm " >{(event?.members[2]?.fullname).slice(1, 2)}</p>
-                                                    </div>
-                                                )}
-                                                <Text className=' ml-2 font-semibold text-sm text-[#37137F] ' >{formatNumberWithKCurrency(event?.members?.length)} Attending</Text>
-                                            </div>
-                                        )} */}
                                         {event?.ticketing?.length > 0 && (
                                             <>
                                                 {event?.ticketing[0]?.signUpLimit > 0 && (
@@ -171,13 +150,30 @@ function SharePage() {
                                             </>
                                         )}
                                     </div>
-                                    <div className=" flex items-center gap-2 " >
-                                        <HiTicket />
-                                        {event?.ticketing?.length > 1 && (
-                                            <p className=" text-sm font-medium " >From</p>
-                                        )}
-                                        <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
-                                    </div>
+                                    {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
+                                        <div className=" flex items-center gap-2 " >
+                                            <HiTicket />
+                                            {event?.ticketing?.length > 1 && (
+                                                <p className=" text-sm font-medium " >From</p>
+                                            )}
+                                            <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
+                                        </div>
+                                    )}
+
+                                    {event?.ticketing[0]?.signUpLimit > 0 && (
+                                        <>
+                                            {totalTickets > 0 && (
+                                                <div className=" flex items-center gap-2 " >
+                                                    <HiTicket />
+                                                    {event?.ticketing?.length > 1 && (
+                                                        <p className=" text-sm font-medium " >From</p>
+                                                    )}
+                                                    <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+
                                 </div>
                             </div>
                         </div>
