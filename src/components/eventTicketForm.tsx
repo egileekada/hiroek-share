@@ -204,7 +204,7 @@ export default function EventTicketForm({ event, convert }: { setOpen?: any, eve
                             <CustomInput borderRadius="8px" name="phone" label="Phone Number" type="tel" placeholder="" />
                             <CustomInput borderRadius="8px" name="password" isPassword label="Password" type="password" placeholder="" />
                             <CustomButton type="submit" loading={signupMutation.isLoading} rounded="44px" width="100%" height="50px"  >Proceed</CustomButton>
-                            <p className=" text-primary20 text-xs font-medium " >Already have an account? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Login</button></p>
+                            <p className=" text-primary20 text-xs font-medium " >Are you a returning attendee? <button type="button" className=" text-primary font-semibold cursor-pointer" onClick={() => setTab(3)} >Continue here</button></p>
                         </div>
                     </form>
                 </FormikProvider>
