@@ -34,6 +34,9 @@ export default function UserId() {
         ?.split(/\n\s*\n/)
         .filter(Boolean);
 
+    console.log(Object.entries(dateEvent));
+
+
     return (
         <LoadingAnimation loading={isLoading} >
             <div className=" w-full flex flex-col h-full pb-6 items-center overflow-y-auto " >
@@ -100,43 +103,41 @@ export default function UserId() {
                                     <div className="  w-full flex overflow-auto max-h-[68vh] flex-col " >
                                         {Object.entries(dateEvent).map(([date, events]) => (
                                             <div className=" flex flex-col w-full " >
-                                                {new Date(date) > new Date() &&
-                                                    <div key={date} className=" flex flex-col gap-3 mt-3 " >
-                                                        {(Array.isArray(events) ? events : []).map((item: IEvent) => {
-                                                            const minPrice =
-                                                                Array.isArray(item?.ticketing) && item.ticketing.length > 0
-                                                                    ? Math.min(...item.ticketing.map((ticket: IEventTicket) => ticket.ticketPrice))
-                                                                    : 0;
+                                                <div key={date} className=" flex flex-col gap-3 mt-3 " >
+                                                    {(Array.isArray(events) ? events : []).map((item: IEvent) => {
+                                                        const minPrice =
+                                                            Array.isArray(item?.ticketing) && item.ticketing.length > 0
+                                                                ? Math.min(...item.ticketing.map((ticket: IEventTicket) => ticket.ticketPrice))
+                                                                : 0;
 
-                                                            return (
-                                                                <a key={item?._id} href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
-                                                                    <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
-                                                                    <div className=" flex items-center gap-2 " >
-                                                                        <HiMiniMapPin />
-                                                                        <p className=" text-xs font-medium " >{item?.meetingLink ? "Online" : textLimit(item?.address, 40)}</p>
-                                                                    </div>
-                                                                    <div className=" flex items-center gap-2 " >
-                                                                        <HiClock />
-                                                                        <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
-                                                                    </div>
-                                                                    <div className=" flex items-center gap-2 " >
-                                                                        <HiTicket />
-                                                                        {item?.ticketing?.length > 1 && (
-                                                                            <p className=" text-xs font-medium " >From</p>
-                                                                        )}
-                                                                        <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, item?.currency as any)}</p>
-                                                                    </div>
-                                                                </a>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                }
+                                                        return (
+                                                            <a key={item?._id} href={`/event/${item?._id}?back=true`} className=" w-full bg-[#37137F] text-white items-start p-4 rounded-xl flex flex-col gap-1 " >
+                                                                <p className=" text-xs font-bold " >{textLimit(item?.name, 30)}</p>
+                                                                <div className=" flex items-center gap-2 " >
+                                                                    <HiMiniMapPin />
+                                                                    <p className=" text-xs font-medium " >{item?.meetingLink ? "Online" : textLimit(item?.address, 40)}</p>
+                                                                </div>
+                                                                <div className=" flex items-center gap-2 " >
+                                                                    <HiClock />
+                                                                    <p className=" text-xs font-medium " >{dateFormat(item?.endTime)}</p>
+                                                                </div>
+                                                                <div className=" flex items-center gap-2 " >
+                                                                    <HiTicket />
+                                                                    {item?.ticketing?.length > 1 && (
+                                                                        <p className=" text-xs font-medium " >From</p>
+                                                                    )}
+                                                                    <p className=" text-xs font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, item?.currency as any)}</p>
+                                                                </div>
+                                                            </a>
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
                                 </LoadingAnimation>
                             </div>
-                        </ModalLayout> 
+                        </ModalLayout>
                         <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
                             <div className=" w-full rounded-full pt-2 " >
                                 <img className=" w-full h-full rounded-[24px] object-contain " src={data?.logo} alt="image" />
