@@ -23,6 +23,8 @@ export default function UserId() {
         setInternalId(data?._id)
     }, [data?.userId])
 
+    const [showImg, setShowImg] = useState(false)
+
     const clickDate = (date: Date) => {
         setShowModal(true)
         setMonth(new Date(date))
@@ -37,7 +39,7 @@ export default function UserId() {
             <div className=" w-full flex flex-col h-full pb-6 items-center overflow-y-auto " >
                 <div className=" max-w-[500px] w-full flex flex-col gap-4 shadow rounded-b-4xl bg-[#37137F] h-auto" >
                     <div className=" w-full h-fit flex justify-center " >
-                        <div className=" w-[80%] h-[100px] flex flex-col gap-2 items-center justify-end " >
+                        <div onClick={() => setShowImg(true)} className=" w-[80%] h-[100px] flex flex-col gap-2 items-center justify-end " >
                             <img src={data?.logo} alt="logo" className=" w-24 h-24 rounded-2xl object-cover " />
                             {/* <p className= " font-black text-3xl text-white text-center " >{data?.name}</p> */}
                         </div>
@@ -63,15 +65,15 @@ export default function UserId() {
                                 onSelect={clickDate}
                                 minYear={2024}
                                 maxYear={2040}
-                            /> 
-                        </div> 
+                            />
+                        </div>
                         <div className=" w-full flex h-auto flex-col items-center" >
-                        </div> 
+                        </div>
                         <ModalLayout width=" lg:max-w-[500px] max-w-full w-full " rounded="24px" open={show} setOpen={setShow} >
                             <div className=" w-full h-[80vh] overflow-y-auto px-3 pb-4 flex flex-col " >
                                 <div className=" px-[14px] py-[8px] font-extrabold w-fit mb-3 mx-auto text-sm rounded-3xl bg-[#37137F] text-white shadow " >
                                     About Us
-                                </div> 
+                                </div>
                                 {paragraphs?.map((text, i) => (
                                     <Text key={i} className="leading-tight mb-[16px] text-primary text-left text-opacity-90 text-sm last:mb-0">
                                         {text}
@@ -97,7 +99,7 @@ export default function UserId() {
                                 <LoadingAnimation loading={loading} text="No Events Found" length={Object.keys(dateEvent ?? {}).length} >
                                     <div className="  w-full flex overflow-auto max-h-[68vh] flex-col " >
                                         {Object.entries(dateEvent).map(([date, events]) => (
-                                            <div className=" flex flex-col w-full " > 
+                                            <div className=" flex flex-col w-full " >
                                                 {new Date(date) > new Date() &&
                                                     <div key={date} className=" flex flex-col gap-3 mt-3 " >
                                                         {(Array.isArray(events) ? events : []).map((item: IEvent) => {
@@ -127,12 +129,17 @@ export default function UserId() {
                                                                 </a>
                                                             )
                                                         })}
-                                                    </div> 
+                                                    </div>
                                                 }
                                             </div>
                                         ))}
                                     </div>
                                 </LoadingAnimation>
+                            </div>
+                        </ModalLayout> 
+                        <ModalLayout width=" max-w-[400px] " rounded="24px" open={showImg} setOpen={setShowImg} >
+                            <div className=" w-full rounded-full pt-2 " >
+                                <img className=" w-full h-full rounded-[24px] object-contain " src={data?.logo} alt="image" />
                             </div>
                         </ModalLayout>
                     </div>

@@ -367,11 +367,11 @@ export default function EventTicketForm({ event, convert }: { setOpen?: any, eve
                             <p>{user?.phone}</p>
                         </div>
                         <div className=" w-full flex justify-between gap-4 " >
-                            <p className=" font-semibold ">Event</p>
+                            <p className=" font-semibold ">Event Name</p>
                             <p>{textLimit(event?.name, 30)}</p>
                         </div>
                         <div className=" w-full flex justify-between gap-4 " >
-                            <p className=" font-semibold ">Ticket Number</p>
+                            <p className=" font-semibold ">Number of Ticket</p>
                             <p>{formatNumber(totalTickets)}</p>
                         </div>
                     </div>
