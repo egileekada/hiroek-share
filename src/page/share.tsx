@@ -207,24 +207,25 @@ function SharePage() {
                                         </CustomButton>
                                     </div>
                                 </div>
-                            )} 
-                            {event?.eventPledge?.minimumPledge > 0 && (
-                                <div style={{ boxShadow: "0px 0px 4px 0px #00000040" }} className=" rounded-[20px] py-4 px-6 flex w-full items-center justify-center " >
-                                    <div className=" flex flex-col gap-4 items-center " >
-                                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
-                                            <Text className=" font-bold text-sm " >Please Make A Donation</Text>
-                                        </div> 
-                                        <p className=" font-semibold text-sm " >When you join the event, you will have the chance to support our community efforts with a donation. Your contribution helps us continue this important work.</p>
-                                    </div>
-                                </div>
                             )}
                         </div>
+                            {event?.address && (
+                                <div className=" w-full px-4 flex flex-col gap-1 " >
+                                    <Text className=" font-bold text-sm " >Location Map</Text>
+                                    <ViewMap lat={event?.loc?.coordinates[1]} lng={event?.loc?.coordinates[0]} />
+                                </div>
+                            )}
                     </div>
-                    <div className=" w-full flex flex-col relative pt-10 gap-6 lg:px-0 px-4 " >
-                        {event?.address && (
-                            <div className=" w-full px-4 flex flex-col gap-1 " >
-                                <Text className=" font-bold text-sm " >Location Map</Text>
-                                <ViewMap lat={event?.loc?.coordinates[1]} lng={event?.loc?.coordinates[0]} />
+                    <div className=" w-full flex flex-col relative lg:pt-10 gap-6 lg:px-0 px-4 " >
+
+                        {event?.eventPledge?.minimumPledge > 0 && (
+                            <div style={{ boxShadow: "0px 0px 4px 0px #00000040" }} className=" lg:max-w-[500px] lg:mx-auto rounded-[20px] py-4 px-6 flex w-full items-center justify-center " >
+                                <div className=" flex flex-col gap-4 items-center " >
+                                    <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                        <Text className=" font-bold text-sm " >Please Make A Donation</Text>
+                                    </div>
+                                    <p className=" font-semibold text-sm " >When you join the event, you will have the chance to support our community efforts with a donation. Your contribution helps us continue this important work.</p>
+                                </div>
                             </div>
                         )}
                         {event?.fundRaiser?.fundRaisingGoal > 0 && (
