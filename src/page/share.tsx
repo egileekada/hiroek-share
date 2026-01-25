@@ -153,29 +153,29 @@ function SharePage() {
 
                                     {event?.ticketing?.length > 0 && (
                                         <>
-                                        {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
-                                            <div className=" flex items-center gap-2 " >
-                                                <HiTicket />
-                                                {event?.ticketing?.length > 1 && (
-                                                    <p className=" text-sm font-medium " >From</p>
-                                                )}
-                                                <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
-                                            </div>
-                                        )}
-    
-                                        {event?.ticketing[0]?.signUpLimit > 0 && (
-                                            <>
-                                                {totalTickets > 0 && (
-                                                    <div className=" flex items-center gap-2 " >
-                                                        <HiTicket />
-                                                        {event?.ticketing?.length > 1 && (
-                                                            <p className=" text-sm font-medium " >From</p>
-                                                        )}
-                                                        <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
-                                                    </div>
-                                                )}
-                                            </>
-                                        )}
+                                            {(event?.ticketing[0]?.signUpLimit === 0 || !event?.ticketing[0]?.signUpLimit) && (
+                                                <div className=" flex items-center gap-2 " >
+                                                    <HiTicket />
+                                                    {event?.ticketing?.length > 1 && (
+                                                        <p className=" text-sm font-medium " >From</p>
+                                                    )}
+                                                    <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
+                                                </div>
+                                            )}
+
+                                            {event?.ticketing[0]?.signUpLimit > 0 && (
+                                                <>
+                                                    {totalTickets > 0 && (
+                                                        <div className=" flex items-center gap-2 " >
+                                                            <HiTicket />
+                                                            {event?.ticketing?.length > 1 && (
+                                                                <p className=" text-sm font-medium " >From</p>
+                                                            )}
+                                                            <p className=" text-sm font-medium " >{minPrice === 0 ? "Free" : formatNumber(minPrice / 100, event?.currency as any)}</p>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            )}
                                         </>
                                     )}
 
@@ -190,9 +190,9 @@ function SharePage() {
 
                                 <div className=" w-full flex flex-col " >
 
-                                <Text className="text-sm font-semibold text-primary leading-relaxed whitespace-pre-wrap text-start ">
-                                            {event?.description}
-                                        </Text> 
+                                    <Text className="text-sm font-semibold text-primary leading-relaxed whitespace-pre-wrap text-start ">
+                                        {event?.description}
+                                    </Text>
                                 </div>
                                 {/* text-sm font-semibold text-primary leading-relaxed whitespace-pre-wrap text-start */}
                             </div>
@@ -207,16 +207,26 @@ function SharePage() {
                                         </CustomButton>
                                     </div>
                                 </div>
+                            )} 
+                            {event?.eventPledge?.minimumPledge > 0 && (
+                                <div style={{ boxShadow: "0px 0px 4px 0px #00000040" }} className=" rounded-[20px] py-4 px-6 flex w-full items-center justify-center " >
+                                    <div className=" flex flex-col gap-4 items-center " >
+                                        <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
+                                            <Text className=" font-bold text-sm " >Please Make A Donation</Text>
+                                        </div> 
+                                        <p className=" font-semibold text-sm " >When you join the event, you will have the chance to support our community efforts with a donation. Your contribution helps us continue this important work.</p>
+                                    </div>
+                                </div>
                             )}
                         </div>
+                    </div>
+                    <div className=" w-full flex flex-col relative pt-10 gap-6 lg:px-0 px-4 " >
                         {event?.address && (
                             <div className=" w-full px-4 flex flex-col gap-1 " >
                                 <Text className=" font-bold text-sm " >Location Map</Text>
                                 <ViewMap lat={event?.loc?.coordinates[1]} lng={event?.loc?.coordinates[0]} />
                             </div>
                         )}
-                    </div>
-                    <div className=" w-full flex flex-col relative gap-6 lg:px-0 px-4 " >
                         {event?.fundRaiser?.fundRaisingGoal > 0 && (
                             <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
                                 <p className="  text-primary font-bold " >Fundraising Goal</p>
@@ -236,19 +246,18 @@ function SharePage() {
                             </div>
                         )}
 
-                        {event?.eventPledge?.minimumPledge > 0 && (
-                            <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
+                        {/* {event?.eventPledge?.minimumPledge > 0 && ( */}
+                        {/* <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
 
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                     <Text className=" !font-bold text-sm " >Pledge</Text>
                                 </div>
                                 <p className=" text-[#858D9D] max-w-[350px] mt-2 text-center text-sm font-medium " >When you join then event, you will have the chance to support our community effort with a donation, Your contribution helps us continue this important work.</p>
-                                {/* <ChartGraphPledge /> */}
+                             
                                 <div className=" w-full h-[180px] flex px-6 flex-col items-center justify-center relative my-4 " >
                                     <div className=" max-w-[400px] w-full h-[200px] relative  " >
 
-                                        <div className=" max-w-[400px] w-full h-[200px] absolute top-0 left-auto right-auto flex justify-center rounded-t-full border-t-4 border-l-4 border-r-4 border-primary " />
-                                        {/* <div className=" w-4 h-4 absolute -bottom-[5px] -right-[4px] z-30 rounded-full bg-[#37137F] " /> */}
+                                        <div className=" max-w-[400px] w-full h-[200px] absolute top-0 left-auto right-auto flex justify-center rounded-t-full border-t-4 border-l-4 border-r-4 border-primary " /> 
                                     </div>
                                 </div>
                                 <div className=" w-full px-2 flex justify-center -mt-24 " >
@@ -257,8 +266,8 @@ function SharePage() {
                                         <p className=" font-medium text-green-500 bg-green-500/10 px-2 py-1 rounded-full text-sm " >Minimum Pledge</p>
                                     </div>
                                 </div>
-                            </div>
-                        )}
+                            </div> */}
+                        {/* )} */}
                         <div className=" w-full flex bg-white relative z-10 flex-col items-center lg:px-0 px-4 lg:pt-4 pt-4 pb-36 " >
                             <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
                                 <p className=" font-bold text-sm " >Event Countdown</p>
