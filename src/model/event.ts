@@ -2,6 +2,7 @@ import type { IMember } from "./user"
 
 export interface IEvent {
     "fundRaiser": IFundRaiser,
+    currency: string,
     "eventPledge": {
         "organizations": 
             {
@@ -29,6 +30,7 @@ export interface IEvent {
     "isPrimaryEvent": boolean,
     "primaryEventId": string,
     "members": any[],
+    "meetingLink": string,
     "privacy": string,
     "invitees": any[],
     "_id": string,

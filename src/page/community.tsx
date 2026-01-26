@@ -17,7 +17,6 @@ export default function ChannelsPage() {
     const { data: user } = useGetUserData().getCurrentUserData() 
     const { joinChannel, open, setOpen, tab, setTab, setShow, show } = useAuth()
 
-
     const handleClick = () => {
         joinChannel?.mutate(item?._id)
     }

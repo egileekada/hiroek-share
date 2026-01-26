@@ -6,28 +6,31 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useState } from 'react';
 import httpService, { unsecureHttpService } from '../utils/httpService';
 import Cookies from "js-cookie"
-import { useQuery } from '../utils/useQuery';
+import { useQuerys } from '../utils/useQuery';
 import { useParams } from 'react-router-dom';
 import type { ICommunity } from '../model/community';
+import type { IUserDetail } from '../model/user';
 
 
 const useAuth = (community?: ICommunity) => {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
-    const [paymentUrl, setPaymentUrl] = useState("") 
+    const [paymentUrl, setPaymentUrl] = useState("")
 
-    const [tab, setTab] = useState(0)
+    const [user, setUser] = useState<IUserDetail>({} as IUserDetail)
+
+    const [tab, setTab] = useState(2)
 
     const { id, slug } = useParams();
 
     const [email, setEmail] = useState("")
 
-    const query = useQuery();
+    const query = useQuerys();
 
     const queryClient = useQueryClient()
     const resetCode = query.get('resetCode');
-    const emailData = query.get('email'); 
+    const emailData = query.get('email');
 
     const signupMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/email-signup`, data),
@@ -65,18 +68,19 @@ const useAuth = (community?: ICommunity) => {
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
         },
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
 
             let token: string = data?.data?.token
 
+            userDataMutation.mutate(data?.data?.user?._id)
             Cookies.set("userId", data?.data?.user?._id)
             localStorage.setItem("access_token", data?.data?.token)
-            queryClient.invalidateQueries("userdata")
-            if(!community?._id) {
+            // queryClient.invalidateQueries("userdata")
+            if (!community?._id) {
                 toast.success("Logged In Successfully")
-                setTab(2)
+                setTab(5)
             } else {
-                joinChannelWithToken.mutate({ id: community?._id+"", token })
+                joinChannelWithToken.mutate({ id: community?._id + "", token })
             }
 
         },
@@ -94,6 +98,19 @@ const useAuth = (community?: ICommunity) => {
         },
     });
 
+
+    const userDataMutation = useMutation({
+        mutationFn: (data: string) => httpService.get(`/users/${data}`),
+        onError: () => {
+            // toast.error(error?.response?.data?.error?.details?.message)
+        },
+        onSuccess: (data: any) => {
+            if (data?.data?.user) {
+                setUser(data?.data?.user)
+            }
+        },
+    });
+
     const payForTicket = useMutation({
         mutationFn: (data: {
             "eventId": string,
@@ -105,11 +122,12 @@ const useAuth = (community?: ICommunity) => {
         ) => httpService.post(`/donations/event-ticket-payment-intent`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
+            setTab(0)
         },
         onSuccess: (data) => {
             const paymentUrl = data?.data?.url;
 
-            if (paymentUrl) { 
+            if (paymentUrl) {
                 // ✅ Open the payment page in a new tab
                 window.open(`${paymentUrl}&eventbtn=true`, "_blank");
             } else {
@@ -130,6 +148,7 @@ const useAuth = (community?: ICommunity) => {
         ) => httpService.post(`/donations/event-ticket-free-purchase`, data),
         onError: (error: any) => {
             toast.error(error?.response?.data?.error?.details?.message)
+            setTab(0)
         },
         onSuccess: () => {
 
@@ -141,45 +160,45 @@ const useAuth = (community?: ICommunity) => {
     const joinChannel = useMutation({
         mutationFn: (data: string
         ) => httpService.post(`/communities/join-community/${data}`, {},),
-        onError: () => { 
-            setTab(4) 
+        onError: () => {
+            setTab(4)
         },
         onSuccess: () => {
             queryClient.invalidateQueries("userdata")
             queryClient.invalidateQueries("communities-by-id")
-            if(!community?._id) {    
+            if (!community?._id) {
                 setShow(true)
                 setTab(4)
-            } 
+            }
         },
     });
 
     const joinChannelWithToken = useMutation({
         mutationFn: ({ id, token }: { id: string; token: string }) =>
-          httpService.post(
-            `/communities/join-community/${id}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          ),
-      
+            httpService.post(
+                `/communities/join-community/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            ),
+
         onError: () => {
-          setTab(4);
-        },
-      
-        onSuccess: () => {
-          queryClient.invalidateQueries("userdata");
-          queryClient.invalidateQueries("communities-by-id");
-      
-        //   if (!community?._id) { 
             setTab(4);
-        //   }
         },
-      });
-      
+
+        onSuccess: () => {
+            queryClient.invalidateQueries("userdata");
+            queryClient.invalidateQueries("communities-by-id");
+
+            //   if (!community?._id) { 
+            setTab(4);
+            //   }
+        },
+    });
+
 
     const verifyMutation = useMutation({
         mutationFn: (data: any) => unsecureHttpService.post(`/auth/verify-otp`, data),
@@ -307,7 +326,9 @@ const useAuth = (community?: ICommunity) => {
         forgotMutation,
         formikForgotPassword,
         resetPasswordMutation,
-        formikResetPassword
+        formikResetPassword,
+        user,
+        userDataMutation
     }
 
 }

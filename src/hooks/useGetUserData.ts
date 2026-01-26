@@ -1,28 +1,25 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useQuery } from "react-query";   
-import type { IEvent } from "../model/event";
-import httpService from "../utils/httpService"; 
-import { useNavigate, useParams } from "react-router-dom";
-import type { IParnter } from "../model/user";
-import Cookies from "js-cookie";
+import { useQuery } from "react-query";
+import httpService from "../utils/httpService";
+import { useParams } from "react-router-dom";
+import type { IParnter } from "../model/user"; 
+import { format } from "date-fns";
 
 
 interface EventData {
     [date: string]: any; // date => list of events
-  }
-  
-  interface Props {
-    data: EventData;
-  }
+}
 
-  const userId = Cookies.get("userId")
-  
+interface Props {
+    data: EventData;
+}
+
+const userId = sessionStorage.getItem("userId")
 
 const useGetUserData = () => {
 
     const { id } = useParams(); 
-    const navigate = useNavigate();
 
     // Get Event list
     const getUserData = () => {
@@ -34,10 +31,32 @@ const useGetUserData = () => {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => {   
+                onSuccess: (data: any) => {
                     setData(data?.data?.eventPartner)
-                    
-                }, 
+
+                },
+            },
+        );
+
+        return {
+            data,
+            isLoading,
+            isRefetching
+        }
+    }
+
+    const getCurrencyData = () => {
+        const [data, setData] = useState<any>({} as any)
+        const { isLoading, isRefetching } = useQuery(
+            ["currencydata", id],
+            () => httpService.get(`/donations/currency-quote`),
+            {
+                onError: (error: any) => {
+                    toast.error(error.response?.data)
+                },
+                onSuccess: (data: any) => {
+                    setData(data?.data?.quotes)
+                },
             },
         );
 
@@ -52,22 +71,23 @@ const useGetUserData = () => {
     // Get Event list
     const getCurrentUserData = () => {
         const [data, setData] = useState<IParnter>({} as IParnter)
-        // const userId = Cookies.get("userId");
-        const token = localStorage.getItem("access_token")
-        
+        // const userId = Cookies.get("userId"); 
+
         const { isLoading, isRefetching } = useQuery(
-            ["userdetail", id],
+            ["userdetail", userId],
             () => httpService.get(`/users/${userId}`),
             {
                 onError: (error: any) => {
-                    toast.error(error.response?.data) 
-                    localStorage.setItem("access_token", "")
-                    navigate(0)
+                    toast.error(error.response?.data)
+                    // localStorage.setItem("access_token", "")
+                    // navigate(0)
                 },
-                onSuccess: (data: any) => {    
-                    setData(data?.data?.user) 
-                }, 
-                enabled: token ? true : false
+                onSuccess: (data: any) => {
+                    if (data?.data?.user) {
+                        setData(data?.data?.user)
+                    }
+                },
+                enabled: userId ? true : false
             },
         );
 
@@ -89,10 +109,10 @@ const useGetUserData = () => {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => { 
-                    
+                onSuccess: (data: any) => {
+
                     setData(data?.data?.events)
-                }, 
+                },
             },
         );
 
@@ -109,37 +129,44 @@ const useGetUserData = () => {
     const getEventDataByDate = () => {
 
 
-        const [date, setDate] = useState<any>(""); 
-        
-        const [data, setData] = useState<IEvent[]>([])
+        const [internalId, setInternalId] = useState<string>("");
+        const [month, setMonth] = useState<Date | undefined>(undefined);
+        const [data, setData] = useState<any>({} as any);
+
+        const [showModal, setShowModal] = useState<boolean>(false);
+
         const { isLoading, isRefetching } = useQuery(
-            ["Event-date", id, date],
-            () => httpService.get(`/event-partners/event-daily-schedule/${id}/${new Date(date ?? "").toISOString()}`),
+            ["Event-date", internalId, month?.toISOString()],
+            () => httpService.get(`/event-partners/event-schedule/${internalId}/${format(month ?? new Date(), "yyyy-MM")}`),
             {
                 onError: (error: any) => {
                     toast.error(error.response?.data)
                 },
-                onSuccess: (data: any) => {  
+                onSuccess: (data: any) => {
                     setData(data?.data?.events)
+                    console.log(data?.data?.events);
                 },
-                enabled: date ? true : false
             },
         );
 
         return {
             data,
             isLoading,
-            date,
-            setDate,
-            isRefetching
+            month,
+            setInternalId,
+            setMonth,
+            isRefetching,
+            showModal,
+            setShowModal,
         }
     }
 
     return {
-        getUserData, 
+        getUserData,
         getEventDataByDate,
         getEventData,
-        getCurrentUserData
+        getCurrentUserData,
+        getCurrencyData
     };
 }
 
