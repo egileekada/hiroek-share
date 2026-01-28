@@ -196,7 +196,7 @@ function SharePage() {
                                 </div>
                                 {/* text-sm font-semibold text-primary leading-relaxed whitespace-pre-wrap text-start */}
                             </div>
-                            {event?.eventPledge?.minimumPledge > 0 && (
+                            {event?.eventPledge?.organizations.length > 0 && (
                                 <div className=" flex w-full gap-3 items-center justify-center " >
                                     <div className=" flex flex-col gap-2 items-center " >
                                         <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
@@ -218,7 +218,7 @@ function SharePage() {
                     </div>
                     <div className=" w-full flex flex-col relative lg:pt-10 gap-6 lg:px-0 px-4 " >
 
-                        {event?.eventPledge?.minimumPledge > 0 && (
+                        {event?.eventPledge?.organizations.length > 0 && (
                             <div style={{ boxShadow: "0px 0px 4px 0px #00000040" }} className=" lg:max-w-[500px] lg:mx-auto rounded-[20px] py-4 px-6 flex w-full items-center justify-center " >
                                 <div className=" flex flex-col gap-4 items-center " >
                                     <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
@@ -247,7 +247,7 @@ function SharePage() {
                             </div>
                         )}
 
-                        {/* {event?.eventPledge?.minimumPledge > 0 && ( */}
+                        {/* {event?.eventPledge?.organizations.length > 0 && ( */}
                         {/* <div className=" w-full rounded-[44px] flex flex-col lg:p-6 items-center " >
 
                                 <div className=" w-fit bg-[#37137F26] rounded-md px-[10px] h-[25px] flex justify-center items-center "  >
@@ -263,7 +263,7 @@ function SharePage() {
                                 </div>
                                 <div className=" w-full px-2 flex justify-center -mt-24 " >
                                     <div className=" flex flex-col items-center" >
-                                        <p className=" font-semibold text-2xl " >{formatNumberWithKCurrency(event?.eventPledge?.minimumPledge / 100, event?.currency as any)}</p>
+                                        <p className=" font-semibold text-2xl " >{formatNumberWithKCurrency(event?.eventPledge?.organizations.length / 100, event?.currency as any)}</p>
                                         <p className=" font-medium text-green-500 bg-green-500/10 px-2 py-1 rounded-full text-sm " >Minimum Pledge</p>
                                     </div>
                                 </div>
