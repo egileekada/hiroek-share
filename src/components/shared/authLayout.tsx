@@ -36,7 +36,7 @@ export default function AuthLayout({ children, header, body, hidesidebar }: IPro
                     <div className=" w-full flex flex-col items-center " >
                         <Text className=" uppercase lg:block hidden text-[32px] font-black " >Hiroek</Text>
                         <Text className=" lg:block hidden text-xs tracking-[1%] font-medium " >FOR CHARITIES & SOCIAL IMPACT ORGANISATIONS </Text>
-                        <Text className=" text-[28px] font-black mt-4 " >{header}</Text>
+                        <Text className=" text-[28px] font-black mt-4 lg:text-center text-left " >{header}</Text>
                         <Text className=" text-sm tracking-[1%] font-medium " >{body}</Text>
                     </div>
                     {children} 
