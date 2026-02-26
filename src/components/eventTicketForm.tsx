@@ -427,7 +427,7 @@ export default function EventTicketForm({
             )}
             {tab === 2 && (
                 <div className=" w-full flex flex-col gap-4 items-center ">
-                    <div className=" pb-2 w-full flex flex-col items-center border-b border-[#E8E8E8] ">
+                    <div className=" pb-2 w-full flex flex-col border-b border-[#E8E8E8] ">
                         <p className=" text-xl font-black text-primary ">
                             {event?.name}
                         </p>
