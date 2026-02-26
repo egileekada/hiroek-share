@@ -68,7 +68,7 @@ export default function CommunityModal({ channel, user, setOpen }: { setOpen?: a
                     </form>
                 </FormikProvider>
             )}
-            {tab === 3 && (
+            {tab === 2 && (
                 <FormikProvider value={formik}>
                     <form onSubmit={formik.handleSubmit} className=" w-full flex flex-col items-center pb-3 " >
                         <p className=" text-primary text-2xl font-bold " >Login</p>
