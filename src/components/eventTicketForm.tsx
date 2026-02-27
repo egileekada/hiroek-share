@@ -438,7 +438,7 @@ export default function EventTicketForm({
                             {event?.address}
                         </p>
                     </div>
-                    <div className=" w-full flex flex-col max-h-[62vh] gap-4 overflow-y-auto ">
+                    <div className=" w-full flex flex-col max-h-[55vh] gap-4 overflow-y-auto ">
                         {event?.ticketing?.map((item, index) => {
                             const count = getTicketCount(item._id);
                             return (
